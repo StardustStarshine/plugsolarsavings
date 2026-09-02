@@ -332,452 +332,639 @@
 
 </main>
 
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
+   <script>
+document.getElementById("solarCalculator").addEventListener("submit", function(event) {
 
-    const form = document.getElementById("solarCalculator");
+    event.preventDefault();
 
-    if (!form) {
-        console.error("Solar calculator form not found.");
+    /* -----------------------------
+       CURRENT UK ELECTRICITY RATES
+       Ofgem benchmark: July-Sep 2026
+       ----------------------------- */
+
+    const unitRate = 0.2611;          // £/kWh
+    const standingCharge = 0.5719;    // £/day
+
+
+    /* -----------------------------
+       BASIC SYSTEM
+       ----------------------------- */
+
+    const systemSize = 0.8; // 800W = 0.8kWp
+
+
+    /* -----------------------------
+       GET USER INPUTS
+       ----------------------------- */
+
+    const postcode =
+        document.getElementById("postcode").value.trim().toUpperCase();
+
+    const annualUsageInput =
+        document.getElementById("annualUsage").value;
+
+    const monthlyBill =
+        parseFloat(document.getElementById("monthlyBill").value);
+
+    const orientation =
+        document.getElementById("orientation").value;
+
+    const shade =
+        document.getElementById("shade").value;
+
+    const daytimeUse =
+        document.getElementById("daytimeUse").value;
+
+    const systemType =
+        document.getElementById("systemType").value;
+
+
+    /* -----------------------------
+       VALIDATE POSTCODE
+       ----------------------------- */
+
+    if (!postcode) {
+        alert("Please enter your UK postcode.");
         return;
     }
 
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const postcode = document.getElementById("postcode").value.trim().toUpperCase();
-        const annualUsageInput = parseFloat(document.getElementById("annualUsage").value);
-        const monthlyBill = parseFloat(document.getElementById("monthlyBill").value);
-        const orientation = document.getElementById("orientation").value;
-        const shade = document.getElementById("shade").value;
-        const daytimeUse = document.getElementById("daytimeUse").value;
-        const systemType = document.getElementById("systemType").value;
-
-        /* -----------------------------
-           BASIC VALIDATION
-        ----------------------------- */
-
-        const postcodeArea = postcode.split(" ")[0];
-
-        if (!/^[A-Z]{1,2}\d[A-Z\d]?$/i.test(postcodeArea)) {
-            alert("Please enter a valid UK postcode.");
-            return;
-        }
-
-        if (isNaN(monthlyBill) || monthlyBill < 20) {
-            alert("Please enter your approximate monthly electricity bill.");
-            return;
-        }
-
-        /* -----------------------------
-           CURRENT ELECTRICITY RATE
-        ----------------------------- */
-
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1;
-
-        let unitRate;
-
-        if (year === 2026 && month >= 7 && month <= 9) {
-            unitRate = 0.2611;
-        } else if (year === 2026 && month >= 10 && month <= 12) {
-            unitRate = 0.2632;
-        } else {
-            unitRate = 0.2632;
-        }
-
-        /* -----------------------------
-           STANDING CHARGE
-        ----------------------------- */
-
-        let standingChargePerDay;
-
-        if (year === 2026 && month >= 10 && month <= 12) {
-            standingChargePerDay = 0.5483;
-        } else {
-            standingChargePerDay = 0.5719;
-        }
-
-        const annualStandingCharge = standingChargePerDay * 365;
-
-        /* -----------------------------
-           POSTCODE / SOLAR YIELD
-        ----------------------------- */
-
-        const southernAreas = [
-            "BN","BR","CR","CT","DA","GU","HA","HP","KT",
-            "ME","MK","OX","PO","RG","RH","SE","SL","SM",
-            "SO","SP","TN","TW","UB","WD"
-        ];
-
-        const southWestAreas = [
-            "BA","BS","DT","EX","GL","PL","SN","TA","TQ","TR"
-        ];
-
-        const midlandsAreas = [
-            "B","CV","DE","DY","LE","LN","NG","NN","ST","WS","WV"
-        ];
-
-        const northWestAreas = [
-            "BB","BL","CA","CH","CW","FY","L","LA","M",
-            "OL","PR","SK","WA","WN"
-        ];
-
-        const northEastAreas = [
-            "DH","DL","DN","NE","SR","TS"
-        ];
-
-        const yorkshireAreas = [
-            "BD","HD","HG","HU","HX","LS","S","WF","YO"
-        ];
-
-        const easternAreas = [
-            "CB","CM","CO","IP","NR","PE","SS"
-        ];
-
-        const walesAreas = [
-            "CF","LD","LL","NP","SA","SY"
-        ];
-
-        const scotlandAreas = [
-            "AB","DD","DG","EH","FK","G","HS","IV","KA",
-            "KW","KY","ML","PA","PH","TD","ZE"
-        ];
-
-        const northernIrelandAreas = [
-            "BT"
-        ];
-
-        let regionalYield = 900;
-        let locationMessage =
-            "Your postcode places you in our UK average solar-yield estimate.";
-
-        if (northernIrelandAreas.includes(postcodeArea)) {
-            regionalYield = 850;
-            locationMessage =
-                "Your postcode places you in our Northern Ireland solar-yield estimate.";
-
-        } else if (scotlandAreas.includes(postcodeArea)) {
-            regionalYield = 850;
-            locationMessage =
-                "Your postcode places you in our Scotland solar-yield estimate.";
-
-        } else if (walesAreas.includes(postcodeArea)) {
-            regionalYield = 880;
-            locationMessage =
-                "Your postcode places you in our Wales solar-yield estimate.";
-
-        } else if (southWestAreas.includes(postcodeArea)) {
-            regionalYield = 960;
-            locationMessage =
-                "Your postcode places you in our South West solar-yield estimate.";
-
-        } else if (southernAreas.includes(postcodeArea)) {
-            regionalYield = 950;
-            locationMessage =
-                "Your postcode places you in our Southern England solar-yield estimate.";
-
-        } else if (easternAreas.includes(postcodeArea)) {
-            regionalYield = 925;
-            locationMessage =
-                "Your postcode places you in our Eastern England solar-yield estimate.";
-
-        } else if (yorkshireAreas.includes(postcodeArea)) {
-            regionalYield = 860;
-            locationMessage =
-                "Your postcode places you in our Yorkshire solar-yield estimate.";
-
-        } else if (northEastAreas.includes(postcodeArea)) {
-            regionalYield = 850;
-            locationMessage =
-                "Your postcode places you in our North East solar-yield estimate.";
-
-        } else if (northWestAreas.includes(postcodeArea)) {
-            regionalYield = 820;
-            locationMessage =
-                "Your postcode places you in our North West solar-yield estimate.";
-
-        } else if (midlandsAreas.includes(postcodeArea)) {
-            regionalYield = 875;
-            locationMessage =
-                "Your postcode places you in our Midlands solar-yield estimate.";
-        }
-
-        /* -----------------------------
-           ANNUAL ELECTRICITY USAGE
-        ----------------------------- */
-
-        let annualUsage;
-
-        if (!isNaN(annualUsageInput) && annualUsageInput >= 500) {
-
-            annualUsage = annualUsageInput;
-
-        } else {
-
-            const annualBill = monthlyBill * 12;
-
-            const estimatedEnergyCost =
-                Math.max(
-                    annualBill - annualStandingCharge,
-                    100
-                );
-
-            annualUsage =
-                estimatedEnergyCost / unitRate;
-        }
-
-        /* -----------------------------
-           SYSTEM SIZE
-        ----------------------------- */
-
-        const systemSize = 0.8;
-
-        /* -----------------------------
-           ORIENTATION
-        ----------------------------- */
-
-        const orientationFactors = {
-            south: 1.00,
-            southeast: 0.94,
-            southwest: 0.94,
-            east: 0.82,
-            west: 0.82,
-            north: 0.52,
-            unknown: 0.88
-        };
-
-        const orientationFactor =
-            orientationFactors[orientation] || 0.88;
-
-        /* -----------------------------
-           SHADE
-        ----------------------------- */
-
-        const shadeFactors = {
-            low: 1.00,
-            medium: 0.80,
-            high: 0.55,
-            unknown: 0.85
-        };
-
-        const shadeFactor =
-            shadeFactors[shade] || 0.85;
-
-        /* -----------------------------
-           SOLAR GENERATION
-        ----------------------------- */
-
-        const generation =
-            systemSize *
-            regionalYield *
-            orientationFactor *
-            shadeFactor;
 
-        /* -----------------------------
-           SELF-CONSUMPTION
-        ----------------------------- */
-
-        const selfConsumptionFactors = {
-            low: 0.40,
-            medium: 0.60,
-            high: 0.75
-        };
+    /* -----------------------------
+       UK POSTCODE → BROAD SOLAR REGION
+       ----------------------------- */
+
+    const postcodeAreaMatch = postcode.match(/^[A-Z]{1,2}/);
+
+    if (!postcodeAreaMatch) {
+        alert("Please enter a valid UK postcode.");
+        return;
+    }
+
+    const postcodeArea = postcodeAreaMatch[0];
+
+
+    /*
+       Broad regional solar-yield assumptions.
+
+       These are deliberately regional rather than
+       pretending to provide exact postcode-level PVGIS data.
+    */
+
+    const regionalYields = {
+
+        /* South West */
+        BA: 960,
+        BH: 960,
+        BS: 960,
+        DT: 960,
+        EX: 960,
+        PL: 960,
+        SN: 960,
+        SP: 960,
+        TA: 960,
+        TQ: 960,
+        TR: 960,
+
+        /* Southern England */
+        BN: 950,
+        CT: 950,
+        GU: 950,
+        HP: 950,
+        KT: 950,
+        ME: 950,
+        OX: 950,
+        PO: 950,
+        RG: 950,
+        RH: 950,
+        SL: 950,
+        SO: 950,
+        TN: 950,
+
+        /* Eastern England */
+        AL: 925,
+        CB: 925,
+        CM: 925,
+        CO: 925,
+        IP: 925,
+        LU: 925,
+        NR: 925,
+        PE: 925,
+        SG: 925,
+
+        /* Midlands */
+        B: 875,
+        CV: 875,
+        DE: 875,
+        DY: 875,
+        LE: 875,
+        NG: 875,
+        NN: 875,
+        ST: 875,
+        WS: 875,
+        WV: 875,
+
+        /* Yorkshire */
+        BD: 860,
+        DN: 860,
+        HD: 860,
+        HG: 860,
+        HX: 860,
+        LS: 860,
+        S: 860,
+        WF: 860,
+        YO: 860,
+
+        /* North West */
+        BB: 820,
+        BL: 820,
+        CA: 820,
+        CH: 820,
+        CW: 820,
+        FY: 820,
+        L: 820,
+        LA: 820,
+        M: 820,
+        OL: 820,
+        PR: 820,
+        SK: 820,
+        WA: 820,
+        WN: 820,
 
-        let selfConsumption =
-            selfConsumptionFactors[daytimeUse] || 0.60;
+        /* North East */
+        DH: 850,
+        DL: 850,
+        NE: 850,
+        SR: 850,
+        TS: 850,
 
-        if (systemType === "battery") {
-            selfConsumption += 0.15;
-            selfConsumption =
-                Math.min(selfConsumption, 0.90);
-        }
+        /* Wales */
+        CF: 880,
+        LD: 880,
+        LL: 880,
+        NP: 880,
+        SA: 880,
+        SY: 880,
 
-        /* -----------------------------
-           USABLE SOLAR
-        ----------------------------- */
+        /* Scotland */
+        AB: 850,
+        DD: 850,
+        DG: 850,
+        EH: 850,
+        FK: 850,
+        G: 850,
+        HS: 850,
+        IV: 850,
+        KA: 850,
+        KW: 850,
+        KY: 850,
+        ML: 850,
+        PA: 850,
+        PH: 850,
+        ZE: 850,
 
-        const usableSolar =
-            Math.min(
-                generation * selfConsumption,
-                annualUsage
-            );
+        /* Northern Ireland */
+        BT: 850
+    };
 
-        /* -----------------------------
-           SAVINGS
-        ----------------------------- */
 
-        const annualSaving =
-            usableSolar * unitRate;
+    const baseYield =
+        regionalYields[postcodeArea] || 900;
 
-        const monthlySaving =
-            annualSaving / 12;
 
-        const percentageCovered =
-            Math.min(
-                (usableSolar / annualUsage) * 100,
-                100
-            );
+    /* -----------------------------
+       REGION NAME
+       ----------------------------- */
 
-        /* -----------------------------
-           VERDICT
-        ----------------------------- */
+    let regionName = "UK average";
 
-        let verdict;
-        let recommendation;
-        let explanation;
-        let classification;
+    if ([
+        "BA","BH","BS","DT","EX","PL","SN","SP",
+        "TA","TQ","TR"
+    ].includes(postcodeArea)) {
 
-        if (systemType === "battery") {
+        regionName = "South West";
 
-            classification = "SOLAR + BATTERY";
+    } else if ([
+        "BN","CT","GU","HP","KT","ME","OX","PO",
+        "RG","RH","SL","SO","TN"
+    ].includes(postcodeArea)) {
 
-            verdict =
-                "Your home could benefit from solar and better energy storage.";
+        regionName = "Southern England";
 
-            recommendation =
-                "A solar + battery assessment could be worth investigating.";
+    } else if ([
+        "AL","CB","CM","CO","IP","LU","NR","PE","SG"
+    ].includes(postcodeArea)) {
 
-            explanation =
-                "A battery could allow more of your solar electricity to be used later in the day, particularly if your household uses more electricity in the evening.";
+        regionName = "Eastern England";
 
-        } else if (
-            annualUsage <= 1800 &&
-            percentageCovered >= 15
-        ) {
+    } else if ([
+        "B","CV","DE","DY","LE","NG","NN","ST","WS","WV"
+    ].includes(postcodeArea)) {
 
-            classification = "STRONG PLUG-IN SOLAR FIT";
+        regionName = "Midlands";
 
-            verdict =
-                "Your home appears to be a strong fit for plug-in solar panels.";
+    } else if ([
+        "BD","DN","HD","HG","HX","LS","S","WF","YO"
+    ].includes(postcodeArea)) {
 
-            recommendation =
-                "An 800W plug-in solar system could make a useful contribution to your electricity use.";
+        regionName = "Yorkshire";
 
-            explanation =
-                "Your estimated electricity demand and the amount of solar electricity you could use suggest that a small plug-in system could be a sensible way to generate some of your own electricity.";
+    } else if ([
+        "BB","BL","CA","CH","CW","FY","L","LA","M",
+        "OL","PR","SK","WA","WN"
+    ].includes(postcodeArea)) {
 
-        } else if (
-            annualUsage <= 2500 &&
-            percentageCovered >= 10
-        ) {
+        regionName = "North West";
 
-            classification = "GOOD PLUG-IN SOLAR FIT";
+    } else if ([
+        "DH","DL","NE","SR","TS"
+    ].includes(postcodeArea)) {
 
-            verdict =
-                "Your home appears to have a good opportunity to use plug-in solar panels.";
+        regionName = "North East";
 
-            recommendation =
-                "Plug-in solar panels could make a noticeable contribution to your electricity use.";
+    } else if ([
+        "CF","LD","LL","NP","SA","SY"
+    ].includes(postcodeArea)) {
 
-            explanation =
-                "Your estimated solar generation and household electricity use suggest that a useful proportion of the electricity produced could potentially be used in your home.";
+        regionName = "Wales";
 
-        } else if (
-            annualUsage >= 3000 ||
-            percentageCovered < 8
-        ) {
+    } else if ([
+        "AB","DD","DG","EH","FK","G","HS","IV","KA",
+        "KW","KY","ML","PA","PH","ZE"
+    ].includes(postcodeArea)) {
 
-            classification = "LARGER SOLAR OPPORTUNITY";
+        regionName = "Scotland";
 
-            verdict =
-                "Your home appears to have a larger solar opportunity.";
+    } else if (postcodeArea === "BT") {
 
-            recommendation =
-                "An 800W plug-in system could help, but a full solar assessment may reveal a much larger saving opportunity.";
+        regionName = "Northern Ireland";
+    }
 
-            explanation =
-                "Your household electricity demand appears relatively high compared with what an 800W plug-in system can generate. A larger solar installation could potentially cover more of your electricity demand.";
 
-        } else {
+    /* -----------------------------
+       ORIENTATION FACTOR
+       ----------------------------- */
 
-            classification = "MODERATE PLUG-IN SOLAR FIT";
+    const orientationFactors = {
+        south: 1.00,
+        southeast: 0.94,
+        southwest: 0.94,
+        east: 0.82,
+        west: 0.82,
+        north: 0.52,
+        unknown: 0.88
+    };
 
-            verdict =
-                "Plug-in solar panels could make a useful contribution to your electricity use.";
+    const orientationFactor =
+        orientationFactors[orientation] || 0.88;
 
-            recommendation =
-                "Plug-in solar panels may be worth considering for your home.";
 
-            explanation =
-                "Your estimated solar generation could provide a useful contribution to your electricity demand, although the overall saving is limited by the size of an 800W system.";
-        }
+    /* -----------------------------
+       SHADE FACTOR
+       ----------------------------- */
 
-       /* -----------------------------
-   DISPLAY RESULTS
------------------------------ */
+    const shadeFactors = {
+        low: 1.00,
+        medium: 0.80,
+        high: 0.55,
+        unknown: 0.85
+    };
 
-const result = document.getElementById("results");
+    const shadeFactor =
+        shadeFactors[shade] || 0.85;
 
-if (!result) {
-    console.error("Solar calculator results section not found.");
-    alert("The calculator results section could not be found.");
-    return;
-}
 
-document.getElementById("locationMessage").textContent =
-    locationMessage;
+    /* -----------------------------
+       SELF-CONSUMPTION
+       ----------------------------- */
 
-document.getElementById("generation").textContent =
-    Math.round(generation);
+    let selfConsumption = 0.60;
 
-document.getElementById("usableSolar").textContent =
-    Math.round(usableSolar);
+    if (daytimeUse === "low") {
+        selfConsumption = 0.40;
 
-document.getElementById("annualSaving").textContent =
-    Math.round(annualSaving);
+    } else if (daytimeUse === "medium") {
+        selfConsumption = 0.60;
 
-document.getElementById("monthlySaving").textContent =
-    monthlySaving.toFixed(2);
+    } else if (daytimeUse === "high") {
+        selfConsumption = 0.75;
+    }
 
-document.getElementById("percentageCovered").textContent =
-    percentageCovered.toFixed(1);
 
-document.getElementById("verdict").textContent =
-    verdict;
+    /* -----------------------------
+       BATTERY EFFECT
+       ----------------------------- */
 
-document.getElementById("recommendation").textContent =
-    recommendation;
+    if (systemType === "battery") {
+        selfConsumption += 0.15;
+    }
 
-document.getElementById("explanation").textContent =
-    explanation;
+    selfConsumption =
+        Math.min(selfConsumption, 0.90);
 
-const commercialMessage =
-    document.getElementById("commercialMessage");
 
-if (commercialMessage) {
+    /* -----------------------------
+       ANNUAL ELECTRICITY USAGE
+       ----------------------------- */
 
-    if (classification === "LARGER SOLAR OPPORTUNITY") {
+    let annualUsage;
 
-        commercialMessage.textContent =
-            "Your results suggest there may be a larger solar opportunity worth investigating as well as plug-in solar.";
+    if (annualUsageInput !== "") {
 
-    } else if (classification === "SOLAR + BATTERY") {
-
-        commercialMessage.textContent =
-            "Your results suggest that combining solar generation with battery storage could be worth investigating.";
-
-    } else if (classification === "STRONG PLUG-IN SOLAR FIT") {
-
-        commercialMessage.textContent =
-            "Your results suggest plug-in solar could be a particularly good fit for your household.";
+        annualUsage =
+            parseFloat(annualUsageInput);
 
     } else {
 
-        commercialMessage.textContent =
-            "Your results suggest plug-in solar could make a useful contribution to your electricity use.";
+        /*
+           If annual usage isn't known, estimate it
+           from the monthly electricity bill.
+
+           We remove estimated annual standing charges
+           before dividing by the benchmark unit rate.
+        */
+
+        const annualBill =
+            monthlyBill * 12;
+
+        const annualStandingCharge =
+            standingCharge * 365;
+
+        const estimatedEnergySpend =
+            Math.max(
+                annualBill - annualStandingCharge,
+                0
+            );
+
+        annualUsage =
+            estimatedEnergySpend / unitRate;
     }
-}
 
-result.style.display = "block";
 
-result.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-});
+    /* -----------------------------
+       SOLAR GENERATION
+       ----------------------------- */
+
+    const generation =
+        systemSize *
+        baseYield *
+        orientationFactor *
+        shadeFactor;
+
+
+    /* -----------------------------
+       USABLE SOLAR
+       ----------------------------- */
+
+    const usableSolar =
+        Math.min(
+            generation * selfConsumption,
+            annualUsage
+        );
+
+
+    /* -----------------------------
+       SAVINGS
+       ----------------------------- */
+
+    const annualSaving =
+        usableSolar * unitRate;
+
+    const monthlySaving =
+        annualSaving / 12;
+
+    const percentageCovered =
+        Math.min(
+            (usableSolar / annualUsage) * 100,
+            100
+        );
+
+
+    /* -----------------------------
+       COMMERCIAL CLASSIFICATION
+       ----------------------------- */
+
+    let classification;
+    let verdict;
+    let recommendation;
+    let explanation;
+
+
+    if (systemType === "battery") {
+
+        classification = "SOLAR + BATTERY";
+
+        verdict =
+            "Your results suggest solar plus battery storage could be worth considering.";
+
+        recommendation =
+            "A battery could help you use more of the electricity generated by your solar panels instead of using it only when the panels are producing electricity.";
+
+        explanation =
+            "Your result takes your likely solar generation, household electricity demand and estimated self-consumption into account. Battery storage can increase the amount of solar electricity available for use later.";
+
+    } else if (
+        annualUsage <= 1800 &&
+        percentageCovered >= 15
+    ) {
+
+        classification = "STRONG PLUG-IN SOLAR FIT";
+
+        verdict =
+            "Your home appears to be a strong fit for plug-in solar panels.";
+
+        recommendation =
+            "An 800W plug-in solar system could make a meaningful contribution to your electricity use.";
+
+        explanation =
+            "Your household electricity demand is relatively modest compared with the estimated output of an 800W plug-in system.";
+
+    } else if (
+        annualUsage <= 2500 &&
+        percentageCovered >= 10
+    ) {
+
+        classification = "GOOD PLUG-IN SOLAR FIT";
+
+        verdict =
+            "Your home appears to be a good fit for plug-in solar panels.";
+
+        recommendation =
+            "An 800W plug-in solar system could make a useful contribution to your electricity use.";
+
+        explanation =
+            "The estimated solar generation could cover a useful proportion of your annual electricity demand.";
+
+    } else if (
+        annualUsage >= 3000 ||
+        percentageCovered < 8
+    ) {
+
+        classification = "LARGER SOLAR OPPORTUNITY";
+
+        verdict =
+            "Your home appears to have a larger solar opportunity.";
+
+        recommendation =
+            "An 800W plug-in system could help, but a full solar assessment may reveal a much larger saving opportunity.";
+
+        explanation =
+            "Your household electricity demand appears relatively high compared with what an 800W plug-in system can generate. A larger solar installation could potentially cover more of your electricity demand.";
+
+    } else {
+
+        classification = "MODERATE PLUG-IN SOLAR FIT";
+
+        verdict =
+            "Plug-in solar panels could make a useful contribution to your home.";
+
+        recommendation =
+            "An 800W plug-in system could reduce some of the electricity you need to buy from the grid.";
+
+        explanation =
+            "Your estimated solar generation could cover part of your household electricity demand, although the overall saving is likely to be relatively modest.";
+    }
+
+
+    /* -----------------------------
+       LOCATION MESSAGE
+       ----------------------------- */
+
+    const locationMessage =
+        "Your postcode places you in our " +
+        regionName +
+        " solar-yield estimate.";
+
+
+    /* -----------------------------
+       DISPLAY RESULTS
+       ----------------------------- */
+
+    const result =
+        document.getElementById("results");
+
+    if (!result) {
+
+        console.error(
+            "Solar calculator results section not found."
+        );
+
+        alert(
+            "The calculator results section could not be found."
+        );
+
+        return;
+    }
+
+
+    document.getElementById(
+        "locationMessage"
+    ).textContent =
+        locationMessage;
+
+
+    document.getElementById(
+        "generation"
+    ).textContent =
+        Math.round(generation);
+
+
+    document.getElementById(
+        "usableSolar"
+    ).textContent =
+        Math.round(usableSolar);
+
+
+    document.getElementById(
+        "annualSaving"
+    ).textContent =
+        Math.round(annualSaving);
+
+
+    document.getElementById(
+        "monthlySaving"
+    ).textContent =
+        monthlySaving.toFixed(2);
+
+
+    document.getElementById(
+        "percentageCovered"
+    ).textContent =
+        percentageCovered.toFixed(1);
+
+
+    document.getElementById(
+        "verdict"
+    ).textContent =
+        verdict;
+
+
+    document.getElementById(
+        "recommendation"
+    ).textContent =
+        recommendation;
+
+
+    document.getElementById(
+        "explanation"
+    ).textContent =
+        explanation;
+
+
+    /* -----------------------------
+       COMMERCIAL MESSAGE
+       ----------------------------- */
+
+    const commercialMessage =
+        document.getElementById(
+            "commercialMessage"
+        );
+
+
+    if (commercialMessage) {
+
+        if (
+            classification ===
+            "LARGER SOLAR OPPORTUNITY"
+        ) {
+
+            commercialMessage.textContent =
+                "Your results suggest there may be a larger solar opportunity worth investigating as well as plug-in solar.";
+
+        } else if (
+            classification ===
+            "SOLAR + BATTERY"
+        ) {
+
+            commercialMessage.textContent =
+                "Your results suggest that combining solar generation with battery storage could be worth investigating.";
+
+        } else if (
+            classification ===
+            "STRONG PLUG-IN SOLAR FIT"
+        ) {
+
+            commercialMessage.textContent =
+                "Your results suggest plug-in solar could be a particularly good fit for your household.";
+
+        } else {
+
+            commercialMessage.textContent =
+                "Your results suggest plug-in solar could make a useful contribution to your electricity use.";
+        }
+    }
+
+
+    /* -----------------------------
+       SHOW RESULTS
+       ----------------------------- */
+
+    result.style.display = "block";
+
+    result.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
     });
 
 });
 </script>
-
