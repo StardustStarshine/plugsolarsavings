@@ -16,3 +16,91 @@
         Plug-in solar panels are a small-scale way of generating electricity
         from sunlight for use in your home.
     </p>
+        <p>
+            Tell us a little about your home and electricity use.
+            We'll use your answers to estimate how much a plug-in
+            solar panel system could potentially save you.
+        </p>
+
+        <form id="solarCalculator">
+
+            <h3>1. Where in the UK do you live?</h3>
+
+            <label for="postcode">Postcode</label>
+            <input
+                type="text"
+                id="postcode"
+                name="postcode"
+                placeholder="e.g. ST13 5XX"
+                required
+            >
+
+            <h3>2. How much do you spend on electricity?</h3>
+
+            <label for="monthlyBill">Approximate monthly electricity bill (£)</label>
+            <input
+                type="number"
+                id="monthlyBill"
+                name="monthlyBill"
+                min="1"
+                step="1"
+                placeholder="e.g. 120"
+                required
+            >
+
+            <h3>3. What type of property do you live in?</h3>
+
+            <label for="propertyType">Property type</label>
+            <select id="propertyType" name="propertyType" required>
+                <option value="">Please select</option>
+                <option value="flat">Flat / Apartment</option>
+                <option value="terraced">Terraced house</option>
+                <option value="semi">Semi-detached house</option>
+                <option value="detached">Detached house</option>
+                <option value="bungalow">Bungalow</option>
+            </select>
+
+            <h3>4. Where would the solar panels get the most sunlight?</h3>
+
+            <label for="orientation">Main direction</label>
+            <select id="orientation" name="orientation" required>
+                <option value="">Please select</option>
+                <option value="south">South</option>
+                <option value="southeast">South East</option>
+                <option value="southwest">South West</option>
+                <option value="east">East</option>
+                <option value="west">West</option>
+                <option value="north">North</option>
+                <option value="unknown">I'm not sure</option>
+            </select>
+
+            <h3>5. How much shade does the area get?</h3>
+
+            <label for="shade">Shade level</label>
+            <select id="shade" name="shade" required>
+                <option value="">Please select</option>
+                <option value="low">Mostly sunny</option>
+                <option value="medium">Some shade during the day</option>
+                <option value="high">Mostly shaded</option>
+                <option value="unknown">I'm not sure</option>
+            </select>
+
+            <h3>6. When do you use the most electricity?</h3>
+
+            <label for="daytimeUse">Daytime electricity use</label>
+            <select id="daytimeUse" name="daytimeUse" required>
+                <option value="">Please select</option>
+                <option value="low">Mostly evenings and nights</option>
+                <option value="medium">A mixture of daytime and evening</option>
+                <option value="high">Mostly during the daytime</option>
+            </select>
+
+            <button type="submit">
+                Calculate My Potential Savings
+            </button>
+
+        </form>
+
+</section>
+
+</main>
