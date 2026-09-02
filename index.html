@@ -177,7 +177,7 @@
 
         <h3>6. When do you use the most electricity?</h3>
 
-        <label for="daytimeUse">Daytime electricity use</label>
+        <label for="daytimeUse">When do you use the most electricity?</label>
 
         <select id="daytimeUse" name="daytimeUse" required>
 
@@ -425,6 +425,21 @@
 </main>
 
    <script>
+       
+let annualUsage;
+let monthlyBill;
+let orientation;
+let shade;
+let daytimeUse;
+let generation;
+let usableSolar;
+let annualSaving;
+let monthlySaving;
+let percentageCovered;
+let verdict;
+let recommendation;
+let classification;
+       
 document.getElementById("solarCalculator").addEventListener("submit", function(event) {
 
     event.preventDefault();
@@ -455,20 +470,17 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
     const annualUsageInput =
         document.getElementById("annualUsage").value;
 
-    const monthlyBill =
-        parseFloat(document.getElementById("monthlyBill").value);
+    monthlyBill =
+    parseFloat(document.getElementById("monthlyBill").value);
 
-    const orientation =
-        document.getElementById("orientation").value;
+    orientation =
+    document.getElementById("orientation").value;
 
-    const shade =
-        document.getElementById("shade").value;
+   shade =
+    document.getElementById("shade").value;
 
-    const daytimeUse =
-        document.getElementById("daytimeUse").value;
-
-    const systemType =
-        document.getElementById("systemType").value;
+   daytimeUse =
+    document.getElementById("daytimeUse").value;
 
 
     /* -----------------------------
@@ -759,8 +771,6 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
        ANNUAL ELECTRICITY USAGE
        ----------------------------- */
 
-    let annualUsage;
-
     if (annualUsageInput !== "") {
 
         annualUsage =
@@ -797,18 +807,18 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
        SOLAR GENERATION
        ----------------------------- */
 
-    const generation =
-        systemSize *
-        baseYield *
-        orientationFactor *
-        shadeFactor;
+    generation =
+     systemSize *
+     baseYield *
+     orientationFactor *
+     shadeFactor;
 
 
     /* -----------------------------
        USABLE SOLAR
        ----------------------------- */
 
-    const usableSolar =
+    usableSolar =
         Math.min(
             generation * selfConsumption,
             annualUsage
@@ -819,13 +829,13 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
        SAVINGS
        ----------------------------- */
 
-    const annualSaving =
+    annualSaving =
         usableSolar * unitRate;
 
-    const monthlySaving =
+    monthlySaving =
         annualSaving / 12;
 
-    const percentageCovered =
+    percentageCovered =
         Math.min(
             (usableSolar / annualUsage) * 100,
             100
@@ -836,9 +846,6 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
        COMMERCIAL CLASSIFICATION
        ----------------------------- */
 
-    let classification;
-    let verdict;
-    let recommendation;
     let explanation;
 
 
@@ -1086,8 +1093,8 @@ document.getElementById("leadForm").addEventListener("submit", async function(ev
     monthlySaving: Math.round(monthlySaving),
     percentageCovered: percentageCovered.toFixed(1),
 
-    verdict: verdict.textContent,
-    recommendation: recommendation.textContent
+    verdict: verdict,
+    recommendation: recommendation
 };
 
     try {
