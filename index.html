@@ -282,29 +282,27 @@
         <hr>
 
 
-        <h3>How we calculated your estimate</h3>
-
         <p>
-            We estimate the annual output of an 800W system using a
-            UK regional solar-yield assumption, then adjust it for
-            panel direction and shading.
-        </p>
+            
+    We estimate the annual output of an 800W plug-in solar system
+    using a broad UK regional solar-yield assumption, then adjust
+    the estimate for panel direction and shading.
+</p>
 
-        <p>
-            We estimate how much of that electricity you could use
-            directly based on when you normally use electricity.
-        </p>
+<p>
+    We estimate how much of that electricity could be used directly
+    in your home based on when you normally use electricity.
+    We then apply a benchmark UK electricity unit rate to estimate
+    the potential value of that electricity.
+</p>
 
-        <p>
-            We then apply an estimated electricity unit rate to the
-            electricity you could use.
-        </p>
-
-        <p>
-            These are estimates rather than guarantees. Actual results
-            depend on your exact location, installation, equipment,
-            sunlight, electricity tariff and household behaviour.
-        </p>
+<p>
+    Your result is an estimate, not a guaranteed saving. Actual
+    generation and savings can vary depending on your exact location,
+    panel position, shading, equipment, electricity tariff,
+    household consumption and how much solar electricity you use
+    while it is being generated.
+</p>
 
 
         <div id="nextStep" style="margin-top:30px;">
@@ -864,27 +862,27 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
 
 
     document.getElementById(
-        "generation"
+    "generation"
     ).textContent =
-        Math.round(generation);
+    "About " + Math.round(generation);
 
 
     document.getElementById(
-        "usableSolar"
+    "usableSolar"
     ).textContent =
-        Math.round(usableSolar);
+    "About " + Math.round(usableSolar);
 
 
     document.getElementById(
-        "annualSaving"
+    "annualSaving"
     ).textContent =
-        Math.round(annualSaving);
+    "About " + Math.round(annualSaving);
 
 
     document.getElementById(
-        "monthlySaving"
+    "monthlySaving"
     ).textContent =
-        monthlySaving.toFixed(2);
+    "About " + Math.round(monthlySaving);
 
 
     document.getElementById(
