@@ -7,7 +7,33 @@
     <title>Plug-in Solar Panel Savings Calculator | See What You Could Save</title>
 
     <meta name="description" content="Estimate how much plug-in solar panels could generate and save on your UK electricity bill. Get a personalised estimate based on your postcode, electricity use and panel position.">
-    
+
+    <style>
+        #leadCapture {
+            padding: 25px;
+            border: 1px solid #ddd;
+            margin-top: 25px;
+        }
+
+        #leadForm {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #leadForm input,
+        #leadForm select {
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        #leadForm button {
+            padding: 14px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -305,13 +331,81 @@
 </p>
 
 
-        <div id="nextStep" style="margin-top:30px;">
+       <div id="nextStep" style="margin-top:30px;">
 
-            <h3>What should you consider next?</h3>
+    <h3>What should you consider next?</h3>
 
-            <p id="commercialMessage"></p>
+    <p id="commercialMessage"></p>
 
-        </div>
+    <div id="leadCapture" style="margin-top:25px;">
+
+        <h3>Want to see what a full solar system could save you?</h3>
+
+        <p>
+            Your result suggests that a larger solar system may be worth
+            investigating. Get a more detailed assessment based on your
+            property and energy use.
+        </p>
+
+        <form id="leadForm">
+
+            <label for="leadName">Your name</label>
+            <input
+                type="text"
+                id="leadName"
+                name="name"
+                required
+            >
+
+            <label for="leadEmail">Email address</label>
+            <input
+                type="email"
+                id="leadEmail"
+                name="email"
+                required
+            >
+
+            <label for="leadPhone">Phone number</label>
+            <input
+                type="tel"
+                id="leadPhone"
+                name="phone"
+                required
+            >
+
+            <label for="leadPostcode">Postcode</label>
+            <input
+                type="text"
+                id="leadPostcode"
+                name="postcode"
+                required
+            >
+
+            <label for="leadInterest">What are you interested in?</label>
+
+            <select id="leadInterest" name="interest" required>
+
+                <option value="">Please select</option>
+                <option value="solar">Solar panels</option>
+                <option value="solar-battery">Solar + battery</option>
+                <option value="not-sure">Not sure yet</option>
+
+            </select>
+
+            <button type="submit">
+                Get My Solar Assessment
+            </button>
+
+        </form>
+
+        <p id="leadSuccess" style="display:none;">
+            Thanks. Your request has been received. We'll use the information
+            you provided to help with your solar assessment.
+        </p>
+
+    </div>
+
+</div>
 
 
         <p style="margin-top:30px;">
@@ -952,7 +1046,8 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
         }
     }
 
-
+});
+       
     /* -----------------------------
        SHOW RESULTS
        ----------------------------- */
@@ -965,4 +1060,42 @@ document.getElementById("solarCalculator").addEventListener("submit", function(e
     });
 
 });
+
+       // ==========================================
+// LEAD CAPTURE FORM
+// ==========================================
+
+document.getElementById("leadForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const leadData = {
+        name: document.getElementById("leadName").value,
+        email: document.getElementById("leadEmail").value,
+        phone: document.getElementById("leadPhone").value,
+        postcode: document.getElementById("leadPostcode").value,
+        interest: document.getElementById("leadInterest").value
+    };
+
+    try {
+
+        await fetch("https://hook.eu1.make.com/hpzwqa14fn4hyy6mvjh9bdx1nvvndyof", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(leadData)
+        });
+
+        document.getElementById("leadForm").style.display = "none";
+        document.getElementById("leadSuccess").style.display = "block";
+
+    } catch (error) {
+
+        alert("Something went wrong. Please try again.");
+
+    }
+
+});
+
 </script>
