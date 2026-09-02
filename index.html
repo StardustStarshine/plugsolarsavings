@@ -1068,12 +1068,27 @@ document.getElementById("leadForm").addEventListener("submit", async function(ev
     event.preventDefault();
 
     const leadData = {
-        name: document.getElementById("leadName").value,
-        email: document.getElementById("leadEmail").value,
-        phone: document.getElementById("leadPhone").value,
-        postcode: document.getElementById("leadPostcode").value,
-        interest: document.getElementById("leadInterest").value
-    };
+    name: document.getElementById("leadName").value,
+    email: document.getElementById("leadEmail").value,
+    phone: document.getElementById("leadPhone").value,
+    postcode: document.getElementById("leadPostcode").value,
+    interest: document.getElementById("leadInterest").value,
+
+    annualUsage: annualUsage,
+    monthlyBill: monthlyBill,
+    orientation: orientation,
+    shade: shade,
+    daytimeUse: daytimeUse,
+
+    generation: Math.round(generation),
+    usableSolar: Math.round(usableSolar),
+    annualSaving: Math.round(annualSaving),
+    monthlySaving: Math.round(monthlySaving),
+    percentageCovered: percentageCovered.toFixed(1),
+
+    verdict: verdict.textContent,
+    recommendation: recommendation.textContent
+};
 
     try {
 
