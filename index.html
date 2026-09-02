@@ -6,10 +6,8 @@
 
     <title>Plug-in Solar Panel Savings Calculator | See What You Could Save</title>
 
-    <meta
-        name="description"
-        content="Estimate how much a plug-in solar panels could generate and save on your UK electricity bill. Get a personalised estimate based on your postcode, electricity use and panel position."
-    >
+    <meta name="description" content="Estimate how much plug-in solar panels could generate and save on your UK electricity bill. Get a personalised estimate based on your postcode, electricity use and panel position.">
+    
 </head>
 
 <body>
@@ -208,7 +206,7 @@
 
     <section id="results" style="display:none;">
 
-        <h2>Your personalised solar estimate</h2>
+        <h2>Your personalised plug-in solar estimate</h2>
 
         <p id="locationMessage"></p>
 
@@ -336,746 +334,431 @@
 
 
 <script>
-
-document
-    .getElementById("solarCalculator")
-    .addEventListener("submit", function(event) {
-
-        event.preventDefault();
-
-
-        /*
-        ----------------------------------------------------
-        GET USER INPUTS
-        ----------------------------------------------------
-        */
-
-        const postcode =
-            document
-                .getElementById("postcode")
-                .value
-                .trim()
-                .toUpperCase();
-
-        const annualUsageInput =
-            parseFloat(
-                document.getElementById("annualUsage").value
-            );
-
-        const monthlyBill =
-            parseFloat(
-                document.getElementById("monthlyBill").value
-            );
-
-        const orientation =
-            document.getElementById("orientation").value;
-
-        const shade =
-            document.getElementById("shade").value;
-
-        const daytimeUse =
-            document.getElementById("daytimeUse").value;
-
-        const systemType =
-            document.getElementById("systemType").value;
-
-
-        /*
-        ----------------------------------------------------
-        BASIC POSTCODE CHECK
-        ----------------------------------------------------
-        */
-
-        const postcodeArea =
-            postcode.split(" ")[0];
-
-        if (!/^[A-Z]{1,2}\d[A-Z\d]?$/i.test(postcodeArea)) {
-
-            alert(
-                "Please enter a valid UK postcode, for example ST13 5XX."
-            );
-
-            return;
-
-        }
-
-
-        /*
-        ----------------------------------------------------
-        REGIONAL SOLAR YIELD
-        ----------------------------------------------------
-
-        These are broad regional starting assumptions.
-
-        The next major upgrade will replace these with
-        postcode-specific PVGIS data.
-        ----------------------------------------------------
-        */
-
-        let regionalYield = 900;
-        let regionName = "UK average";
-
-        const firstLetter =
-            postcode.charAt(0);
-
-        const firstTwo =
-            postcode.substring(0, 2);
-
-
-        /*
-        SOUTH EAST / SOUTH
-        */
-
-        const southernAreas = [
-            "BN","BR","CR","CT","DA","GU","HP",
-            "KT","ME","MK","OX","PO","RG","RH",
-            "SL","SM","SO","SS","TN","TW",
-            "AL","CM","CO","CB","IP","LU","NR",
-            "PE","SG","EN","HA","IG","RM","WD"
-        ];
-
-
-        /*
-        SOUTH WEST
-        */
-
-        const southWestAreas = [
-            "BA","BS","DT","EX","GL","PL","SN",
-            "SP","TA","TQ","TR"
-        ];
-
-
-        /*
-        MIDLANDS
-        */
-
-        const midlandsAreas = [
-            "B","CV","DE","DY","LE","LN","NG",
-            "NN","ST","TF","WR","WS","WV"
-        ];
-
-
-        /*
-        YORKSHIRE / NORTH
-        */
-
-        const northernAreas = [
-            "BD","DN","HD","HG","HU","HX","LS",
-            "NE","OL","S","SK","SR","TS","WF",
-            "WN","YO"
-        ];
-
-
-        /*
-        NORTH WEST
-        */
-
-        const northWestAreas = [
-            "BB","BL","CA","CH","CW","FY","L",
-            "LA","M","OL","PR","WA","WN"
-        ];
-
-
-        /*
-        WALES
-        */
-
-        const welshAreas = [
-            "CF","LD","LL","NP","SA","SY"
-        ];
-
-
-        /*
-        SCOTLAND
-        */
-
-        const scottishAreas = [
-            "AB","DD","DG","EH","FK","G","HS",
-            "IV","KA","KW","KY","ML","PA","PH",
-            "TD","ZE"
-        ];
-
-
-        if (southernAreas.includes(firstTwo)) {
-
-            regionalYield = 950;
-            regionName = "southern UK";
-
-        }
-        else if (southWestAreas.includes(firstTwo)) {
-
-            regionalYield = 960;
-            regionName = "South West";
-
-        }
-        else if (midlandsAreas.includes(firstTwo)) {
-
-            regionalYield = 875;
-            regionName = "Midlands";
-
-        }
-        else if (northernAreas.includes(firstTwo)) {
-
-            regionalYield = 860;
-            regionName = "northern England";
-
-        }
-        else if (northWestAreas.includes(firstTwo)) {
-
-            regionalYield = 820;
-            regionName = "North West";
-
-        }
-        else if (welshAreas.includes(firstTwo)) {
-
-            regionalYield = 880;
-            regionName = "Wales";
-
-        }
-        else if (scottishAreas.includes(firstTwo)) {
-
-            regionalYield = 850;
-            regionName = "Scotland";
-
-        }
-        else if (firstLetter === "L" || firstLetter === "M") {
-
-            regionalYield = 820;
-            regionName = "North West";
-
-        }
-
-
-        /*
-        ----------------------------------------------------
-        ESTIMATE ANNUAL ELECTRICITY USE
-        ----------------------------------------------------
-
-        If annual kWh is supplied, use it.
-
-        Otherwise estimate it from the monthly bill after
-        allowing for an approximate electricity standing charge.
-
-        This avoids treating the entire bill as electricity
-        consumption.
-        ----------------------------------------------------
-        */
-
-        const standingChargePerDay =
-            0.57;
-
-        const estimatedAnnualStandingCharge =
-            standingChargePerDay * 365;
-
-        let annualUsage;
-
-        if (
-            annualUsageInput &&
-            annualUsageInput >= 500
-        ) {
-
-            annualUsage = annualUsageInput;
-
-        }
-        else {
-
-            const annualBill =
-                monthlyBill * 12;
-
-            const estimatedEnergyCost =
-                Math.max(
-                    annualBill -
-                    estimatedAnnualStandingCharge,
-                    100
-                );
-
-            const assumedUnitRate =
-                0.263;
-
-            annualUsage =
-                estimatedEnergyCost /
-                assumedUnitRate;
-
-        }
-
-
-        /*
-        ----------------------------------------------------
-        ELECTRICITY UNIT RATE
-        ----------------------------------------------------
-
-        If we have both annual usage and monthly bill,
-        estimate the effective energy rate after removing
-        the approximate standing charge.
-
-        Otherwise use the current UK reference rate.
-        ----------------------------------------------------
-        */
-
-        let unitRate =
-            0.263;
-
-
-        if (
-            annualUsageInput &&
-            annualUsageInput >= 500
-        ) {
-
-            const annualBill =
-                monthlyBill * 12;
-
-            const estimatedEnergyCost =
-                Math.max(
-                    annualBill -
-                    estimatedAnnualStandingCharge,
-                    0
-                );
-
-            const calculatedRate =
-                estimatedEnergyCost /
-                annualUsage;
-
-            if (
-                calculatedRate >= 0.15 &&
-                calculatedRate <= 0.40
-            ) {
-
-                unitRate =
-                    calculatedRate;
-
-            }
-
-        }
-
-
-        /*
-        ----------------------------------------------------
-        SYSTEM SIZE
-        ----------------------------------------------------
-
-        Current GB plug-in solar framework:
-        up to 800W.
-        ----------------------------------------------------
-        */
-
-        const systemSize =
-            0.8;
-
-
-        /*
-        ----------------------------------------------------
-        ORIENTATION FACTORS
-        ----------------------------------------------------
-        */
-
-        const orientationFactors = {
-
-            south: 1.00,
-
-            southeast: 0.94,
-
-            southwest: 0.94,
-
-            east: 0.82,
-
-            west: 0.82,
-
-            north: 0.52,
-
-            unknown: 0.88
-
-        };
-
-
-        /*
-        ----------------------------------------------------
-        SHADE FACTORS
-        ----------------------------------------------------
-        */
-
-        const shadeFactors = {
-
-            low: 1.00,
-
-            medium: 0.80,
-
-            high: 0.55,
-
-            unknown: 0.85
-
-        };
-
-
-        /*
-        ----------------------------------------------------
-        GENERATION
-        ----------------------------------------------------
-        */
-
-        let generation =
-            systemSize *
-            regionalYield *
-            orientationFactors[orientation] *
-            shadeFactors[shade];
-
-
-        generation =
-            Math.round(generation);
-
-
-        /*
-        ----------------------------------------------------
-        SELF-CONSUMPTION
-        ----------------------------------------------------
-        */
-
-        const selfConsumptionFactors = {
-
-            low: 0.40,
-
-            medium: 0.60,
-
-            high: 0.75
-
-        };
-
-
-        let selfConsumption =
-            selfConsumptionFactors[daytimeUse];
-
-
-        /*
-        BATTERY EFFECT
-
-        This is intentionally conservative.
-        ----------------------------------------------------
-        */
-
-        if (
-            systemType === "battery"
-        ) {
-
-            selfConsumption += 0.15;
-
-        }
-
-
-        if (
-            selfConsumption > 0.90
-        ) {
-
-            selfConsumption = 0.90;
-
-        }
-
-
-        /*
-        ----------------------------------------------------
-        USABLE SOLAR
-        ----------------------------------------------------
-        */
-
-        let usableSolar =
-            generation *
-            selfConsumption;
-
-
-        /*
-        Don't claim more solar electricity is used
-        than the household actually consumes.
-        ----------------------------------------------------
-        */
-
-        if (
-            usableSolar >
+document.getElementById("solarCalculator").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const postcode = document.getElementById("postcode").value.trim().toUpperCase();
+    const annualUsageInput = parseFloat(document.getElementById("annualUsage").value);
+    const monthlyBill = parseFloat(document.getElementById("monthlyBill").value);
+    const orientation = document.getElementById("orientation").value;
+    const shade = document.getElementById("shade").value;
+    const daytimeUse = document.getElementById("daytimeUse").value;
+    const systemType = document.getElementById("systemType").value;
+
+    /* -----------------------------
+       1. BASIC POSTCODE VALIDATION
+    ----------------------------- */
+
+    const postcodeArea = postcode.split(" ")[0];
+
+    if (!/^[A-Z]{1,2}\d[A-Z\d]?$/i.test(postcodeArea)) {
+        alert("Please enter a valid UK postcode.");
+        return;
+    }
+
+    /* -----------------------------
+       2. CURRENT ELECTRICITY RATE
+
+       Ofgem benchmark:
+       Jul-Sep 2026 = 26.11p/kWh
+       Oct-Dec 2026 = 26.32p/kWh
+
+       We use the current period automatically.
+    ----------------------------- */
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+
+    let unitRate;
+
+    if (year === 2026 && month >= 10 && month <= 12) {
+        unitRate = 0.2632;
+    } else if (year === 2026 && month >= 7 && month <= 9) {
+        unitRate = 0.2611;
+    } else {
+        // Fallback benchmark for periods not yet configured
+        unitRate = 0.2632;
+    }
+
+    /* -----------------------------
+       3. POSTCODE / REGIONAL SOLAR YIELD
+
+       These are broad UK estimates.
+       Later we can replace this with
+       postcode-specific PVGIS data.
+    ----------------------------- */
+
+    const southernAreas = [
+        "BN", "BR", "CR", "CT", "DA", "GU", "HA",
+        "HP", "KT", "ME", "MK", "OX", "PO", "RG",
+        "RH", "SE", "SL", "SM", "SO", "SP", "TN",
+        "TW", "UB", "WD"
+    ];
+
+    const southWestAreas = [
+        "BA", "BS", "DT", "EX", "GL", "PL", "SN",
+        "SP", "TA", "TQ", "TR"
+    ];
+
+    const midlandsAreas = [
+        "B", "CV", "DE", "DY", "LE", "LN", "NG",
+        "NN", "ST", "WS", "WV"
+    ];
+
+    const northWestAreas = [
+        "BB", "BL", "CA", "CH", "CW", "FY", "L",
+        "LA", "M", "OL", "PR", "SK", "WA", "WN"
+    ];
+
+    const northEastAreas = [
+        "DH", "DL", "DN", "NE", "SR", "TS"
+    ];
+
+    const yorkshireAreas = [
+        "BD", "DN", "HD", "HG", "HU", "HX", "LS",
+        "S", "WF", "YO"
+    ];
+
+    const easternAreas = [
+        "CB", "CM", "CO", "IP", "NR", "PE", "SS"
+    ];
+
+    const walesAreas = [
+        "CF", "LD", "LL", "NP", "SA", "SY"
+    ];
+
+    const scotlandAreas = [
+        "AB", "DD", "DG", "EH", "FK", "G", "HS",
+        "IV", "KA", "KW", "KY", "ML", "PA", "PH",
+        "TD", "ZE"
+    ];
+
+    const northernIrelandAreas = [
+        "BT"
+    ];
+
+    let regionalYield = 900;
+    let locationMessage = "Your postcode places you in our UK average solar-yield estimate.";
+
+    if (northernIrelandAreas.includes(postcodeArea)) {
+        regionalYield = 850;
+        locationMessage = "Your postcode places you in our Northern Ireland solar-yield estimate.";
+    } 
+    else if (scotlandAreas.includes(postcodeArea)) {
+        regionalYield = 850;
+        locationMessage = "Your postcode places you in our Scotland solar-yield estimate.";
+    } 
+    else if (walesAreas.includes(postcodeArea)) {
+        regionalYield = 880;
+        locationMessage = "Your postcode places you in our Wales solar-yield estimate.";
+    } 
+    else if (southWestAreas.includes(postcodeArea)) {
+        regionalYield = 960;
+        locationMessage = "Your postcode places you in our South West solar-yield estimate.";
+    } 
+    else if (southernAreas.includes(postcodeArea)) {
+        regionalYield = 950;
+        locationMessage = "Your postcode places you in our Southern England solar-yield estimate.";
+    } 
+    else if (easternAreas.includes(postcodeArea)) {
+        regionalYield = 925;
+        locationMessage = "Your postcode places you in our Eastern England solar-yield estimate.";
+    } 
+    else if (yorkshireAreas.includes(postcodeArea)) {
+        regionalYield = 860;
+        locationMessage = "Your postcode places you in our Yorkshire solar-yield estimate.";
+    } 
+    else if (northEastAreas.includes(postcodeArea)) {
+        regionalYield = 850;
+        locationMessage = "Your postcode places you in our North East solar-yield estimate.";
+    } 
+    else if (northWestAreas.includes(postcodeArea)) {
+        regionalYield = 820;
+        locationMessage = "Your postcode places you in our North West solar-yield estimate.";
+    } 
+    else if (midlandsAreas.includes(postcodeArea)) {
+        regionalYield = 875;
+        locationMessage = "Your postcode places you in our Midlands solar-yield estimate.";
+    }
+
+    /* -----------------------------
+       4. ANNUAL ELECTRICITY USAGE
+
+       If user gives annual kWh:
+       use it directly.
+
+       If blank:
+       estimate usage from monthly bill,
+       removing an approximate standing charge.
+    ----------------------------- */
+
+    const standingChargePerDay =
+        (year === 2026 && month >= 10 && month <= 12)
+        ? 0.5483
+        : 0.5719;
+
+    const annualStandingCharge = standingChargePerDay * 365;
+
+    let annualUsage;
+
+    if (!isNaN(annualUsageInput) && annualUsageInput >= 500) {
+        annualUsage = annualUsageInput;
+    } else {
+        const annualBill = monthlyBill * 12;
+        const estimatedEnergyCost = Math.max(
+            annualBill - annualStandingCharge,
+            100
+        );
+
+        annualUsage = estimatedEnergyCost / unitRate;
+    }
+
+    /* -----------------------------
+       5. SYSTEM SIZE
+
+       UK plug-in solar assumption:
+       800W maximum system.
+    ----------------------------- */
+
+    const systemSize = 0.8;
+
+    /* -----------------------------
+       6. PANEL ORIENTATION
+    ----------------------------- */
+
+    const orientationFactors = {
+        south: 1.00,
+        southeast: 0.94,
+        southwest: 0.94,
+        east: 0.82,
+        west: 0.82,
+        north: 0.52,
+        unknown: 0.88
+    };
+
+    const orientationFactor =
+        orientationFactors[orientation] || 0.88;
+
+    /* -----------------------------
+       7. SHADE
+    ----------------------------- */
+
+    const shadeFactors = {
+        low: 1.00,
+        medium: 0.80,
+        high: 0.55,
+        unknown: 0.85
+    };
+
+    const shadeFactor =
+        shadeFactors[shade] || 0.85;
+
+    /* -----------------------------
+       8. ESTIMATED SOLAR GENERATION
+    ----------------------------- */
+
+    const generation =
+        systemSize *
+        regionalYield *
+        orientationFactor *
+        shadeFactor;
+
+    /* -----------------------------
+       9. SELF-CONSUMPTION
+
+       How much generated electricity
+       is likely to be used directly
+       by the household.
+    ----------------------------- */
+
+    const selfConsumptionFactors = {
+        low: 0.40,
+        medium: 0.60,
+        high: 0.75
+    };
+
+    let selfConsumption =
+        selfConsumptionFactors[daytimeUse] || 0.60;
+
+    /* Battery improves utilisation */
+
+    if (systemType === "battery") {
+        selfConsumption += 0.15;
+        selfConsumption = Math.min(selfConsumption, 0.90);
+    }
+
+    /* -----------------------------
+       10. USABLE SOLAR ELECTRICITY
+    ----------------------------- */
+
+    const usableSolar =
+        Math.min(
+            generation * selfConsumption,
             annualUsage
-        ) {
+        );
 
-            usableSolar =
-                annualUsage;
+    /* -----------------------------
+       11. SAVINGS
 
-        }
+       IMPORTANT:
+       We now use the benchmark
+       electricity unit rate directly.
 
+       Monthly bill no longer inflates
+       the saving calculation.
+    ----------------------------- */
 
-        usableSolar =
-            Math.round(
-                usableSolar
-            );
+    const annualSaving = usableSolar * unitRate;
+    const monthlySaving = annualSaving / 12;
 
+    const percentageCovered =
+        Math.min(
+            (usableSolar / annualUsage) * 100,
+            100
+        );
 
-        /*
-        ----------------------------------------------------
-        SAVINGS
-        ----------------------------------------------------
-        */
+    /* -----------------------------
+       12. COMMERCIAL VERDICT
 
-        let annualSaving =
-            usableSolar *
-            unitRate;
+       This is the important part.
 
+       We want the calculator to tell
+       the visitor what the result means.
+    ----------------------------- */
 
-        let monthlySaving =
-            annualSaving /
-            12;
+    let verdict;
+    let recommendation;
+    let explanation;
+    let classification;
 
+    if (systemType === "battery") {
 
-        /*
-        ----------------------------------------------------
-        DEMAND COVERED
-        ----------------------------------------------------
-        */
+        classification = "SOLAR + BATTERY";
 
-        let percentageCovered =
-            (
-                usableSolar /
-                annualUsage
-            ) * 100;
+        verdict =
+            "Your home could benefit from solar and better energy storage.";
 
+        recommendation =
+            "A solar + battery assessment could be worth investigating.";
 
-        if (
-            percentageCovered > 100
-        ) {
+        explanation =
+            "A battery could allow more of your solar electricity to be used later in the day, particularly if your household uses more electricity in the evening.";
 
-            percentageCovered = 100;
+    } 
+    else if (
+        annualUsage <= 1800 &&
+        percentageCovered >= 15
+    ) {
 
-        }
+        classification = "STRONG PLUG-IN SOLAR FIT";
 
+        verdict =
+            "Your home appears to be a strong fit for plug-in solar panels.";
 
-        /*
-        ----------------------------------------------------
-        COMMERCIAL CLASSIFICATION
-        ----------------------------------------------------
-        */
+        recommendation =
+            "An 800W plug-in solar system could make a useful contribution to your electricity use.";
 
-        let classification;
+        explanation =
+            "Your estimated electricity demand and the amount of solar electricity you could use suggest that a small plug-in system could be a sensible way to generate some of your own electricity.";
 
-        let verdict;
+    } 
+    else if (
+        annualUsage <= 2500 &&
+        percentageCovered >= 10
+    ) {
 
-        let recommendation;
+        classification = "GOOD PLUG-IN SOLAR FIT";
 
-        let explanation;
+        verdict =
+            "Your home appears to have a good opportunity to use plug-in solar.";
 
-        let commercialMessage;
+        recommendation =
+            "Plug-in solar panels could make a noticeable contribution to your electricity use.";
 
+        explanation =
+            "Your estimated solar generation and household electricity use suggest that a useful proportion of the electricity produced could potentially be used in your home.";
 
-        /*
-        BATTERY OPPORTUNITY
-        */
+    } 
+    else if (
+        annualUsage >= 3000 ||
+        percentageCovered < 8
+    ) {
 
-        if (
-            systemType === "battery"
-        ) {
+        classification = "LARGER SOLAR OPPORTUNITY";
 
-            classification =
-                "SOLAR + BATTERY";
+        verdict =
+            "Your home appears to have a larger solar opportunity.";
 
-            verdict =
-                "A solar + battery setup may be worth investigating.";
+        recommendation =
+            "An 800W plug-in system could help, but a full solar assessment may reveal a much larger saving opportunity.";
 
-            recommendation =
-                "Your electricity-use pattern means storing some solar electricity for later could be useful.";
+        explanation =
+            "Your household electricity demand appears relatively high compared with what an 800W plug-in system can generate. A larger solar installation could potentially cover more of your electricity demand.";
 
-            explanation =
-                "You use a meaningful amount of electricity outside the main solar-generation period. A battery could potentially allow more of your generated electricity to be used later rather than relying on the grid.";
+    } 
+    else {
 
-            commercialMessage =
-                "Your results suggest that comparing solar generation with battery storage could be more useful than looking at plug-in solar alone.";
+        classification = "MODERATE PLUG-IN SOLAR FIT";
 
-        }
+        verdict =
+            "Plug-in solar could make a useful contribution to your electricity use.";
 
+        recommendation =
+            "Plug-in solar panels may be worth considering for your home.";
 
-        /*
-        LOW PLUG-IN CONTRIBUTION
-        */
+        explanation =
+            "Your estimated solar generation could provide a useful contribution to your electricity demand, although the overall saving is limited by the size of an 800W system.";
 
-        else if (
-            percentageCovered < 5
-        ) {
+    }
 
-            classification =
-                "LARGER SOLAR OPPORTUNITY";
+    /* -----------------------------
+       13. DISPLAY RESULTS
+    ----------------------------- */
 
-            verdict =
-                "Plug-in solar could help, but the potential contribution is relatively small.";
+    document.getElementById("locationMessage").textContent =
+        locationMessage;
 
-            recommendation =
-                "If your main goal is to reduce your electricity bill as much as possible, a larger solar PV system may be worth comparing.";
+    document.getElementById("generation").textContent =
+        Math.round(generation) + " kWh";
 
-            explanation =
-                "The estimated plug-in system would cover only a small proportion of your annual electricity demand. A larger system could generate substantially more electricity, subject to your property and installation suitability.";
+    document.getElementById("usableSolar").textContent =
+        Math.round(usableSolar) + " kWh";
 
-            commercialMessage =
-                "This looks more like a potential larger-solar opportunity than a plug-in-solar opportunity.";
+    document.getElementById("annualSaving").textContent =
+        "£" + Math.round(annualSaving);
 
-        }
+    document.getElementById("monthlySaving").textContent =
+        "£" + monthlySaving.toFixed(2);
 
+    document.getElementById("percentageCovered").textContent =
+        percentageCovered.toFixed(1) + "%";
 
-        /*
-        HIGH DAYTIME USE
-        */
+    document.getElementById("verdict").textContent =
+        verdict;
 
-        else if (
-            daytimeUse === "high" &&
-            percentageCovered >= 5
-        ) {
+    document.getElementById("recommendation").textContent =
+        recommendation;
 
-            classification =
-                "GOOD PLUG-IN SOLAR FIT";
+    document.getElementById("explanation").textContent =
+        explanation;
 
-            verdict =
-                "Plug-in solar looks reasonably well matched to your electricity use.";
+    document.getElementById("commercialMessage").textContent =
+        classification === "LARGER SOLAR OPPORTUNITY"
+        ? "Your results suggest there may be a larger solar opportunity worth investigating as well as plug-in solar."
+        : classification === "SOLAR + BATTERY"
+        ? "Your results suggest that combining solar generation with battery storage could be worth investigating."
+        : classification === "STRONG PLUG-IN SOLAR FIT"
+        ? "Your results suggest plug-in solar could be a particularly good fit for your household."
+        : "Your results suggest plug-in solar could make a useful contribution to your electricity use.";
 
-            recommendation =
-                "Your daytime electricity use could help you make good use of the electricity while the panels are generating it.";
+    document.getElementById("result").style.display = "block";
 
-            explanation =
-                "Using solar electricity while it is being generated is important. Your answers suggest that a relatively high proportion could potentially be used directly in your home.";
-
-            commercialMessage =
-                "Your results indicate a reasonable fit for plug-in solar. The next useful step would be comparing suitable systems and their expected payback.";
-
-        }
-
-
-        /*
-        MODERATE FIT
-        */
-
-        else if (
-            percentageCovered >= 5 &&
-            percentageCovered < 12
-        ) {
-
-            classification =
-                "MODERATE PLUG-IN SOLAR FIT";
-
-            verdict =
-                "Plug-in solar could make a useful contribution to your electricity use.";
-
-            recommendation =
-                "You could potentially reduce some of your grid electricity purchases, although the total saving is likely to remain modest.";
-
-            explanation =
-                "Your estimated solar generation is meaningful, but your household's electricity demand and usage pattern limit how much of that generation is likely to be used directly.";
-
-            commercialMessage =
-                "Plug-in solar looks potentially suitable, but it is worth comparing the expected saving against the cost of the system before buying.";
-
-        }
-
-
-        /*
-        HIGHER OPPORTUNITY
-        */
-
-        else {
-
-            classification =
-                "SOLAR OPPORTUNITY";
-
-            verdict =
-                "Your home appears to have a relatively good opportunity to use solar electricity.";
-
-            recommendation =
-                "Your electricity use and estimated solar generation suggest that solar could make a noticeable contribution to your electricity demand.";
-
-            explanation =
-                "A useful amount of your estimated solar generation could potentially be consumed by your home. A larger solar assessment could show whether you could benefit from generating more than an 800W plug-in system can provide.";
-
-            commercialMessage =
-                "Your results suggest there may be a larger solar opportunity worth investigating as well as plug-in solar.";
-
-        }
-
-
-        /*
-        ----------------------------------------------------
-        DISPLAY RESULTS
-        ----------------------------------------------------
-        */
-
-        document
-            .getElementById("generation")
-            .textContent =
-            generation.toLocaleString();
-
-
-        document
-            .getElementById("usableSolar")
-            .textContent =
-            usableSolar.toLocaleString();
-
-
-        document
-            .getElementById("annualSaving")
-            .textContent =
-            annualSaving.toFixed(0);
-
-
-        document
-            .getElementById("monthlySaving")
-            .textContent =
-            monthlySaving.toFixed(2);
-
-
-        document
-            .getElementById("percentageCovered")
-            .textContent =
-            percentageCovered.toFixed(1);
-
-
-        document
-            .getElementById("locationMessage")
-            .textContent =
-            "Your postcode places you in our " +
-            regionName +
-            " solar-yield estimate.";
-
-
-        document
-            .getElementById("verdict")
-            .textContent =
-            verdict;
-
-
-        document
-            .getElementById("recommendation")
-            .textContent =
-            recommendation;
-
-
-        document
-            .getElementById("explanation")
-            .textContent =
-            explanation;
-
-
-        document
-            .getElementById("commercialMessage")
-            .textContent =
-            commercialMessage;
-
-
-        /*
-        ----------------------------------------------------
-        SHOW RESULTS
-        ----------------------------------------------------
-        */
-
-        document
-            .getElementById("results")
-            .style.display =
-            "block";
-
-
-        document
-            .getElementById("results")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
-
+    document.getElementById("result").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
     });
-
+});
 </script>
 
 </body>
