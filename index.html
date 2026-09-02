@@ -704,78 +704,78 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Your estimated solar generation could provide a useful contribution to your electricity demand, although the overall saving is limited by the size of an 800W system.";
         }
 
-        /* -----------------------------
-           DISPLAY RESULTS
-        ----------------------------- */
+       /* -----------------------------
+   DISPLAY RESULTS
+----------------------------- */
 
-        const result = document.getElementById("result");
+const result = document.getElementById("results");
 
-        if (!result) {
-            console.error("Result section not found.");
-            alert("The calculator result section could not be found.");
-            return;
-        }
+if (!result) {
+    console.error("Solar calculator results section not found.");
+    alert("The calculator results section could not be found.");
+    return;
+}
 
-        document.getElementById("locationMessage").textContent =
-            locationMessage;
+document.getElementById("locationMessage").textContent =
+    locationMessage;
 
-        document.getElementById("generation").textContent =
-            Math.round(generation) + " kWh";
+document.getElementById("generation").textContent =
+    Math.round(generation);
 
-        document.getElementById("usableSolar").textContent =
-            Math.round(usableSolar) + " kWh";
+document.getElementById("usableSolar").textContent =
+    Math.round(usableSolar);
 
-        document.getElementById("annualSaving").textContent =
-            "£" + Math.round(annualSaving);
+document.getElementById("annualSaving").textContent =
+    Math.round(annualSaving);
 
-        document.getElementById("monthlySaving").textContent =
-            "£" + monthlySaving.toFixed(2);
+document.getElementById("monthlySaving").textContent =
+    monthlySaving.toFixed(2);
 
-        document.getElementById("percentageCovered").textContent =
-            percentageCovered.toFixed(1) + "%";
+document.getElementById("percentageCovered").textContent =
+    percentageCovered.toFixed(1);
 
-        document.getElementById("verdict").textContent =
-            verdict;
+document.getElementById("verdict").textContent =
+    verdict;
 
-        document.getElementById("recommendation").textContent =
-            recommendation;
+document.getElementById("recommendation").textContent =
+    recommendation;
 
-        document.getElementById("explanation").textContent =
-            explanation;
+document.getElementById("explanation").textContent =
+    explanation;
 
-        const commercialMessage =
-            document.getElementById("commercialMessage");
+const commercialMessage =
+    document.getElementById("commercialMessage");
 
-        if (commercialMessage) {
+if (commercialMessage) {
 
-            if (classification === "LARGER SOLAR OPPORTUNITY") {
+    if (classification === "LARGER SOLAR OPPORTUNITY") {
 
-                commercialMessage.textContent =
-                    "Your results suggest there may be a larger solar opportunity worth investigating as well as plug-in solar.";
+        commercialMessage.textContent =
+            "Your results suggest there may be a larger solar opportunity worth investigating as well as plug-in solar.";
 
-            } else if (classification === "SOLAR + BATTERY") {
+    } else if (classification === "SOLAR + BATTERY") {
 
-                commercialMessage.textContent =
-                    "Your results suggest that combining solar generation with battery storage could be worth investigating.";
+        commercialMessage.textContent =
+            "Your results suggest that combining solar generation with battery storage could be worth investigating.";
 
-            } else if (classification === "STRONG PLUG-IN SOLAR FIT") {
+    } else if (classification === "STRONG PLUG-IN SOLAR FIT") {
 
-                commercialMessage.textContent =
-                    "Your results suggest plug-in solar could be a particularly good fit for your household.";
+        commercialMessage.textContent =
+            "Your results suggest plug-in solar could be a particularly good fit for your household.";
 
-            } else {
+    } else {
 
-                commercialMessage.textContent =
-                    "Your results suggest plug-in solar could make a useful contribution to your electricity use.";
-            }
-        }
+        commercialMessage.textContent =
+            "Your results suggest plug-in solar could make a useful contribution to your electricity use.";
+    }
+}
 
-        result.style.display = "block";
+result.style.display = "block";
 
-        result.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
+result.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+});
     });
 
 });
