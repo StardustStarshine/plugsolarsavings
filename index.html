@@ -6,7 +6,10 @@
 
     <title>Plug-in Solar Panel Savings Calculator | See What You Could Save</title>
 
-    <meta name="description" content="Estimate how much a plug-in solar panel system could save on your UK electricity bill. Learn how plug-in solar works and see your potential savings.">
+    <meta
+        name="description"
+        content="Estimate how much a plug-in solar panels could generate and save on your UK electricity bill. Get a personalised estimate based on your postcode, electricity use and panel position."
+    >
 </head>
 
 <body>
@@ -16,8 +19,8 @@
     <h1>Plug-in Solar Panel Savings</h1>
 
     <p>
-        Find out how much a plug-in solar panel system could potentially save
-        on your UK electricity bill.
+        Find out how much a plug-in solar panel system could potentially
+        generate and save on your UK electricity bill.
     </p>
 
 </header>
@@ -27,7 +30,7 @@
 
 <section>
 
-    <h2>How much could plug-in solar save you?</h2>
+    <h2>How much could plug-in solar panels save you?</h2>
 
     <p>
         Plug-in solar panels are a small-scale way of generating electricity
@@ -35,16 +38,13 @@
     </p>
 
     <p>
-        Tell us about your home and electricity use. We'll estimate how much
-        electricity a plug-in solar panel system could generate and what that
-        could mean for your electricity bill.
+        Answer a few questions about your location, electricity use and
+        where the panels would be placed. We'll estimate what an
+        800W plug-in solar system could potentially do for your home.
     </p>
 
 
     <form id="solarCalculator">
-
-
-        <!-- QUESTION 1 -->
 
         <h3>1. What's your UK postcode?</h3>
 
@@ -58,28 +58,31 @@
             required
         >
 
+        <p>
+            Your postcode helps us estimate the solar resource in your area.
+        </p>
 
-        <!-- QUESTION 2 -->
 
         <h3>2. Do you know your annual electricity usage?</h3>
 
-        <label for="annualUsage">Annual electricity usage (kWh)</label>
+        <label for="annualUsage">
+            Annual electricity usage (kWh)
+        </label>
 
         <input
             type="number"
             id="annualUsage"
             name="annualUsage"
-            min="1"
+            min="500"
+            max="30000"
             placeholder="e.g. 3500"
         >
 
         <p>
-            Don't know? Leave this blank and we'll estimate it from your
-            electricity bill.
+            You can usually find this figure on your electricity bill.
+            Don't know it? Leave it blank and we'll estimate it.
         </p>
 
-
-        <!-- QUESTION 3 -->
 
         <h3>3. What's your approximate monthly electricity bill?</h3>
 
@@ -91,104 +94,70 @@
             type="number"
             id="monthlyBill"
             name="monthlyBill"
-            min="1"
+            min="20"
+            max="1000"
             step="1"
             placeholder="e.g. 120"
             required
         >
 
+        <p>
+            We'll use this to help estimate your electricity cost.
+            Your actual tariff may be different.
+        </p>
 
-        <!-- QUESTION 4 -->
 
         <h3>4. Which direction would the solar panels face?</h3>
 
-        <label for="orientation">
-            Panel direction
-        </label>
+        <label for="orientation">Panel direction</label>
 
         <select id="orientation" name="orientation" required>
 
-            <option value="">
-                Please select
-            </option>
+            <option value="">Please select</option>
 
-            <option value="south">
-                South
-            </option>
+            <option value="south">South</option>
 
-            <option value="southeast">
-                South East
-            </option>
+            <option value="southeast">South East</option>
 
-            <option value="southwest">
-                South West
-            </option>
+            <option value="southwest">South West</option>
 
-            <option value="east">
-                East
-            </option>
+            <option value="east">East</option>
 
-            <option value="west">
-                West
-            </option>
+            <option value="west">West</option>
 
-            <option value="north">
-                North
-            </option>
+            <option value="north">North</option>
 
-            <option value="unknown">
-                I'm not sure
-            </option>
+            <option value="unknown">I'm not sure</option>
 
         </select>
 
-
-        <!-- QUESTION 5 -->
 
         <h3>5. How much sunlight does the area get?</h3>
 
-        <label for="shade">
-            Shade level
-        </label>
+        <label for="shade">Shade level</label>
 
         <select id="shade" name="shade" required>
 
-            <option value="">
-                Please select
-            </option>
+            <option value="">Please select</option>
 
-            <option value="low">
-                Mostly sunny
-            </option>
+            <option value="low">Mostly sunny</option>
 
-            <option value="medium">
-                Some shade during the day
-            </option>
+            <option value="medium">Some shade during the day</option>
 
-            <option value="high">
-                Mostly shaded
-            </option>
+            <option value="high">Mostly shaded</option>
 
-            <option value="unknown">
-                I'm not sure
-            </option>
+            <option value="unknown">I'm not sure</option>
 
         </select>
 
 
-        <!-- QUESTION 6 -->
-
         <h3>6. When do you use the most electricity?</h3>
 
-        <label for="daytimeUse">
-            Daytime electricity use
-        </label>
+        <label for="daytimeUse">Daytime electricity use</label>
 
         <select id="daytimeUse" name="daytimeUse" required>
 
-            <option value="">
-                Please select
-            </option>
+            <option value="">Please select</option>
 
             <option value="low">
                 Mostly evenings and nights
@@ -205,19 +174,13 @@
         </select>
 
 
-        <!-- QUESTION 7 -->
-
         <h3>7. What are you considering?</h3>
 
-        <label for="systemType">
-            Solar panel option
-        </label>
+        <label for="systemType">Solar panel option</label>
 
         <select id="systemType" name="systemType" required>
 
-            <option value="">
-                Please select
-            </option>
+            <option value="">Please select</option>
 
             <option value="solar">
                 Plug-in solar panels
@@ -243,16 +206,11 @@
     </form>
 
 
-    <!-- RESULTS -->
-
     <section id="results" style="display:none;">
 
-        <h2>Your estimated solar result</h2>
+        <h2>Your personalised solar estimate</h2>
 
-        <p>
-            Based on the information you provided, here's an estimate of
-            what a plug-in solar panel system could potentially do for your home.
-        </p>
+        <p id="locationMessage"></p>
 
 
         <h3>Estimated annual solar generation</h3>
@@ -265,11 +223,26 @@
         </p>
 
 
+        <h3>Estimated solar electricity you could use</h3>
+
+        <p>
+            <strong>
+                <span id="usableSolar"></span> kWh
+            </strong>
+            per year
+        </p>
+
+        <p>
+            This is the estimated amount of electricity generated by your
+            solar panels that could be used by your home.
+        </p>
+
+
         <h3>Potential annual electricity saving</h3>
 
         <p>
             <strong>
-                £<span id="annualSaving"></span>
+                &pound;<span id="annualSaving"></span>
             </strong>
             per year
         </p>
@@ -279,13 +252,13 @@
 
         <p>
             <strong>
-                £<span id="monthlySaving"></span>
+                &pound;<span id="monthlySaving"></span>
             </strong>
             per month
         </p>
 
 
-        <h3>Potential electricity demand covered</h3>
+        <h3>Estimated electricity demand covered</h3>
 
         <p>
             <strong>
@@ -294,17 +267,65 @@
         </p>
 
 
-        <h3>What does this mean?</h3>
+        <h3>Your plug-in solar panel verdict</h3>
+
+        <p>
+            <strong id="verdict"></strong>
+        </p>
 
         <p id="recommendation"></p>
 
 
+        <h3>Why we think this</h3>
+
+        <p id="explanation"></p>
+
+
+        <hr>
+
+
+        <h3>How we calculated your estimate</h3>
+
         <p>
+            We estimate the annual output of an 800W system using a
+            UK regional solar-yield assumption, then adjust it for
+            panel direction and shading.
+        </p>
+
+        <p>
+            We estimate how much of that electricity you could use
+            directly based on when you normally use electricity.
+        </p>
+
+        <p>
+            We then apply an estimated electricity unit rate to the
+            electricity you could use.
+        </p>
+
+        <p>
+            These are estimates rather than guarantees. Actual results
+            depend on your exact location, installation, equipment,
+            sunlight, electricity tariff and household behaviour.
+        </p>
+
+
+        <div id="nextStep" style="margin-top:30px;">
+
+            <h3>What should you consider next?</h3>
+
+            <p id="commercialMessage"></p>
+
+        </div>
+
+
+        <p style="margin-top:30px;">
+
             <strong>Important:</strong>
-            These figures are estimates, not guarantees. Actual solar
-            generation and savings depend on your location, sunlight,
-            panel position, equipment, electricity tariff and how much
-            solar electricity you use when it is generated.
+            Plug-in solar systems must meet the applicable UK requirements.
+            This calculator estimates potential energy generation and
+            savings only. It is not an electrical safety, compliance or
+            installation assessment.
+
         </p>
 
     </section>
@@ -323,9 +344,18 @@ document
         event.preventDefault();
 
 
-        /* --------------------------------
-           GET USER INPUT
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        GET USER INPUTS
+        ----------------------------------------------------
+        */
+
+        const postcode =
+            document
+                .getElementById("postcode")
+                .value
+                .trim()
+                .toUpperCase();
 
         const annualUsageInput =
             parseFloat(
@@ -350,91 +380,318 @@ document
             document.getElementById("systemType").value;
 
 
-        /* --------------------------------
-           ELECTRICITY USAGE
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        BASIC POSTCODE CHECK
+        ----------------------------------------------------
+        */
+
+        const postcodeArea =
+            postcode.split(" ")[0];
+
+        if (!/^[A-Z]{1,2}\d[A-Z\d]?$/i.test(postcodeArea)) {
+
+            alert(
+                "Please enter a valid UK postcode, for example ST13 5XX."
+            );
+
+            return;
+
+        }
+
+
+        /*
+        ----------------------------------------------------
+        REGIONAL SOLAR YIELD
+        ----------------------------------------------------
+
+        These are broad regional starting assumptions.
+
+        The next major upgrade will replace these with
+        postcode-specific PVGIS data.
+        ----------------------------------------------------
+        */
+
+        let regionalYield = 900;
+        let regionName = "UK average";
+
+        const firstLetter =
+            postcode.charAt(0);
+
+        const firstTwo =
+            postcode.substring(0, 2);
+
+
+        /*
+        SOUTH EAST / SOUTH
+        */
+
+        const southernAreas = [
+            "BN","BR","CR","CT","DA","GU","HP",
+            "KT","ME","MK","OX","PO","RG","RH",
+            "SL","SM","SO","SS","TN","TW",
+            "AL","CM","CO","CB","IP","LU","NR",
+            "PE","SG","EN","HA","IG","RM","WD"
+        ];
+
+
+        /*
+        SOUTH WEST
+        */
+
+        const southWestAreas = [
+            "BA","BS","DT","EX","GL","PL","SN",
+            "SP","TA","TQ","TR"
+        ];
+
+
+        /*
+        MIDLANDS
+        */
+
+        const midlandsAreas = [
+            "B","CV","DE","DY","LE","LN","NG",
+            "NN","ST","TF","WR","WS","WV"
+        ];
+
+
+        /*
+        YORKSHIRE / NORTH
+        */
+
+        const northernAreas = [
+            "BD","DN","HD","HG","HU","HX","LS",
+            "NE","OL","S","SK","SR","TS","WF",
+            "WN","YO"
+        ];
+
+
+        /*
+        NORTH WEST
+        */
+
+        const northWestAreas = [
+            "BB","BL","CA","CH","CW","FY","L",
+            "LA","M","OL","PR","WA","WN"
+        ];
+
+
+        /*
+        WALES
+        */
+
+        const welshAreas = [
+            "CF","LD","LL","NP","SA","SY"
+        ];
+
+
+        /*
+        SCOTLAND
+        */
+
+        const scottishAreas = [
+            "AB","DD","DG","EH","FK","G","HS",
+            "IV","KA","KW","KY","ML","PA","PH",
+            "TD","ZE"
+        ];
+
+
+        if (southernAreas.includes(firstTwo)) {
+
+            regionalYield = 950;
+            regionName = "southern UK";
+
+        }
+        else if (southWestAreas.includes(firstTwo)) {
+
+            regionalYield = 960;
+            regionName = "South West";
+
+        }
+        else if (midlandsAreas.includes(firstTwo)) {
+
+            regionalYield = 875;
+            regionName = "Midlands";
+
+        }
+        else if (northernAreas.includes(firstTwo)) {
+
+            regionalYield = 860;
+            regionName = "northern England";
+
+        }
+        else if (northWestAreas.includes(firstTwo)) {
+
+            regionalYield = 820;
+            regionName = "North West";
+
+        }
+        else if (welshAreas.includes(firstTwo)) {
+
+            regionalYield = 880;
+            regionName = "Wales";
+
+        }
+        else if (scottishAreas.includes(firstTwo)) {
+
+            regionalYield = 850;
+            regionName = "Scotland";
+
+        }
+        else if (firstLetter === "L" || firstLetter === "M") {
+
+            regionalYield = 820;
+            regionName = "North West";
+
+        }
+
+
+        /*
+        ----------------------------------------------------
+        ESTIMATE ANNUAL ELECTRICITY USE
+        ----------------------------------------------------
+
+        If annual kWh is supplied, use it.
+
+        Otherwise estimate it from the monthly bill after
+        allowing for an approximate electricity standing charge.
+
+        This avoids treating the entire bill as electricity
+        consumption.
+        ----------------------------------------------------
+        */
+
+        const standingChargePerDay =
+            0.57;
+
+        const estimatedAnnualStandingCharge =
+            standingChargePerDay * 365;
 
         let annualUsage;
 
         if (
             annualUsageInput &&
-            annualUsageInput > 0
+            annualUsageInput >= 500
         ) {
 
             annualUsage = annualUsageInput;
 
-        } else {
+        }
+        else {
 
-            /*
-             Estimate annual usage from monthly bill.
+            const annualBill =
+                monthlyBill * 12;
 
-             This is deliberately an assumption and
-             will be refined later.
-            */
+            const estimatedEnergyCost =
+                Math.max(
+                    annualBill -
+                    estimatedAnnualStandingCharge,
+                    100
+                );
 
-            const electricityRate = 0.25;
+            const assumedUnitRate =
+                0.263;
 
             annualUsage =
-                (monthlyBill * 12) /
-                electricityRate;
+                estimatedEnergyCost /
+                assumedUnitRate;
 
         }
 
 
-        /* --------------------------------
-           BASE SOLAR SYSTEM
+        /*
+        ----------------------------------------------------
+        ELECTRICITY UNIT RATE
+        ----------------------------------------------------
 
-           800W = 0.8kWp
-        -------------------------------- */
+        If we have both annual usage and monthly bill,
+        estimate the effective energy rate after removing
+        the approximate standing charge.
 
-        const systemSize = 0.8;
+        Otherwise use the current UK reference rate.
+        ----------------------------------------------------
+        */
+
+        let unitRate =
+            0.263;
+
+
+        if (
+            annualUsageInput &&
+            annualUsageInput >= 500
+        ) {
+
+            const annualBill =
+                monthlyBill * 12;
+
+            const estimatedEnergyCost =
+                Math.max(
+                    annualBill -
+                    estimatedAnnualStandingCharge,
+                    0
+                );
+
+            const calculatedRate =
+                estimatedEnergyCost /
+                annualUsage;
+
+            if (
+                calculatedRate >= 0.15 &&
+                calculatedRate <= 0.40
+            ) {
+
+                unitRate =
+                    calculatedRate;
+
+            }
+
+        }
 
 
         /*
-         Initial UK-wide solar yield assumption.
+        ----------------------------------------------------
+        SYSTEM SIZE
+        ----------------------------------------------------
 
-         This will later be replaced with
-         postcode-specific solar data.
+        Current GB plug-in solar framework:
+        up to 800W.
+        ----------------------------------------------------
         */
 
-        const baseYield = 900;
+        const systemSize =
+            0.8;
 
 
-        let generation =
-            systemSize *
-            baseYield;
-
-
-        /* --------------------------------
-           ORIENTATION
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        ORIENTATION FACTORS
+        ----------------------------------------------------
+        */
 
         const orientationFactors = {
 
             south: 1.00,
 
-            southeast: 0.95,
+            southeast: 0.94,
 
-            southwest: 0.95,
+            southwest: 0.94,
 
-            east: 0.85,
+            east: 0.82,
 
-            west: 0.85,
+            west: 0.82,
 
-            north: 0.60,
+            north: 0.52,
 
-            unknown: 0.90
+            unknown: 0.88
 
         };
 
 
-        generation *=
-            orientationFactors[orientation];
-
-
-        /* --------------------------------
-           SHADE
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        SHADE FACTORS
+        ----------------------------------------------------
+        */
 
         const shadeFactors = {
 
@@ -449,7 +706,16 @@ document
         };
 
 
-        generation *=
+        /*
+        ----------------------------------------------------
+        GENERATION
+        ----------------------------------------------------
+        */
+
+        let generation =
+            systemSize *
+            regionalYield *
+            orientationFactors[orientation] *
             shadeFactors[shade];
 
 
@@ -457,9 +723,11 @@ document
             Math.round(generation);
 
 
-        /* --------------------------------
-           SELF-CONSUMPTION
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        SELF-CONSUMPTION
+        ----------------------------------------------------
+        */
 
         const selfConsumptionFactors = {
 
@@ -477,13 +745,10 @@ document
 
 
         /*
-         Battery scenario.
+        BATTERY EFFECT
 
-         For the first version we assume
-         a battery can increase the usable
-         proportion of solar generation.
-
-         This will be refined later.
+        This is intentionally conservative.
+        ----------------------------------------------------
         */
 
         if (
@@ -504,61 +769,67 @@ document
         }
 
 
-        /* --------------------------------
-           USABLE SOLAR
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        USABLE SOLAR
+        ----------------------------------------------------
+        */
 
-        const usableSolar =
+        let usableSolar =
             generation *
             selfConsumption;
 
 
-        /* --------------------------------
-           ELECTRICITY PRICE
-        -------------------------------- */
-
-        const electricityRate =
-            monthlyBill /
-            (annualUsage / 12);
-
-
         /*
-         Prevent unrealistic electricity
-         prices caused by unusual inputs.
+        Don't claim more solar electricity is used
+        than the household actually consumes.
+        ----------------------------------------------------
         */
 
-        const unitRate =
-            Math.min(
-                Math.max(
-                    electricityRate,
-                    0.15
-                ),
-                0.40
+        if (
+            usableSolar >
+            annualUsage
+        ) {
+
+            usableSolar =
+                annualUsage;
+
+        }
+
+
+        usableSolar =
+            Math.round(
+                usableSolar
             );
 
 
-        /* --------------------------------
-           SAVINGS
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        SAVINGS
+        ----------------------------------------------------
+        */
 
-        const annualSaving =
+        let annualSaving =
             usableSolar *
             unitRate;
 
 
-        const monthlySaving =
+        let monthlySaving =
             annualSaving /
             12;
 
 
-        /* --------------------------------
-           DEMAND COVERED
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        DEMAND COVERED
+        ----------------------------------------------------
+        */
 
         let percentageCovered =
-            (usableSolar /
-            annualUsage) *
-            100;
+            (
+                usableSolar /
+                annualUsage
+            ) * 100;
 
 
         if (
@@ -570,85 +841,232 @@ document
         }
 
 
-        /* --------------------------------
-           RECOMMENDATION
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        COMMERCIAL CLASSIFICATION
+        ----------------------------------------------------
+        */
+
+        let classification;
+
+        let verdict;
 
         let recommendation;
 
+        let explanation;
+
+        let commercialMessage;
+
+
+        /*
+        BATTERY OPPORTUNITY
+        */
 
         if (
             systemType === "battery"
         ) {
 
+            classification =
+                "SOLAR + BATTERY";
+
+            verdict =
+                "A solar + battery setup may be worth investigating.";
+
             recommendation =
-                "A battery could help you use more of the solar electricity you generate later in the day. Your actual benefit will depend on the battery size, system setup and household usage.";
+                "Your electricity-use pattern means storing some solar electricity for later could be useful.";
+
+            explanation =
+                "You use a meaningful amount of electricity outside the main solar-generation period. A battery could potentially allow more of your generated electricity to be used later rather than relying on the grid.";
+
+            commercialMessage =
+                "Your results suggest that comparing solar generation with battery storage could be more useful than looking at plug-in solar alone.";
 
         }
+
+
+        /*
+        LOW PLUG-IN CONTRIBUTION
+        */
 
         else if (
             percentageCovered < 5
         ) {
 
+            classification =
+                "LARGER SOLAR OPPORTUNITY";
+
+            verdict =
+                "Plug-in solar could help, but the potential contribution is relatively small.";
+
             recommendation =
-                "Plug-in solar could make a contribution to your electricity use, but the estimated amount covered is relatively small. A larger solar PV system may be worth investigating.";
+                "If your main goal is to reduce your electricity bill as much as possible, a larger solar PV system may be worth comparing.";
+
+            explanation =
+                "The estimated plug-in system would cover only a small proportion of your annual electricity demand. A larger system could generate substantially more electricity, subject to your property and installation suitability.";
+
+            commercialMessage =
+                "This looks more like a potential larger-solar opportunity than a plug-in-solar opportunity.";
 
         }
+
+
+        /*
+        HIGH DAYTIME USE
+        */
 
         else if (
-            daytimeUse === "high"
+            daytimeUse === "high" &&
+            percentageCovered >= 5
         ) {
 
+            classification =
+                "GOOD PLUG-IN SOLAR FIT";
+
+            verdict =
+                "Plug-in solar looks reasonably well matched to your electricity use.";
+
             recommendation =
-                "Your daytime electricity use could work well with plug-in solar because more of the electricity generated may be used while the panels are producing it.";
+                "Your daytime electricity use could help you make good use of the electricity while the panels are generating it.";
+
+            explanation =
+                "Using solar electricity while it is being generated is important. Your answers suggest that a relatively high proportion could potentially be used directly in your home.";
+
+            commercialMessage =
+                "Your results indicate a reasonable fit for plug-in solar. The next useful step would be comparing suitable systems and their expected payback.";
 
         }
+
+
+        /*
+        MODERATE FIT
+        */
+
+        else if (
+            percentageCovered >= 5 &&
+            percentageCovered < 12
+        ) {
+
+            classification =
+                "MODERATE PLUG-IN SOLAR FIT";
+
+            verdict =
+                "Plug-in solar could make a useful contribution to your electricity use.";
+
+            recommendation =
+                "You could potentially reduce some of your grid electricity purchases, although the total saving is likely to remain modest.";
+
+            explanation =
+                "Your estimated solar generation is meaningful, but your household's electricity demand and usage pattern limit how much of that generation is likely to be used directly.";
+
+            commercialMessage =
+                "Plug-in solar looks potentially suitable, but it is worth comparing the expected saving against the cost of the system before buying.";
+
+        }
+
+
+        /*
+        HIGHER OPPORTUNITY
+        */
 
         else {
 
+            classification =
+                "SOLAR OPPORTUNITY";
+
+            verdict =
+                "Your home appears to have a relatively good opportunity to use solar electricity.";
+
             recommendation =
-                "Plug-in solar could help reduce the amount of electricity you buy from the grid. Your potential saving depends heavily on how much of the solar electricity you can use during the day.";
+                "Your electricity use and estimated solar generation suggest that solar could make a noticeable contribution to your electricity demand.";
+
+            explanation =
+                "A useful amount of your estimated solar generation could potentially be consumed by your home. A larger solar assessment could show whether you could benefit from generating more than an 800W plug-in system can provide.";
+
+            commercialMessage =
+                "Your results suggest there may be a larger solar opportunity worth investigating as well as plug-in solar.";
 
         }
 
 
-        /* --------------------------------
-           DISPLAY RESULTS
-        -------------------------------- */
+        /*
+        ----------------------------------------------------
+        DISPLAY RESULTS
+        ----------------------------------------------------
+        */
 
-        document.getElementById("generation")
+        document
+            .getElementById("generation")
             .textContent =
             generation.toLocaleString();
 
 
-        document.getElementById("annualSaving")
+        document
+            .getElementById("usableSolar")
+            .textContent =
+            usableSolar.toLocaleString();
+
+
+        document
+            .getElementById("annualSaving")
             .textContent =
             annualSaving.toFixed(0);
 
 
-        document.getElementById("monthlySaving")
+        document
+            .getElementById("monthlySaving")
             .textContent =
             monthlySaving.toFixed(2);
 
 
-        document.getElementById("percentageCovered")
+        document
+            .getElementById("percentageCovered")
             .textContent =
             percentageCovered.toFixed(1);
 
 
-        document.getElementById("recommendation")
+        document
+            .getElementById("locationMessage")
+            .textContent =
+            "Your postcode places you in our " +
+            regionName +
+            " solar-yield estimate.";
+
+
+        document
+            .getElementById("verdict")
+            .textContent =
+            verdict;
+
+
+        document
+            .getElementById("recommendation")
             .textContent =
             recommendation;
 
 
-        document.getElementById("results")
+        document
+            .getElementById("explanation")
+            .textContent =
+            explanation;
+
+
+        document
+            .getElementById("commercialMessage")
+            .textContent =
+            commercialMessage;
+
+
+        /*
+        ----------------------------------------------------
+        SHOW RESULTS
+        ----------------------------------------------------
+        */
+
+        document
+            .getElementById("results")
             .style.display =
             "block";
 
-
-        /* --------------------------------
-           SHOW RESULTS
-        -------------------------------- */
 
         document
             .getElementById("results")
