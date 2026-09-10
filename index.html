@@ -1,1893 +1,4056 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Plug-in Solar Savings Calculator | See What You Could Save</title>
+<title>Plug Solar Savings | See What Plug-in Solar Could Save You</title>
 
-    <meta name="description" content="Estimate how much an 800W plug-in solar system could generate and potentially save on your electricity bill in Great Britain.">
+<meta name="description" content="See what plug-in solar could save you. Use our free UK solar savings calculator to estimate your potential electricity savings and explore your solar options.">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #222;
-            background: #fff;
-        }
+.site-header {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e7ece9;
+  position: relative;
+  z-index: 10;
+}
 
-        header,
-        main {
-            max-width: 850px;
-            margin: auto;
-            padding: 25px;
-        }
+.site-header-inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
 
-        header {
-            padding-top: 45px;
-            padding-bottom: 20px;
-        }
+.site-logo {
+  text-decoration: none;
+  color: #176b45;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
 
-        h1 {
-            font-size: 2.2rem;
-            line-height: 1.2;
-        }
+.site-logo img {
+  display: block;
+  max-width: 160px;
+  height: auto;
+}
 
-        h2 {
-            margin-top: 30px;
-        }
+.site-logo span {
+  color: #26382f;
+}
 
-        h3 {
-            margin-top: 28px;
-        }
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 
-        form {
-            margin-top: 25px;
-        }
+.site-nav a {
+  text-decoration: none;
+  color: #46534b;
+  font-size: 13px;
+  font-weight: 600;
+}
 
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
+.site-nav a:hover {
+  color: #176b45;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 13px;
-            font-size: 16px;
-            border: 1px solid #bbb;
-            border-radius: 5px;
-            margin-bottom: 8px;
-        }
+.site-nav-cta {
+  padding: 8px 13px;
+  border-radius: 8px;
+  background: #176b45;
+  color: white !important;
+}
 
-        button {
-            padding: 15px 22px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
+.site-nav-cta:hover {
+  background: #125b3b !important;
+}
 
-        .help-text {
-            font-size: 14px;
-            color: #666;
-            margin-top: 0;
-        }
+.site-hero {
+  width: 100%;
+  background: #edf7f1;
+  padding: 78px 24px 82px;
+}
 
-        #results {
-            margin-top: 40px;
-            padding: 25px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
+.site-hero-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+}
 
-        .result-card {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
+.site-eyebrow {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #176b45;
+  font-size: 12px;
+  font-weight: 700;
+}
 
-        .result-number {
-            font-size: 2rem;
-            font-weight: bold;
-        }
+.site-hero h1 {
+  margin: 0 auto 17px;
+  max-width: 820px;
+  color: #203027;
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
 
-        .verdict-box {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 8px;
-            background: #f5f5f5;
-        }
+.site-hero h1 span {
+  color: #176b45;
+}
 
-        #leadCapture {
-            padding: 25px;
-            border: 1px solid #ccc;
-            margin-top: 30px;
-            border-radius: 8px;
-        }
+.site-hero p {
+  max-width: 650px;
+  margin: 0 auto 27px;
+  color: #59655e;
+  font-size: 18px;
+  line-height: 1.55;
+}
 
-        #leadForm {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+.site-primary-btn {
+  display: inline-block;
+  padding: 14px 23px;
+  border-radius: 9px;
+  background: #176b45;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(23,107,69,0.15);
+}
 
-        .consent {
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            margin-top: 15px;
-            font-size: 14px;
-        }
+.site-primary-btn:hover {
+  background: #125b3b;
+}
 
-        .consent input {
-            width: auto;
-            margin-top: 5px;
-        }
+.site-hero-note {
+  margin-top: 15px;
+  font-size: 11px;
+  color: #68736d;
+}
 
-        .small-print {
-            font-size: 13px;
-            color: #666;
-        }
+.site-section {
+  width: 100%;
+  padding: 72px 24px;
+}
 
-        .error-message {
-            color: #b00020;
-            font-weight: 600;
-            margin-top: 10px;
-        }
+.site-section-light {
+  background: #ffffff;
+}
 
-        .success-message {
-            color: #176b2c;
-            font-weight: 600;
-        }
+.site-section-soft {
+  background: #f4f6f5;
+}
 
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-    </style>
+.site-section-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.site-section-heading {
+  max-width: 680px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.site-section-heading h2 {
+  margin: 0 0 10px;
+  color: #203027;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: -0.7px;
+}
+
+.site-section-heading p {
+  margin: 0;
+  color: #68736d;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.site-intro-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 45px;
+  align-items: center;
+}
+
+.site-intro-copy h2 {
+  margin: 0 0 15px;
+  color: #203027;
+  font-size: 34px;
+  line-height: 1.15;
+}
+
+.site-intro-copy p {
+  margin: 0 0 14px;
+  color: #68736d;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.site-info-card {
+  padding: 27px;
+  border-radius: 15px;
+  background: #edf7f1;
+  border: 1px solid #dcece3;
+}
+
+.site-info-card h3 {
+  margin: 0 0 10px;
+  color: #176b45;
+  font-size: 26px;
+}
+
+.site-info-card p {
+  margin: 0;
+  color: #58645c;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.site-power-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.site-power-card {
+  padding: 23px;
+  background: #ffffff;
+  border: 1px solid #e0e6e2;
+  border-radius: 12px;
+}
+
+.site-power-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background: #edf7f1;
+  color: #176b45;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.site-power-card h3 {
+  margin: 0 0 7px;
+  color: #26382f;
+  font-size: 17px;
+}
+
+.site-power-card p {
+  margin: 0;
+  color: #68736d;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.site-fit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.site-fit-card {
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e6e2;
+}
+
+.site-fit-card h3 {
+  margin: 0 0 10px;
+  color: #26382f;
+  font-size: 18px;
+}
+
+.site-fit-card p {
+  margin: 0;
+  color: #68736d;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.site-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.site-options-section {
+  background: #edf7f1;
+}
+
+.site-options-section .site-section-heading {
+  margin-bottom: 42px;
+}
+
+.site-options-section .site-section-heading h2 {
+  font-size: 38px;
+}
+
+.site-options-section .site-section-heading p {
+  font-size: 16px;
+}
+
+.site-option-card {
+  padding: 30px;
+  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #dcece3;
+  box-shadow: 0 3px 12px rgba(32,48,39,0.04);
+}
+
+.site-option-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  background: #edf7f1;
+  color: #176b45;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.site-option-card h3 {
+  margin: 0 0 10px;
+  color: #176b45;
+  font-size: 20px;
+}
+
+.site-option-card p {
+  margin: 0 0 20px;
+  color: #68736d;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.site-option-link {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #176b45;
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.site-option-link:hover {
+  background: #125b3b;
+  color: #ffffff !important;
+}
+
+.site-option-link:hover {
+  background: #125b3b;
+}
+
+.site-option-card {
+  padding: 27px;
+  border-radius: 13px;
+  background: #ffffff;
+  border: 1px solid #e0e6e2;
+}
+
+.site-option-card h3 {
+  margin: 0 0 10px;
+  color: #176b45;
+  font-size: 19px;
+}
+
+.site-option-card p {
+  margin: 0 0 17px;
+  color: #68736d;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.site-option-link {
+  color: #176b45;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.site-rules {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e0e6e2;
+}
+
+.site-rules h3 {
+  margin: 0 0 12px;
+  color: #176b45;
+  font-size: 21px;
+}
+
+.site-rules p {
+  margin: 0 0 15px;
+  color: #68736d;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.site-rules p:last-child {
+  margin-bottom: 0;
+}
+
+.site-cta {
+  width: 100%;
+  padding: 75px 24px;
+  background: #176b45;
+  text-align: center;
+}
+
+.site-cta-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.site-cta h2 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -0.7px;
+}
+
+.site-cta p {
+  margin: 0 auto 25px;
+  max-width: 580px;
+  color: rgba(255,255,255,0.88);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.site-cta .site-primary-btn {
+  background: #ffffff;
+  color: #176b45;
+}
+
+.site-cta .site-primary-btn:hover {
+  background: #f1f5f2;
+}
+
+.site-footer {
+  padding: 30px 24px;
+  background: #203027;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.site-footer strong {
+  color: #ffffff;
+}
+
+.site-footer-links {
+  margin-top: 8px;
+}
+
+.site-footer-links a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  margin: 0 7px;
+}
+
+
+/* =========================================================
+   EXISTING CALCULATOR CSS
+   UNCHANGED
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px 12px;
+  background: #f4f6f5;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #203027;
+  line-height: 1.45;
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.calculator,
+.results {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 3px 18px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+
+.calculator-header {
+  padding: 22px 24px 16px;
+  text-align: center;
+}
+
+.calculator-header h1 {
+  margin: 0 0 7px;
+  font-size: 27px;
+  line-height: 1.2;
+  color: #176b45;
+}
+
+.calculator-header p {
+  margin: 0 auto;
+  max-width: 530px;
+  font-size: 14px;
+  color: #59655e;
+}
+
+.time-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #edf7f1;
+  color: #176b45;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Progress */
+
+.progress-wrap {
+  padding: 0 24px 18px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #e7ece9;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 14.28%;
+  height: 100%;
+  background: #2e8b57;
+  transition: width 0.25s ease;
+}
+
+.step-count {
+  margin-top: 6px;
+  text-align: right;
+  font-size: 11px;
+  color: #7a847e;
+}
+
+/* Steps */
+
+.step {
+  display: none;
+  padding: 0 24px 24px;
+}
+
+.step.active {
+  display: block;
+}
+
+.step h2 {
+  margin: 0 0 5px;
+  font-size: 20px;
+  color: #26382f;
+}
+
+.step-description {
+  margin: 0 0 16px;
+  color: #68736d;
+  font-size: 13px;
+}
+
+/* Answers */
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 9px;
+}
+
+.answer-btn {
+  width: 100%;
+  min-height: 52px;
+  padding: 10px 12px;
+  border: 1.5px solid #d7dfda;
+  border-radius: 9px;
+  background: #fff;
+  color: #26382f;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.answer-btn:hover {
+  border-color: #2e8b57;
+  background: #f5faf7;
+}
+
+.answer-btn.selected {
+  border-color: #2e8b57;
+  background: #edf7f1;
+  color: #176b45;
+  box-shadow: 0 0 0 1px #2e8b57;
+}
+
+/* Inputs */
+
+.input-group {
+  margin-bottom: 14px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #33443a;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid #d3dcd6;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: #26382f;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 2px rgba(46,139,87,0.10);
+}
+
+.helper {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #78827d;
+}
+
+/* Navigation */
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.nav-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 18px;
+  background: #176b45;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background: #125b3b;
+}
+
+.nav-btn.secondary {
+  background: #e9eeeb;
+  color: #34443b;
+}
+
+.nav-btn.secondary:hover {
+  background: #dde5e0;
+}
+
+.nav-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Info */
+
+.info-panel {
+  margin-top: 15px;
+  padding: 12px 13px;
+  background: #f4f8f5;
+  border-left: 3px solid #2e8b57;
+  border-radius: 7px;
+  font-size: 12px;
+  color: #58645c;
+}
+
+.info-panel strong {
+  color: #31533f;
+}
+
+/* Results */
+
+.results {
+  display: none;
+  padding: 24px;
+}
+
+.results.show {
+  display: block;
+}
+
+.results h2 {
+  margin: 0 0 5px;
+  color: #176b45;
+  font-size: 24px;
+}
+
+.results-intro {
+  margin: 0 0 17px;
+  color: #626d67;
+  font-size: 13px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 9px;
+}
+
+.result-card {
+  padding: 13px;
+  border: 1px solid #e0e6e2;
+  border-radius: 9px;
+  background: #fafcfb;
+}
+
+.result-card.highlight {
+  background: #edf7f1;
+  border-color: #cce3d5;
+}
+
+.result-label {
+  font-size: 11px;
+  color: #69756e;
+  margin-bottom: 4px;
+}
+
+.result-value {
+  font-size: 21px;
+  line-height: 1.15;
+  font-weight: bold;
+  color: #176b45;
+}
+
+.result-small {
+  margin-top: 4px;
+  font-size: 10px;
+  color: #7a847e;
+}
+
+/* Recommendation */
+
+.recommendation {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #176b45;
+  color: white;
+}
+
+.recommendation h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.recommendation p {
+  margin: 5px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.recommendation strong {
+  color: white;
+}
+
+/* Methodology */
+
+.methodology {
+  margin-top: 15px;
+  padding: 13px;
+  background: #f7f8f7;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #69736d;
+}
+
+.methodology strong {
+  color: #46534b;
+}
+
+/* Lead box */
+
+.lead-box {
+  margin-top: 18px;
+  padding: 18px;
+  background: #176b45;
+  border-radius: 11px;
+  color: white;
+}
+
+.lead-box h3 {
+  margin: 0 0 5px;
+  font-size: 19px;
+}
+
+.lead-box p {
+  margin: 0 0 13px;
+  font-size: 12px;
+  opacity: 0.95;
+}
+
+.interest-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.interest-btn {
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 7px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.interest-btn:hover,
+.interest-btn.selected {
+  background: white;
+  color: #176b45;
+}
+
+.quote-btn {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: white;
+  color: #176b45;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.quote-btn:hover {
+  background: #f1f5f2;
+}
+
+/* Lead form */
+
+.lead-form {
+  display: none;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.25);
+}
+
+.lead-form.show {
+  display: block;
+}
+
+.lead-form .input-group label {
+  color: white;
+}
+
+.lead-form input,
+.lead-form select {
+  border: 0;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.consent input {
+  width: auto;
+  margin-top: 2px;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 13px;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  color: #176b45;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-message {
+  display: none;
+  margin-top: 12px;
+  padding: 11px;
+  border-radius: 7px;
+  background: rgba(255,255,255,0.12);
+  font-size: 12px;
+}
+
+/* Disclaimer */
+
+.disclaimer {
+  margin-top: 15px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #7a847e;
+}
+
+/* Mobile */
+
+@media (max-width: 560px) {
+
+  body {
+    padding: 10px 7px;
+  }
+
+  .calculator-header {
+    padding: 19px 17px 13px;
+  }
+
+  .calculator-header h1 {
+    font-size: 23px;
+  }
+
+  .progress-wrap {
+    padding: 0 17px 14px;
+  }
+
+  .step {
+    padding: 0 17px 19px;
+  }
+
+  .step h2 {
+    font-size: 18px;
+  }
+
+  .answer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .answer-btn {
+    min-height: 47px;
+  }
+
+  .result-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .result-value {
+    font-size: 18px;
+  }
+
+  .results {
+    padding: 18px;
+  }
+
+  .interest-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   HOMEPAGE MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+  .site-header-inner {
+    padding: 4px 16px;
+  }
+
+  .site-nav {
+    gap: 8px;
+  }
+
+  .site-nav a:not(.site-nav-cta) {
+    display: none;
+  }
+
+  .site-nav-cta {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  .site-hero {
+    padding: 60px 18px 65px;
+  }
+
+  .site-hero h1 {
+    font-size: 42px;
+    letter-spacing: -1.5px;
+  }
+
+  .site-hero p {
+    font-size: 16px;
+  }
+
+  .site-section {
+    padding: 55px 18px;
+  }
+
+  .site-section-heading h2,
+  .site-intro-copy h2 {
+    font-size: 29px;
+  }
+
+  .site-intro-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .site-power-grid,
+  .site-fit-grid,
+  .site-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site-cta {
+    padding: 60px 18px;
+  }
+
+  .site-cta h2 {
+    font-size: 31px;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
-<header>
+<header class="site-header">
 
-    <h1>Plug-in Solar Savings Calculator</h1>
+  <div class="site-header-inner">
 
-    <p>
-        See what an 800W plug-in solar system could potentially generate
-        and save on your electricity bill.
-    </p>
+    <a href="#" class="site-logo">
+      <img src="logo.jpg" alt="Plug Solar Savings">
+    </a>
 
-    <p>
-        Answer a few questions about your electricity use and where the
-        panels could be positioned. We'll give you an estimated result
-        based on your answers.
-    </p>
+    <nav class="site-nav">
+
+  <a href="index.html#what-is-solar">
+    What is Plug-in Solar?
+  </a>
+
+  <a href="index.html#what-can-it-power">
+    What Can It Power?
+  </a>
+
+  <a href="index.html#solar-options">
+    Solar Options
+  </a>
+
+  <a href="index.html#solar-rules">
+    UK Rules
+  </a>
+
+  <a href="contact.html">
+    Contact
+  </a>
+
+  <a href="index.html#calculator" class="site-nav-cta">
+    Calculate My Savings
+  </a>
+
+</nav>
+
+  </div>
 
 </header>
 
+<section class="site-hero">
 
-<main>
+  <div class="site-hero-inner">
 
-<section>
+    <div class="site-eyebrow">
+      Free Solar Savings Calculator
+    </div>
 
-    <h2>How much could plug-in solar save you?</h2>
+    <h1>
+      See what <span>plug-in solar</span> could save you.
+    </h1>
 
     <p>
-        Plug-in solar systems can generate electricity during daylight
-        hours for use in your home.
+      Get a personalised estimate based on your electricity use,
+      postcode, sunlight, roof direction and when you use energy.
     </p>
 
-    <p>
-        This calculator provides an estimate only. Actual generation and
-        savings depend on your location, panel position, shading,
-        electricity tariff, household consumption and how much solar
-        electricity your home can use while it is being generated.
-    </p>
-
-
-    <!-- ==========================================
-         CALCULATOR
-         ========================================== -->
-
-    <form id="solarCalculator">
-
-        <h3>1. What's your postcode?</h3>
-
-        <label for="postcode">Great Britain postcode</label>
-
-        <input
-            type="text"
-            id="postcode"
-            name="postcode"
-            placeholder="e.g. ST13 5XX"
-            required
-            autocomplete="postal-code"
-        >
-
-        <p class="help-text">
-            We use your postcode area to select a broad regional solar-yield
-            estimate. We do not use it to calculate exact rooftop solar output.
-        </p>
-
-
-        <h3>2. Do you know your annual electricity usage?</h3>
-
-        <label for="annualUsage">
-            Annual electricity usage (kWh)
-        </label>
-
-        <input
-            type="number"
-            id="annualUsage"
-            name="annualUsage"
-            min="500"
-            max="30000"
-            step="1"
-            placeholder="e.g. 3500"
-        >
-
-        <p class="help-text">
-            You can usually find this on your electricity bill.
-            If you don't know it, leave this blank and we'll estimate it
-            from your monthly electricity bill.
-        </p>
-
-
-        <h3>3. What's your approximate monthly electricity bill?</h3>
-
-        <label for="monthlyBill">
-            Monthly electricity bill (£)
-        </label>
-
-        <input
-            type="number"
-            id="monthlyBill"
-            name="monthlyBill"
-            min="20"
-            max="1000"
-            step="1"
-            placeholder="e.g. 120"
-            required
-        >
-
-        <p class="help-text">
-            This is used to estimate your electricity usage if you don't
-            know your annual kWh figure. Your actual tariff may be different.
-        </p>
-
-
-        <h3>4. Which direction would the panels face?</h3>
-
-        <label for="orientation">Panel direction</label>
-
-        <select id="orientation" name="orientation" required>
-
-            <option value="">Please select</option>
-
-            <option value="south">South</option>
-            <option value="southeast">South East</option>
-            <option value="southwest">South West</option>
-            <option value="east">East</option>
-            <option value="west">West</option>
-            <option value="north">North</option>
-            <option value="unknown">I'm not sure</option>
-
-        </select>
-
-        <p class="help-text">
-            If you're unsure, choose "I'm not sure".
-        </p>
-
-
-        <h3>5. How much sunlight would the panels get?</h3>
-
-        <label for="shade">Shade level</label>
-
-        <select id="shade" name="shade" required>
-
-            <option value="">Please select</option>
-
-            <option value="low">Mostly sunny</option>
-            <option value="medium">Some shade during the day</option>
-            <option value="high">Mostly shaded</option>
-            <option value="unknown">I'm not sure</option>
-
-        </select>
-
-
-        <h3>6. When do you use the most electricity?</h3>
-
-        <label for="daytimeUse">
-            When is your household's electricity use highest?
-        </label>
-
-        <select id="daytimeUse" name="daytimeUse" required>
-
-            <option value="">Please select</option>
-
-            <option value="low">
-                Mostly evenings and nights
-            </option>
-
-            <option value="medium">
-                A mixture of daytime and evening
-            </option>
-
-            <option value="high">
-                Mostly during the daytime
-            </option>
-
-        </select>
-
-        <p class="help-text">
-            Using more electricity during daylight hours can make it easier
-            to use solar electricity directly in your home.
-        </p>
-
-
-        <h3>7. What are you interested in?</h3>
-
-        <label for="systemType">Choose one</label>
-
-        <select id="systemType" name="systemType" required>
-
-            <option value="">Please select</option>
-
-            <option value="solar">
-                Plug-in solar panels
-            </option>
-
-           <option value="roof">
-                Solar panels for my roof
-            </option> 
-
-            <option value="battery">
-                Plug-in solar panels + battery
-            </option>
-
-            <option value="unsure">
-                I'm not sure yet
-            </option>
-
-        </select>
-
-
-        <br><br>
-
-        <button type="submit" id="calculateButton">
-            Calculate My Potential Savings
-        </button>
-
-        <p id="calculatorError" class="error-message" style="display:none;"></p>
-
-    </form>
-
-
-    <!-- ==========================================
-         RESULTS
-         ========================================== -->
-
-    <section id="results" style="display:none;">
-
-        <h2>Your personalised plug-in solar estimate</h2>
-
-        <p id="locationMessage"></p>
-
-
-        <div class="result-card">
-
-            <h3>Estimated annual solar generation</h3>
-
-            <p class="result-number">
-                <span id="generation"></span> kWh
-            </p>
-
-            <p>
-                This is the estimated electricity an 800W system could
-                generate over a year under the assumptions used by this
-                calculator.
-            </p>
-
-        </div>
-
-
-        <div class="result-card">
-
-            <h3>Estimated solar electricity you could use</h3>
-
-            <p class="result-number">
-                <span id="usableSolar"></span> kWh
-            </p>
-
-            <p>
-                This is the estimated amount of the generated electricity
-                your household could use rather than buy from the grid.
-            </p>
-
-        </div>
-
-
-        <div class="result-card">
-
-            <h3>Potential annual electricity saving</h3>
-
-            <p class="result-number">
-                &pound;<span id="annualSaving"></span>
-            </p>
-
-            <p>per year</p>
-
-        </div>
-
-
-        <div class="result-card">
-
-            <h3>Potential monthly saving</h3>
-
-            <p class="result-number">
-                &pound;<span id="monthlySaving"></span>
-            </p>
-
-            <p>average per month</p>
-
-        </div>
-
-
-        <div class="result-card">
-
-            <h3>Estimated electricity demand covered</h3>
-
-            <p class="result-number">
-                <span id="percentageCovered"></span>%
-            </p>
-
-            <p>
-                This is the estimated proportion of your annual electricity
-                demand that could be supplied by solar electricity you use.
-            </p>
-
-        </div>
-
-
-        <div class="verdict-box">
-
-            <h3>Your plug-in solar verdict</h3>
-
-            <p>
-                <strong id="verdict"></strong>
-            </p>
-
-            <p id="recommendation"></p>
-
-        </div>
-
-
-        <h3>Why we think this</h3>
-
-        <p id="explanation"></p>
-
-
-        <hr>
-
-
-        <h3>How we calculated your estimate</h3>
-
-        <p>
-            We estimate the annual output of an 800W plug-in solar system
-            using a broad regional UK solar-yield assumption. We then adjust
-            the estimate for panel direction and shading.
-        </p>
-
-        <p>
-            We estimate how much of the generated electricity could be used
-            directly by your home based on when you normally use electricity.
-            If you selected solar plus battery, we apply an additional
-            illustrative allowance for increased solar self-consumption.
-        </p>
-
-        <p>
-            We then multiply the estimated solar electricity you can use
-            by a benchmark electricity unit rate to estimate its potential
-            value.
-        </p>
-
-        <p>
-            <strong>This is an estimate, not a guaranteed saving.</strong>
-            Your actual result could be higher or lower depending on your
-            exact location, panel position, shading, equipment, electricity
-            tariff, household consumption and how much electricity you use
-            while the panels are producing.
-        </p>
-
-
-        <!-- ==========================================
-             COMMERCIAL NEXT STEP
-             ========================================== -->
-
-        <div id="nextStep" style="margin-top:35px;">
-
-            <h3>What should you consider next?</h3>
-
-            <p id="commercialMessage"></p>
-
-
-            <div id="leadCapture">
-
-                <h3>Want a more detailed solar assessment?</h3>
-
-                <p>
-                    We can pass your details to a suitable solar
-                    assessment service so you can investigate what a
-                    larger solar system or battery could potentially
-                    do for your home.
-                </p>
-
-                <form id="leadForm">
-
-                    <label for="leadName">
-                        Your name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="leadName"
-                        name="name"
-                        required
-                        autocomplete="name"
-                    >
-
-
-                    <label for="leadEmail">
-                        Email address
-                    </label>
-
-                    <input
-                        type="email"
-                        id="leadEmail"
-                        name="email"
-                        required
-                        autocomplete="email"
-                    >
-
-
-                    <label for="leadPhone">
-                        Phone number
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="leadPhone"
-                        name="phone"
-                        autocomplete="tel"
-                    >
-
-                    <p class="help-text">
-                        Optional. Providing a phone number can make it easier
-                        to arrange a follow-up assessment.
-                    </p>
-
-
-                    <label for="leadInterest">
-                        What are you interested in?
-                    </label>
-
-                    <select
-                        id="leadInterest"
-                        name="interest"
-                        required
-                    >
-
-                        <option value="">
-                            Please select
-                        </option>
-
-                        <option value="solar">
-                            Solar panels
-                        </option>
-
-                        <option value="solar-battery">
-                            Solar panels + battery
-                        </option>
-
-                        <option value="not-sure">
-                            Not sure yet
-                        </option>
-
-                    </select>
-
-
-                    <label class="consent">
-
-                        <input
-                            type="checkbox"
-                            id="leadConsent"
-                            required
-                        >
-
-                        <span>
-                            I agree that Plug Solar Savings may use the
-                            information I provide to respond to my request
-                            and, where relevant, share my enquiry with a
-                            suitable solar service provider.
-                        </span>
-
-                    </label>
-
-
-                    <button type="submit" id="leadButton">
-                        Get My Solar Assessment
-                    </button>
-
-                    <p
-                        id="leadError"
-                        class="error-message"
-                        style="display:none;"
-                    ></p>
-
-                </form>
-
-
-                <p
-                    id="leadSuccess"
-                    class="success-message"
-                    style="display:none;"
-                >
-                    Thanks. Your request has been received.
-                    We'll use the information you provided to help with
-                    your solar assessment.
-                </p>
-
-                <p class="small-print">
-                    Your calculator result is an estimate and does not
-                    constitute an electrical safety, compliance,
-                    installation or financial assessment.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <p style="margin-top:30px;">
-
-            <strong>Important:</strong>
-            Plug-in solar systems must meet the applicable requirements
-            for Great Britain. This calculator estimates potential
-            generation and electricity savings only. It is not an
-            electrical safety, compliance or installation assessment.
-
-        </p>
-
-    </section>
+    <a href="#calculator" class="site-primary-btn">
+      Calculate My Savings
+    </a>
+
+    <div class="site-hero-note">
+      Takes about 2 minutes · Free to use · No obligation
+    </div>
+
+  </div>
 
 </section>
 
-</main>
+<section class="site-section site-section-light" id="what-is-solar">
 
+  <div class="site-section-inner">
+
+    <div class="site-intro-grid">
+
+      <div class="site-intro-copy">
+
+        <h2>
+          A simpler way to understand solar savings.
+        </h2>
+
+        <p>
+          Solar doesn't have to start with a complicated quote or
+          technical survey. Plug Solar Savings helps you understand
+          what your electricity use could look like with solar.
+        </p>
+
+        <p>
+          Start with our calculator, see an estimated saving and then
+          explore the solar option that could make sense for your home.
+        </p>
+
+      </div>
+
+      <div class="site-info-card">
+
+        <h3>
+          What is plug-in solar?
+        </h3>
+
+        <p>
+          Plug-in solar is a smaller-scale solar option designed to
+          generate electricity for use in your home. The amount you can
+          generate and use depends on the system, position, sunlight,
+          household electricity use and other factors.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="site-section site-section-soft" id="calculator-section">
+
+  <div class="site-section-heading">
+
+    <h2>
+      How much could you save?
+    </h2>
+
+    <p>
+      Answer seven quick questions and we'll give you an
+      illustrative estimate based on your home and energy use.
+    </p>
+
+  </div>
+
+  <div class="container">
+
+    <div class="calculator" id="calculator">
+
+      <div class="calculator-header">
+
+        <h1>How much could plug-in solar save you?</h1>
+
+        <p>
+          Get an estimate based on your home, electricity use, postcode and how you use energy.
+        </p>
+
+        <div class="time-badge">
+          Takes about 2 minutes
+        </div>
+
+      </div>
+
+      <div class="progress-wrap">
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="step-count" id="stepCount">
+          Step 1 of 7
+        </div>
+
+      </div>
+
+      <div class="step active" id="step1">
+
+        <h2>What kind of home do you live in?</h2>
+
+        <p class="step-description">
+          This helps us understand your property type.
+        </p>
+
+        <div class="answer-grid">
+
+          <button class="answer-btn" onclick="selectAnswer('propertyType', 'Detached', this)">
+            Detached
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('propertyType', 'Semi-detached', this)">
+            Semi-detached
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('propertyType', 'Mid-terrace', this)">
+            Mid-terrace
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('propertyType', 'End-terrace', this)">
+            End-terrace
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('propertyType', 'Flat', this)">
+            Flat
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('propertyType', 'Bungalow', this)">
+            Bungalow
+          </button>
+
+        </div>
+
+        <div class="navigation">
+          <span></span>
+          <button class="nav-btn" onclick="nextStep(1)">Next</button>
+        </div>
+
+      </div>
+
+      <div class="step" id="step2">
+
+        <h2>How much electricity do you use?</h2>
+
+        <p class="step-description">
+          Choose the option you know best.
+        </p>
+
+        <div class="input-group">
+
+          <label for="annualUsage">
+            Annual electricity usage
+          </label>
+
+          <input
+            type="number"
+            id="annualUsage"
+            placeholder="e.g. 3,500"
+            min="500"
+            max="30000"
+          >
+
+          <div class="helper">
+            Enter your annual usage in kWh if you have it from your electricity bill.
+          </div>
+
+        </div>
+
+        <div style="text-align:center; margin: 4px 0 10px; font-size:11px; color:#7a847e;">
+          OR
+        </div>
+
+        <div class="input-group">
+
+          <label for="monthlyBill">
+            Average monthly electricity bill
+          </label>
+
+          <input
+            type="number"
+            id="monthlyBill"
+            placeholder="e.g. £100"
+            min="10"
+            max="1000"
+          >
+
+          <div class="helper">
+            Only enter your electricity bill — not gas.
+          </div>
+
+        </div>
+
+        <div class="navigation">
+
+          <button class="nav-btn secondary" onclick="previousStep(2)">
+            Back
+          </button>
+
+          <button class="nav-btn" onclick="nextStep(2)">
+            Next
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="step" id="step3">
+
+        <h2>What's your postcode?</h2>
+
+        <p class="step-description">
+          We use this to estimate the amount of sunlight available in your area.
+        </p>
+
+        <div class="input-group">
+
+          <label for="postcode">
+            Great Britain postcode
+          </label>
+
+          <input
+            type="text"
+            id="postcode"
+            placeholder="e.g. ST16 1AA"
+            maxlength="8"
+          >
+
+          <div class="helper">
+            Your postcode is used for the solar estimate and is not used to identify your exact property.
+          </div>
+
+        </div>
+
+        <div class="info-panel">
+          <strong>Why do we ask?</strong><br>
+          Solar generation varies across Great Britain, so your location helps make the estimate more relevant.
+        </div>
+
+        <div class="navigation">
+
+          <button class="nav-btn secondary" onclick="previousStep(3)">
+            Back
+          </button>
+
+          <button class="nav-btn" onclick="nextStep(3)">
+            Next
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="step" id="step4">
+
+        <h2>Which direction does your solar-facing roof or installation face?</h2>
+
+        <p class="step-description">
+          If you don't know, choose "Not sure".
+        </p>
+
+        <div class="answer-grid">
+
+          <button class="answer-btn" onclick="selectAnswer('orientation', 'South', this)">
+            South
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('orientation', 'South-east', this)">
+            South-East
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('orientation', 'South-west', this)">
+            South-West
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('orientation', 'East', this)">
+            East
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('orientation', 'West', this)">
+            West
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('orientation', 'North', this)">
+            North
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('orientation', 'Unknown', this)">
+            Not sure
+          </button>
+
+        </div>
+
+        <div class="navigation">
+
+          <button class="nav-btn secondary" onclick="previousStep(4)">
+            Back
+          </button>
+
+          <button class="nav-btn" onclick="nextStep(4)">
+            Next
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="step" id="step5">
+
+        <h2>How much shade is there?</h2>
+
+        <p class="step-description">
+          Think about trees, buildings or anything else that could block sunlight.
+        </p>
+
+        <div class="answer-grid">
+
+          <button class="answer-btn" onclick="selectAnswer('shade', 'Little or no shade', this)">
+            Little or no shade
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('shade', 'Some shade', this)">
+            Some shade
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('shade', 'A lot of shade', this)">
+            A lot of shade
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('shade', 'Unknown', this)">
+            Not sure
+          </button>
+
+        </div>
+
+        <div class="navigation">
+
+          <button class="nav-btn secondary" onclick="previousStep(5)">
+            Back
+          </button>
+
+          <button class="nav-btn" onclick="nextStep(5)">
+            Next
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="step" id="step6">
+
+        <h2>When does your home use the most electricity?</h2>
+
+        <p class="step-description">
+          This helps estimate how much of your solar electricity you could use directly.
+        </p>
+
+        <div class="answer-grid">
+
+          <button class="answer-btn" onclick="selectAnswer('usageTime', 'Mostly during the day', this)">
+            Mostly during the day
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('usageTime', 'A mix of daytime and evening', this)">
+            A mix of daytime and evening
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('usageTime', 'Mostly during the evening', this)">
+            Mostly during the evening
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('usageTime', 'I am not sure', this)">
+            I'm not sure
+          </button>
+
+        </div>
+
+        <div class="navigation">
+
+          <button class="nav-btn secondary" onclick="previousStep(6)">
+            Back
+          </button>
+
+          <button class="nav-btn" onclick="nextStep(6)">
+            Next
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="step" id="step7">
+
+        <h2>What solar option are you considering?</h2>
+
+        <p class="step-description">
+          Choose the option you're most interested in.
+        </p>
+
+        <div class="answer-grid">
+
+          <button class="answer-btn" onclick="selectAnswer('systemType', 'Plug-in solar', this)">
+            Plug-in solar
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('systemType', 'Plug-in solar + battery', this)">
+            Plug-in solar + battery
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('systemType', 'Roof solar', this)">
+            Roof solar
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('systemType', 'Roof solar + battery', this)">
+            Roof solar + battery
+          </button>
+
+          <button class="answer-btn" onclick="selectAnswer('systemType', 'Not sure', this)">
+            I'm not sure
+          </button>
+
+        </div>
+
+        <div class="info-panel">
+          <strong>Good to know:</strong><br>
+          For plug-in solar, this calculator uses an illustrative 800W reference system. Actual generation depends on the product, position, sunlight and conditions.
+        </div>
+
+        <div class="navigation">
+
+          <button class="nav-btn secondary" onclick="previousStep(7)">
+            Back
+          </button>
+
+          <button class="nav-btn" onclick="calculateResults()">
+            See my estimate
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="results" id="results">
+
+      <h2>Your solar savings estimate</h2>
+
+      <p class="results-intro">
+        Based on the information you provided, here's an indication of what your solar electricity could potentially save.
+      </p>
+
+      <div class="result-grid">
+
+        <div class="result-card">
+          <div class="result-label">Estimated annual electricity use</div>
+          <div class="result-value" id="resultUsage">—</div>
+          <div class="result-small">Based on your usage or bill</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Estimated annual electricity bill</div>
+          <div class="result-value" id="resultBill">—</div>
+          <div class="result-small">Electricity costs only</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Estimated solar generation</div>
+          <div class="result-value" id="resultGeneration">—</div>
+          <div class="result-small">Approximate annual generation</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Solar electricity you could use</div>
+          <div class="result-value" id="resultUsable">—</div>
+          <div class="result-small">Estimated electricity used in your home</div>
+        </div>
+
+        <div class="result-card highlight">
+          <div class="result-label">Potential annual bill saving</div>
+          <div class="result-value" id="resultAnnualSaving">—</div>
+          <div class="result-small">From solar electricity used at home</div>
+        </div>
+
+        <div class="result-card highlight">
+          <div class="result-label">Potential monthly saving</div>
+          <div class="result-value" id="resultMonthlySaving">—</div>
+          <div class="result-small">Average equivalent</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Electricity use covered</div>
+          <div class="result-value" id="resultCoverage">—</div>
+          <div class="result-small">Estimated share of annual use</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Solar option</div>
+          <div class="result-value" id="resultSystem" style="font-size:16px;">—</div>
+          <div class="result-small">Based on your selection</div>
+        </div>
+
+      </div>
+
+      <div class="recommendation">
+
+        <h3>Verdict</h3>
+
+        <p id="verdictText">—</p>
+
+        <h3 id="recommendationTitle" style="margin-top:14px;">
+          Your recommendation
+        </h3>
+
+        <p id="recommendationText">—</p>
+
+        <p id="recommendationWhy">—</p>
+
+      </div>
+
+      <div class="methodology">
+
+        <strong>How we calculate this:</strong><br><br>
+
+        The estimate uses an illustrative solar generation benchmark for Great Britain,
+        adjusted for your location, orientation and shade. We then estimate how much
+        of that electricity could be used in your home based on when you use electricity.
+
+        <br><br>
+
+        The calculation uses an indicative electricity import rate and does not include
+        standing charges, solar export payments, installation costs, finance costs,
+        maintenance or changes in future electricity prices.
+
+        <br><br>
+
+        For plug-in solar, the calculation is based on an illustrative
+        <strong>800W reference system</strong> rather than a specific product or installation.
+
+      </div>
+
+      <div class="lead-box">
+
+        <h3>Want to explore your solar options?</h3>
+
+        <p>
+          Tell us what you're interested in and we'll use your results to help identify suitable options.
+        </p>
+
+        <div class="interest-buttons">
+
+          <button class="interest-btn" onclick="selectInterest('Plug-in solar', this)">
+            Plug-in solar
+          </button>
+
+          <button class="interest-btn" onclick="selectInterest('Plug-in solar + battery', this)">
+            Plug-in solar + battery
+          </button>
+
+          <button class="interest-btn" onclick="selectInterest('Rooftop solar', this)">
+            Rooftop solar
+          </button>
+
+          <button class="interest-btn" onclick="selectInterest('Rooftop solar + battery', this)">
+            Rooftop solar + battery
+          </button>
+
+          <button class="interest-btn" onclick="selectInterest('Not sure — help me choose', this)">
+            Not sure — help me choose
+          </button>
+
+        </div>
+
+        <button class="quote-btn" onclick="showLeadForm()">
+          Explore my personalised options
+        </button>
+
+        <div class="lead-form" id="leadForm">
+
+          <div class="input-group">
+
+            <label for="leadHomeowner">
+              Do you own your home?
+            </label>
+
+            <select id="leadHomeowner">
+
+              <option value="">Please select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+              <option value="Shared ownership">Shared ownership</option>
+
+            </select>
+
+          </div>
+
+          <div class="input-group">
+
+            <label for="leadTimeframe">
+              When would you like to have your solar system installed?
+            </label>
+
+            <select id="leadTimeframe">
+
+              <option value="">Please select</option>
+
+              <option value="ASAP">
+                As soon as possible
+              </option>
+
+              <option value="3 months">
+                Within 3 months
+              </option>
+
+              <option value="6 months">
+                Within 6 months
+              </option>
+
+              <option value="Researching">
+                Just researching
+              </option>
+
+            </select>
+
+          </div>
+
+          <div class="input-group">
+
+            <label for="leadPostcode">
+              Postcode
+            </label>
+
+            <input
+              type="text"
+              id="leadPostcode"
+              placeholder="e.g. ST16 1AA"
+              maxlength="8"
+            >
+
+          </div>
+
+          <div class="input-group">
+
+            <label for="leadPayment">
+              How would you prefer to pay?
+            </label>
+
+            <select id="leadPayment">
+
+              <option value="">
+                Please select
+              </option>
+
+              <option value="Pay upfront">
+                Pay upfront
+              </option>
+
+              <option value="Finance">
+                Spread the cost with finance
+              </option>
+
+              <option value="Low upfront">
+                I'd like to explore low-upfront options
+              </option>
+
+              <option value="Not sure">
+                Not sure yet
+              </option>
+
+            </select>
+
+            <div class="helper" style="color:rgba(255,255,255,0.75);">
+              This helps us understand which options may be most suitable.
+            </div>
+
+          </div>
+
+          <div class="input-group">
+
+            <label for="leadName">
+              Name
+            </label>
+
+            <input
+              type="text"
+              id="leadName"
+              placeholder="Your name"
+            >
+
+          </div>
+
+          <div class="input-group">
+
+            <label for="leadEmail">
+              Email
+            </label>
+
+            <input
+              type="email"
+              id="leadEmail"
+              placeholder="you@example.com"
+            >
+
+          </div>
+
+          <div class="input-group">
+
+            <label for="leadPhone">
+              Phone
+            </label>
+
+            <input
+              type="tel"
+              id="leadPhone"
+              placeholder="Your phone number"
+            >
+
+          </div>
+
+          <label class="consent">
+
+            <input
+              type="checkbox"
+              id="leadConsent"
+            >
+
+            <span>
+              I agree that Plug Solar Savings may use my details to respond to this request
+              and, where appropriate, share them with a suitable solar service provider.
+            </span>
+
+          </label>
+
+          <button
+            class="submit-btn"
+            id="submitBtn"
+            onclick="submitLead()"
+          >
+            Send my request
+          </button>
+
+          <div class="form-message" id="formMessage"></div>
+
+        </div>
+
+      </div>
+
+      <div class="disclaimer">
+
+        <strong>Important:</strong>
+        This calculator provides an estimate for guidance only. It is not a quote,
+        guarantee of savings or technical survey. Actual results can vary depending
+        on the equipment, installation, location, sunlight, electricity tariff,
+        household behaviour and other factors.
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="site-section site-section-light" id="what-can-it-power">
+
+  <div class="site-section-inner">
+
+    <div class="site-section-heading">
+
+      <h2>
+        What could solar help power?
+      </h2>
+
+      <p>
+        Solar electricity can be used by the appliances and devices
+        in your home when they're running while your system is generating.
+      </p>
+
+    </div>
+
+    <div class="site-power-grid">
+
+      <div class="site-power-card">
+
+        <div class="site-power-icon">
+          
+        </div>
+
+        <h3>
+          TV
+        </h3>
+
+        <p>
+          Use solar-generated electricity to help power your TV
+          and other entertainment devices during the day.
+        </p>
+
+      </div>
+
+      <div class="site-power-card">
+
+        <div class="site-power-icon">
+          
+        </div>
+
+        <h3>
+          Fridge & Freezer
+        </h3>
+
+        <p>
+          Your fridge and freezer use electricity throughout the day,
+          making them a natural part of household daytime demand.
+        </p>
+
+      </div>
+
+      <div class="site-power-card">
+
+        <div class="site-power-icon">
+          
+        </div>
+
+        <h3>
+          Wi-Fi & Routers
+        </h3>
+
+        <p>
+          Keep everyday connected devices running while your solar
+          system is producing electricity.
+        </p>
+
+      </div>
+
+      <div class="site-power-card">
+
+        <div class="site-power-icon">
+          
+        </div>
+
+        <h3>
+          Laptop & Devices
+        </h3>
+
+        <p>
+          Charging laptops, tablets and other devices during daylight
+          can help you make direct use of solar generation.
+        </p>
+
+      </div>
+
+      <div class="site-power-card">
+
+        <div class="site-power-icon">
+          
+        </div>
+
+        <h3>
+          Lighting
+        </h3>
+
+        <p>
+          Solar electricity can contribute towards your home's wider
+          electricity demand, including lighting and smaller appliances.
+        </p>
+
+      </div>
+
+      <div class="site-power-card">
+
+        <div class="site-power-icon">
+          
+        </div>
+
+        <h3>
+          Home Appliances
+        </h3>
+
+        <p>
+          Washing machines, dishwashers and other appliances can benefit
+          when their electricity use lines up with solar generation.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="site-section site-section-soft">
+
+  <div class="site-section-inner">
+
+    <div class="site-section-heading">
+
+      <h2>
+        Is plug-in solar right for you?
+      </h2>
+
+      <p>
+        There isn't one answer for every home. Your potential benefit
+        depends on how and where you use solar.
+      </p>
+
+    </div>
+
+    <div class="site-fit-grid">
+
+      <div class="site-fit-card">
+
+        <h3>
+          Your daytime electricity use
+        </h3>
+
+        <p>
+          The more electricity you use while your solar system is
+          generating, the more opportunity you may have to use that
+          electricity directly.
+        </p>
+
+      </div>
+
+      <div class="site-fit-card">
+
+        <h3>
+          Your available sunlight
+        </h3>
+
+        <p>
+          Orientation, shading, position and location all affect how
+          much electricity a solar system can generate.
+        </p>
+
+      </div>
+
+      <div class="site-fit-card">
+
+        <h3>
+          Your property
+        </h3>
+
+        <p>
+          Flats, houses and other properties can have different practical
+          considerations, including positioning and permissions.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="site-section site-options-section" id="solar-options">
+
+  <div class="site-section-inner">
+
+    <div class="site-section-heading">
+
+      <h2>
+        Explore Your Solar Options
+      </h2>
+
+      <p>
+        Ready to explore what's possible? Compare solar kits, battery
+        storage and wider solar components to find the option that
+        could suit your home and energy use.
+      </p>
+
+    </div>
+
+    <div class="site-options-grid">
+
+      <div class="site-option-card">
+
+        <div class="site-option-icon">
+          ☀
+        </div>
+
+        <h3>
+          Plug-in Solar Kits
+        </h3>
+
+        <p>
+          Explore smaller solar systems designed around the plug-in
+          solar approach. Compare products, specifications and buying options.
+        </p>
+
+        <a href="plug-in-solar-kits.html" class="site-option-link">
+          Explore plug-in solar →
+        </a>
+
+      </div>
+
+      <div class="site-option-card">
+
+        <div class="site-option-icon">
+          +
+        </div>
+
+        <h3>
+          Batteries
+        </h3>
+
+        <p>
+          Explore battery storage and see how storing electricity could
+          help you use more of your solar when your home needs it.
+        </p>
+
+        <a href="batteries.html" class="site-option-link">
+          Explore batteries →
+        </a>
+
+      </div>
+
+      <div class="site-option-card">
+
+        <div class="site-option-icon">
+          ⚙
+        </div>
+
+        <h3>
+          Panels & Components
+        </h3>
+
+        <p>
+          Explore solar panels, inverters, mounting equipment and other
+          components for wider solar solutions.
+        </p>
+
+        <a href="panels-components.html" class="site-option-link">
+          Explore components →
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="site-section site-section-soft" id="solar-rules">
+
+  <div class="site-section-inner">
+
+    <div class="site-section-heading">
+
+      <h2>
+        UK solar rules & safety
+      </h2>
+
+      <p>
+        Solar products need to be suitable for their intended use and
+        installed and operated in accordance with the relevant requirements.
+      </p>
+
+    </div>
+
+    <div class="site-rules">
+
+      <h3>
+        Check before you buy
+      </h3>
+
+      <p>
+        Plug-in solar is not simply a case of buying a panel and connecting
+        it anywhere. Product specifications, electrical requirements,
+        positioning, building or property considerations and applicable
+        UK rules should all be checked before installation or use.
+      </p>
+
+      <p>
+        The calculator on this page is an estimate for guidance only.
+        It does not confirm that a particular product or installation
+        is suitable for your property.
+      </p>
+
+      <p>
+        If you're unsure about the suitability of a system, seek advice
+        from a suitably qualified professional before proceeding.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="site-cta">
+
+  <div class="site-cta-inner">
+
+    <h2>
+      Ready to see what solar could save you?
+    </h2>
+
+    <p>
+      Get your free estimate in around two minutes, then explore the
+      solar options that could suit your home and electricity use.
+    </p>
+
+    <a href="#calculator" class="site-primary-btn">
+      Calculate Your Savings
+    </a>
+
+  </div>
+
+</section>
+
+<footer class="site-footer">
+
+  <div>
+    <strong>Plug Solar Savings</strong>
+  </div>
+
+  <div>
+    Helping UK homeowners understand their solar options.
+  </div>
+
+  <div class="site-footer-links">
+
+  <a href="index.html#what-is-solar">
+    What is Plug-in Solar?
+  </a>
+
+  <a href="index.html#solar-options">
+    Solar Options
+  </a>
+
+  <a href="index.html#solar-rules">
+    Rules & Safety
+  </a>
+
+  <a href="contact.html">
+    Contact
+  </a>
+
+</div>
+
+  <div style="margin-top:12px;">
+    © 2026 Plug Solar Savings. All rights reserved.
+  </div>
+
+</footer>
 
 <script>
 
-/* =========================================================
-   PLUG SOLAR SAVINGS — CALCULATOR V2
-   ========================================================= */
+const calculatorData = {
 
+  calculatorVersion: "V2.7",
 
-/* =========================================================
-   GLOBAL CALCULATOR VARIABLES
-   ========================================================= */
+  propertyType: "",
 
-let annualUsage = 0;
-let monthlyBill = 0;
-let orientation = "";
-let shade = "";
-let daytimeUse = "";
-let systemType = "";
+  annualUsage: null,
 
-let generation = 0;
-let usableSolar = 0;
-let annualSaving = 0;
-let monthlySaving = 0;
-let percentageCovered = 0;
+  monthlyBill: null,
 
-let verdict = "";
-let recommendation = "";
-let explanation = "";
-let classification = "";
+  verdict: "",
 
-let regionName = "";
+  recommendation: "",
 
+  postcode: "",
 
-/* =========================================================
-   ELECTRICITY RATE CONFIGURATION
-   ========================================================= */
+  orientation: "",
 
-/*
-   Ofgem benchmark electricity rates.
+  shade: "",
 
-   July–September 2026:
-   26.11p/kWh
-   57.19p/day standing charge
+  usageTime: "",
 
-   October–December 2026:
-   26.32p/kWh
-   54.83p/day standing charge
+  systemType: "",
 
-   The calculator automatically uses the appropriate
-   published period during 2026.
+  interest: "",
 
-   These figures should be reviewed whenever Ofgem
-   publishes a new price-cap period.
-*/
+  homeowner: "",
 
-function getElectricityRates() {
+  timeframe: "",
 
-    const now = new Date();
+  paymentPreference: "",
 
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
+  name: "",
 
-    if (
-        year === 2026 &&
-        month >= 10 &&
-        month <= 12
-    ) {
+  email: "",
 
-        return {
-            unitRate: 0.2632,
-            standingCharge: 0.5483,
-            period: "October–December 2026"
-        };
+  phone: "",
 
-    }
+  leadPostcode: "",
 
-    if (
-        year === 2026 &&
-        month >= 7 &&
-        month <= 9
-    ) {
-
-        return {
-            unitRate: 0.2611,
-            standingCharge: 0.5719,
-            period: "July–September 2026"
-        };
-
-    }
-
-    /*
-       Fallback.
-
-       If the calculator is still running after the
-       published periods above, this uses the latest
-       known rate rather than pretending a future rate
-       is known.
-    */
-
-    return {
-        unitRate: 0.2632,
-        standingCharge: 0.5483,
-        period: "latest published benchmark"
-    };
-}
-
-
-/* =========================================================
-   POSTCODE REGIONAL SOLAR YIELDS
-   ========================================================= */
-
-const regionalYields = {
-
-    /* South West */
-    BA: 960,
-    BH: 960,
-    BS: 960,
-    DT: 960,
-    EX: 960,
-    PL: 960,
-    SN: 960,
-    SP: 960,
-    TA: 960,
-    TQ: 960,
-    TR: 960,
-
-    /* Southern England */
-    BN: 950,
-    CT: 950,
-    GU: 950,
-    HP: 950,
-    KT: 950,
-    ME: 950,
-    OX: 950,
-    PO: 950,
-    RG: 950,
-    RH: 950,
-    SL: 950,
-    SO: 950,
-    TN: 950,
-
-    /* Eastern England */
-    AL: 925,
-    CB: 925,
-    CM: 925,
-    CO: 925,
-    IP: 925,
-    LU: 925,
-    NR: 925,
-    PE: 925,
-    SG: 925,
-
-    /* Midlands */
-    B: 875,
-    CV: 875,
-    DE: 875,
-    DY: 875,
-    LE: 875,
-    NG: 875,
-    NN: 875,
-    ST: 875,
-    WS: 875,
-    WV: 875,
-
-    /* Yorkshire */
-    BD: 860,
-    DN: 860,
-    HD: 860,
-    HG: 860,
-    HX: 860,
-    LS: 860,
-    S: 860,
-    WF: 860,
-    YO: 860,
-
-    /* North West */
-    BB: 820,
-    BL: 820,
-    CA: 820,
-    CH: 820,
-    CW: 820,
-    FY: 820,
-    LA: 820,
-    L: 820,
-    M: 820,
-    OL: 820,
-    PR: 820,
-    SK: 820,
-    WA: 820,
-    WN: 820,
-
-    /* North East */
-    DH: 850,
-    DL: 850,
-    NE: 850,
-    SR: 850,
-    TS: 850,
-
-    /* Wales */
-    CF: 880,
-    LD: 880,
-    LL: 880,
-    NP: 880,
-    SA: 880,
-    SY: 880
+  consent: false
 
 };
 
+const MAKE_WEBHOOK =
+  "https://hook.eu1.make.com/hpzwqa14fn4hyy6mvjh9bdx1nvvndyof";
 
-/* =========================================================
-   REGION NAME FUNCTION
-   ========================================================= */
+function getElectricityRate() {
 
-function getRegionName(postcodeArea) {
+  const now = new Date();
 
-    if ([
-        "BA","BH","BS","DT","EX","PL","SN","SP",
-        "TA","TQ","TR"
-    ].includes(postcodeArea)) {
+  const year = now.getFullYear();
 
-        return "South West";
+  const month = now.getMonth() + 1;
 
-    }
+  if (year === 2026 && month >= 7 && month <= 9) {
+    return 0.2611;
+  }
 
-    if ([
-        "BN","CT","GU","HP","KT","ME","OX","PO",
-        "RG","RH","SL","SO","TN"
-    ].includes(postcodeArea)) {
+  if (year === 2026 && month >= 10 && month <= 12) {
+    return 0.2632;
+  }
 
-        return "Southern England";
+  return 0.2632;
 
-    }
-
-    if ([
-        "AL","CB","CM","CO","IP","LU","NR","PE","SG"
-    ].includes(postcodeArea)) {
-
-        return "Eastern England";
-
-    }
-
-    if ([
-        "B","CV","DE","DY","LE","NG","NN","ST","WS","WV"
-    ].includes(postcodeArea)) {
-
-        return "Midlands";
-
-    }
-
-    if ([
-        "BD","DN","HD","HG","HX","LS","S","WF","YO"
-    ].includes(postcodeArea)) {
-
-        return "Yorkshire";
-
-    }
-
-    if ([
-        "BB","BL","CA","CH","CW","FY","LA","L","M",
-        "OL","PR","SK","WA","WN"
-    ].includes(postcodeArea)) {
-
-        return "North West";
-
-    }
-
-    if ([
-        "DH","DL","NE","SR","TS"
-    ].includes(postcodeArea)) {
-
-        return "North East";
-
-    }
-
-    if ([
-        "CF","LD","LL","NP","SA","SY"
-    ].includes(postcodeArea)) {
-
-        return "Wales";
-
-    }
-
-    return "UK average";
 }
 
+function getAnnualStandingCharge() {
 
-/* =========================================================
-   POSTCODE VALIDATION
-   ========================================================= */
+  const now = new Date();
 
-function getPostcodeArea(postcode) {
+  const year = now.getFullYear();
 
-    const cleaned = postcode
-        .replace(/\s+/g, "")
-        .toUpperCase();
+  const month = now.getMonth() + 1;
 
-    /*
-       Basic Great Britain postcode validation.
+  if (year === 2026 && month >= 7 && month <= 9) {
+    return 0.5719 * 365;
+  }
 
-       This deliberately does not attempt to validate
-       every individual postcode against the Royal Mail
-       database. It checks that the input looks like a
-       GB postcode.
-    */
+  if (year === 2026 && month >= 10 && month <= 12) {
+    return 0.5483 * 365;
+  }
 
-    const postcodePattern =
-        /^[A-Z]{1,2}[0-9][0-9A-Z]?[0-9][A-Z]{2}$/;
+  return 0.5483 * 365;
 
-    if (!postcodePattern.test(cleaned)) {
-
-        return null;
-    }
-
-    /*
-       Extract postcode area.
-
-       Examples:
-       ST135XX → ST
-       B123AB → B
-       M11AA → M
-       SW1A1AA → SW
-    */
-
-    const areaMatch =
-        cleaned.match(/^[A-Z]{1,2}/);
-
-    if (!areaMatch) {
-
-        return null;
-    }
-
-    return areaMatch[0];
 }
 
+const regionYields = {
 
-/* =========================================================
-   ORIENTATION FACTORS
-   ========================================================= */
+  "South West": 960,
+
+  "Southern England": 950,
+
+  "Eastern England": 925,
+
+  "Midlands": 875,
+
+  "Yorkshire": 860,
+
+  "North West": 820,
+
+  "North East": 850,
+
+  "Wales": 880,
+
+  "GB average": 900
+
+};
 
 const orientationFactors = {
 
-    south: 1.00,
-    southeast: 0.94,
-    southwest: 0.94,
-    east: 0.82,
-    west: 0.82,
-    north: 0.52,
-    unknown: 0.88
+  "South": 1.00,
+
+  "South-east": 0.94,
+
+  "South-west": 0.94,
+
+  "East": 0.82,
+
+  "West": 0.82,
+
+  "North": 0.52,
+
+  "Unknown": 0.88
 
 };
-
-
-/* =========================================================
-   SHADE FACTORS
-   ========================================================= */
 
 const shadeFactors = {
 
-    low: 1.00,
-    medium: 0.80,
-    high: 0.55,
-    unknown: 0.85
+  "Little or no shade": 1.00,
+
+  "Some shade": 0.80,
+
+  "A lot of shade": 0.55,
+
+  "Unknown": 0.85
 
 };
 
+const selfConsumptionFactors = {
 
-/* =========================================================
-   SELF-CONSUMPTION
-   ========================================================= */
+  "Mostly during the day": 0.75,
 
-function calculateSelfConsumption(
-    daytimeUse,
-    systemType
-) {
+  "A mix of daytime and evening": 0.60,
 
-    let selfConsumption = 0.60;
+  "Mostly during the evening": 0.40,
 
-    if (daytimeUse === "low") {
+  "I am not sure": 0.55
 
-        selfConsumption = 0.40;
+};
 
-    } else if (daytimeUse === "medium") {
+function selectAnswer(field, value, button) {
 
-        selfConsumption = 0.60;
+  calculatorData[field] = value;
 
-    } else if (daytimeUse === "high") {
+  const buttons =
+    button.parentElement.querySelectorAll(".answer-btn");
 
-        selfConsumption = 0.75;
-    }
+  buttons.forEach(function(btn) {
+    btn.classList.remove("selected");
+  });
 
+  button.classList.add("selected");
 
-    /*
-       Battery adjustment.
-
-       This is an illustrative assumption rather than
-       a prediction of a particular battery's performance.
-    */
-
-    if (systemType === "battery") {
-
-        selfConsumption += 0.15;
-    }
-
-
-    return Math.min(
-        selfConsumption,
-        0.90
-    );
 }
 
+function validateStep(step) {
 
-/* =========================================================
-   CALCULATOR SUBMISSION
-   ========================================================= */
+  if (step === 1) {
 
-document
-    .getElementById("solarCalculator")
-    .addEventListener("submit", function(event) {
+    if (!calculatorData.propertyType) {
 
-        event.preventDefault();
+      alert("Please select your property type.");
 
+      return false;
 
-        const errorBox =
-            document.getElementById("calculatorError");
+    }
 
-        errorBox.style.display = "none";
-        errorBox.textContent = "";
+  }
 
+  if (step === 2) {
 
-        /* -----------------------------------------
-           GET INPUTS
-           ----------------------------------------- */
+    const annualInput =
+      document.getElementById("annualUsage").value.trim();
 
-        const postcode =
-            document
-                .getElementById("postcode")
-                .value
-                .trim()
-                .toUpperCase();
+    const monthlyInput =
+      document.getElementById("monthlyBill").value.trim();
 
+    if (!annualInput && !monthlyInput) {
 
-        const annualUsageInput =
-            document
-                .getElementById("annualUsage")
-                .value;
+      alert(
+        "Please enter either your annual electricity usage or your average monthly electricity bill."
+      );
 
+      return false;
 
-        monthlyBill =
-            parseFloat(
-                document
-                    .getElementById("monthlyBill")
-                    .value
-            );
+    }
 
+    if (annualInput) {
 
-        orientation =
-            document
-                .getElementById("orientation")
-                .value;
+      const usage =
+        Number(annualInput);
 
+      if (usage < 500 || usage > 30000) {
 
-        shade =
-            document
-                .getElementById("shade")
-                .value;
+        alert(
+          "Please enter an annual electricity usage between 500 and 30,000 kWh."
+        );
 
+        return false;
 
-        daytimeUse =
-            document
-                .getElementById("daytimeUse")
-                .value;
+      }
 
+      calculatorData.annualUsage =
+        usage;
 
-        systemType =
-            document
-                .getElementById("systemType")
-                .value;
+      calculatorData.monthlyBill =
+        null;
 
+    } else {
 
-        /* -----------------------------------------
-           VALIDATE POSTCODE
-           ----------------------------------------- */
+      const bill =
+        Number(monthlyInput);
 
-        const postcodeArea =
-            getPostcodeArea(postcode);
+      if (bill < 10 || bill > 1000) {
 
+        alert(
+          "Please enter a monthly electricity bill between £10 and £1,000."
+        );
 
-        if (!postcodeArea) {
+        return false;
 
-            errorBox.textContent =
-                "Please enter a valid Great Britain postcode.";
+      }
 
-            errorBox.style.display = "block";
+      calculatorData.monthlyBill =
+        bill;
 
-            return;
-        }
+      calculatorData.annualUsage =
+        null;
 
+    }
 
-        /*
-           Plug-in solar rules used by this calculator
-           are intended for Great Britain.
+  }
 
-           Northern Ireland postcodes begin with BT.
-        */
+  if (step === 3) {
 
-        if (postcodeArea === "BT") {
+    const postcode =
+      document.getElementById("postcode")
+        .value
+        .trim()
+        .toUpperCase();
 
-            errorBox.textContent =
-                "This calculator currently covers Great Britain only.";
+    if (!postcode) {
 
-            errorBox.style.display = "block";
+      alert("Please enter your postcode.");
 
-            return;
-        }
+      return false;
 
+    }
 
-        /* -----------------------------------------
-           VALIDATE MONTHLY BILL
-           ----------------------------------------- */
+    if (!validatePostcode(postcode)) {
 
-        if (
-            isNaN(monthlyBill) ||
-            monthlyBill < 20 ||
-            monthlyBill > 1000
-        ) {
+      alert(
+        "Please enter a valid Great Britain postcode. Northern Ireland postcodes are not included in this calculator."
+      );
 
-            errorBox.textContent =
-                "Please enter a monthly electricity bill between £20 and £1,000.";
+      return false;
 
-            errorBox.style.display = "block";
+    }
 
-            return;
-        }
+    calculatorData.postcode =
+      postcode;
 
+  }
 
-        /* -----------------------------------------
-           VALIDATE ANNUAL USAGE IF PROVIDED
-           ----------------------------------------- */
+  if (step === 4) {
 
-        if (annualUsageInput !== "") {
+    if (!calculatorData.orientation) {
 
-            annualUsage =
-                parseFloat(annualUsageInput);
+      alert(
+        "Please select a roof or installation direction."
+      );
 
+      return false;
 
-            if (
-                isNaN(annualUsage) ||
-                annualUsage < 500 ||
-                annualUsage > 30000
-            ) {
+    }
 
-                errorBox.textContent =
-                    "Please enter annual electricity usage between 500 and 30,000 kWh.";
+  }
 
-                errorBox.style.display = "block";
+  if (step === 5) {
 
-                return;
-            }
+    if (!calculatorData.shade) {
 
-        }
+      alert(
+        "Please select the amount of shade."
+      );
 
+      return false;
 
-        /* -----------------------------------------
-           ELECTRICITY RATES
-           ----------------------------------------- */
+    }
 
-        const rates =
-            getElectricityRates();
+  }
 
-        const unitRate =
-            rates.unitRate;
+  if (step === 6) {
 
-        const standingCharge =
-            rates.standingCharge;
+    if (!calculatorData.usageTime) {
 
+      alert(
+        "Please select when your home uses the most electricity."
+      );
 
-        /* -----------------------------------------
-           SYSTEM SIZE
-           ----------------------------------------- */
+      return false;
 
-        const systemSize =
-            0.8; // 800W = 0.8kWp
+    }
 
+  }
 
-        /* -----------------------------------------
-           REGIONAL SOLAR YIELD
-           ----------------------------------------- */
+  if (step === 7) {
 
-        const baseYield =
-            regionalYields[postcodeArea] || 900;
+    if (!calculatorData.systemType) {
 
+      alert(
+        "Please select the solar option you're considering."
+      );
 
-        regionName =
-            getRegionName(postcodeArea);
+      return false;
 
+    }
 
-        /* -----------------------------------------
-           ORIENTATION
-           ----------------------------------------- */
+  }
 
-        const orientationFactor =
-            orientationFactors[orientation] || 0.88;
+  return true;
 
+}
 
-        /* -----------------------------------------
-           SHADE
-           ----------------------------------------- */
+function validatePostcode(postcode) {
 
-        const shadeFactor =
-            shadeFactors[shade] || 0.85;
+  postcode =
+    postcode
+      .toUpperCase()
+      .replace(/\s+/g, "");
 
+  if (postcode.startsWith("BT")) {
 
-        /* -----------------------------------------
-           SELF CONSUMPTION
-           ----------------------------------------- */
+    return false;
 
-        const selfConsumption =
-            calculateSelfConsumption(
-                daytimeUse,
-                systemType
-            );
+  }
 
+  const pattern =
+    /^[A-Z]{1,2}[0-9][0-9A-Z]?[0-9][A-Z]{2}$/;
 
-        /* -----------------------------------------
-           ANNUAL ELECTRICITY USAGE
-           ----------------------------------------- */
+  return pattern.test(postcode);
 
-        if (annualUsageInput === "") {
+}
 
-            /*
-               Estimate annual electricity usage from
-               monthly electricity bill.
+function getRegionFromPostcode(postcode) {
 
-               Standing charges are removed first.
-            */
+  const clean =
+    postcode
+      .toUpperCase()
+      .replace(/\s+/g, "");
 
-            const annualBill =
-                monthlyBill * 12;
+  const first =
+    clean.substring(0, 2);
 
+  const southWestPrefixes = [
+    "BA","BS","DT","EX","PL","TA","TQ","TR"
+  ];
 
-            const annualStandingCharge =
-                standingCharge * 365;
+  if (southWestPrefixes.includes(first)) {
 
+    return {
+      name: "South West",
+      yield: regionYields["South West"]
+    };
 
-            const estimatedEnergySpend =
-                Math.max(
-                    annualBill -
-                    annualStandingCharge,
-                    0
-                );
+  }
 
+  const southernPrefixes = [
+    "GU","HP","KT","ME","MK","OX","PO","RG",
+    "RH","SL","SO","SP","TN","TW","UB","WD"
+  ];
 
-            annualUsage =
-                estimatedEnergySpend /
-                unitRate;
+  if (southernPrefixes.includes(first)) {
 
+    return {
+      name: "Southern England",
+      yield: regionYields["Southern England"]
+    };
 
-            /*
-               Keep the calculated usage within a
-               sensible range.
-            */
+  }
 
-            annualUsage =
-                Math.max(
-                    500,
-                    Math.min(
-                        annualUsage,
-                        30000
-                    )
-                );
-        }
+  const easternPrefixes = [
+    "CB","CM","CO","IP","LU","NR","PE","SG","SS"
+  ];
 
+  if (easternPrefixes.includes(first)) {
 
-        /* -----------------------------------------
-           SOLAR GENERATION
-           ----------------------------------------- */
+    return {
+      name: "Eastern England",
+      yield: regionYields["Eastern England"]
+    };
 
-        generation =
-            systemSize *
-            baseYield *
-            orientationFactor *
-            shadeFactor;
+  }
 
+  const midlandsPrefixes = [
+    "B","CV","DE","DY","LE","NG","NN","ST","WS","WV"
+  ];
 
-        /* -----------------------------------------
-           USABLE SOLAR
-           ----------------------------------------- */
+  if (
+    midlandsPrefixes.some(function(prefix) {
+      return clean.startsWith(prefix);
+    })
+  ) {
 
-        usableSolar =
-            Math.min(
-                generation *
-                selfConsumption,
-                annualUsage
-            );
+    return {
+      name: "Midlands",
+      yield: regionYields["Midlands"]
+    };
 
+  }
 
-        /* -----------------------------------------
-           SAVINGS
-           ----------------------------------------- */
+  const yorkshirePrefixes = [
+    "BD","DN","HD","HG","HX","LS","S","WF","YO"
+  ];
 
-        annualSaving =
-            usableSolar *
-            unitRate;
+  if (
+    yorkshirePrefixes.some(function(prefix) {
+      return clean.startsWith(prefix);
+    })
+  ) {
 
+    return {
+      name: "Yorkshire",
+      yield: regionYields["Yorkshire"]
+    };
 
-        monthlySaving =
-            annualSaving /
-            12;
+  }
 
+  const northWestPrefixes = [
+    "BB","BL","CA","CH","CW","FY","LA","L","M",
+    "OL","PR","SK","WA","WN"
+  ];
 
-        percentageCovered =
-            Math.min(
-                (
-                    usableSolar /
-                    annualUsage
-                ) * 100,
-                100
-            );
+  if (
+    northWestPrefixes.some(function(prefix) {
+      return clean.startsWith(prefix);
+    })
+  ) {
 
+    return {
+      name: "North West",
+      yield: regionYields["North West"]
+    };
 
-        /* -----------------------------------------
-           COMMERCIAL CLASSIFICATION
-           ----------------------------------------- */
+  }
 
-        if (systemType === "battery") {
+  const northEastPrefixes = [
+    "DH","DL","NE","SR","TS"
+  ];
 
-            classification =
-                "SOLAR + BATTERY";
+  if (
+    northEastPrefixes.some(function(prefix) {
+      return clean.startsWith(prefix);
+    })
+  ) {
 
+    return {
+      name: "North East",
+      yield: regionYields["North East"]
+    };
 
-            verdict =
-                "Solar plus battery storage could be worth investigating for your home.";
+  }
 
+  const walesPrefixes = [
+    "CF","LD","LL","NP","SA","SY"
+  ];
 
-            recommendation =
-                "A battery may help you use more of the electricity generated by your solar panels later in the day or evening.";
+  if (
+    walesPrefixes.some(function(prefix) {
+      return clean.startsWith(prefix);
+    })
+  ) {
 
+    return {
+      name: "Wales",
+      yield: regionYields["Wales"]
+    };
 
-            explanation =
-                "Your result considers your estimated solar generation, household electricity demand and the time of day you normally use electricity. Battery storage can potentially increase the amount of solar electricity available for use after generation.";
+  }
 
-        }
+  return {
+    name: "GB average",
+    yield: regionYields["GB average"]
+  };
 
-        else if (
-            annualUsage <= 1800 &&
-            percentageCovered >= 15
-        ) {
+}
 
-            classification =
-                "STRONG PLUG-IN SOLAR FIT";
+function nextStep(currentStep) {
 
+  if (!validateStep(currentStep)) {
+    return;
+  }
 
-            verdict =
-                "Your home appears to be a strong fit for plug-in solar.";
+  showStep(currentStep + 1);
 
+}
 
-            recommendation =
-                "An 800W plug-in solar system could make a meaningful contribution to your electricity use.";
+function previousStep(currentStep) {
 
+  showStep(currentStep - 1);
 
-            explanation =
-                "Your estimated electricity demand is relatively modest compared with the potential output of an 800W plug-in system.";
+}
 
-        }
+function showStep(stepNumber, shouldScroll = true) {
 
-        else if (
-            annualUsage <= 2500 &&
-            percentageCovered >= 10
-        ) {
+  document
+    .querySelectorAll(".step")
+    .forEach(function(step) {
+      step.classList.remove("active");
+    });
 
-            classification =
-                "GOOD PLUG-IN SOLAR FIT";
-
-
-            verdict =
-                "Your home appears to be a good fit for plug-in solar.";
-
-
-            recommendation =
-                "An 800W plug-in solar system could make a useful contribution to your electricity use.";
-
-
-            explanation =
-                "The estimated solar electricity you could use represents a useful proportion of your annual electricity demand.";
-
-        }
-
-        else if (
-            annualUsage >= 3000 ||
-            percentageCovered < 8
-        ) {
-
-            classification =
-                "LARGER SOLAR OPPORTUNITY";
-
-
-            verdict =
-                "Your home appears to have a larger solar opportunity.";
-
-
-            recommendation =
-                "An 800W plug-in system could help reduce some of your electricity purchases, but a full solar assessment could reveal a larger potential saving.";
-
-
-            explanation =
-                "Your estimated household electricity demand is relatively high compared with what an 800W plug-in system can generate. A larger solar installation may therefore be worth investigating.";
-
-        }
-
-        else {
-
-            classification =
-                "MODERATE PLUG-IN SOLAR FIT";
-
-
-            verdict =
-                "Plug-in solar could make a useful contribution to your home.";
-
-
-            recommendation =
-                "An 800W plug-in system could reduce some of the electricity you need to buy from the grid.";
-
-
-            explanation =
-                "Your estimated solar generation could cover part of your household electricity demand, although the overall saving is likely to be relatively modest.";
-        }
-
-
-        /* -----------------------------------------
-           LOCATION MESSAGE
-           ----------------------------------------- */
-
-        const locationMessage =
-            "Your postcode area places you in our " +
-            regionName +
-            " regional solar-yield estimate.";
-
-
-        /* -----------------------------------------
-           DISPLAY RESULTS
-           ----------------------------------------- */
-
-        document.getElementById(
-            "locationMessage"
-        ).textContent =
-            locationMessage;
-
-
-        document.getElementById(
-            "generation"
-        ).textContent =
-            Math.round(generation);
-
-
-        document.getElementById(
-            "usableSolar"
-        ).textContent =
-            Math.round(usableSolar);
-
-
-        document.getElementById(
-            "annualSaving"
-        ).textContent =
-            Math.round(annualSaving);
-
-
-        document.getElementById(
-            "monthlySaving"
-        ).textContent =
-            monthlySaving.toFixed(2);
-
-
-        document.getElementById(
-            "percentageCovered"
-        ).textContent =
-            percentageCovered.toFixed(1);
-
-
-        document.getElementById(
-            "verdict"
-        ).textContent =
-            verdict;
-
-
-        document.getElementById(
-            "recommendation"
-        ).textContent =
-            recommendation;
-
-
-        document.getElementById(
-            "explanation"
-        ).textContent =
-            explanation;
-
-
-        /* -----------------------------------------
-           COMMERCIAL MESSAGE
-           ----------------------------------------- */
-
-        const commercialMessage =
-            document.getElementById(
-                "commercialMessage"
-            );
-
-
-        if (
-            classification ===
-            "LARGER SOLAR OPPORTUNITY"
-        ) {
-
-            commercialMessage.textContent =
-                "Your result suggests there may be a larger solar opportunity worth investigating. A full assessment could show whether a conventional solar panel system and/or battery could provide a greater saving.";
-
-        }
-
-        else if (
-            classification ===
-            "SOLAR + BATTERY"
-        ) {
-
-            commercialMessage.textContent =
-                "Because you've selected solar plus battery, the next useful step is to investigate how much additional electricity storage could potentially add to your system.";
-
-        }
-
-        else if (
-            classification ===
-            "STRONG PLUG-IN SOLAR FIT"
-        ) {
-
-            commercialMessage.textContent =
-                "Your result suggests plug-in solar could be a particularly good fit for your household.";
-
-        }
-
-        else {
-
-            commercialMessage.textContent =
-                "Your result suggests plug-in solar could make a useful contribution to your electricity use.";
-        }
-
-
-
-        /* -----------------------------------------
-           SHOW RESULTS
-           ----------------------------------------- */
-
-        const result =
-            document.getElementById(
-                "results"
-            );
-
-
-        result.style.display =
-            "block";
-
-
-        result.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-
-});
-
-
-/* =========================================================
-   LEAD CAPTURE FORM
-   ========================================================= */
-
-document
-    .getElementById("leadForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-
-            const leadError =
-                document.getElementById(
-                    "leadError"
-                );
-
-
-            leadError.style.display =
-                "none";
-
-            leadError.textContent =
-                "";
-
-
-            const leadButton =
-                document.getElementById(
-                    "leadButton"
-                );
-
-
-            leadButton.disabled =
-                true;
-
-            leadButton.textContent =
-                "Sending...";
-
-
-            /* -----------------------------------------
-               GET LEAD DETAILS
-               ----------------------------------------- */
-
-            const leadName =
-                document
-                    .getElementById("leadName")
-                    .value
-                    .trim();
-
-
-            const leadEmail =
-                document
-                    .getElementById("leadEmail")
-                    .value
-                    .trim();
-
-
-            const leadPhone =
-                document
-                    .getElementById("leadPhone")
-                    .value
-                    .trim();
-
-
-            const leadInterest =
-                document
-                    .getElementById("leadInterest")
-                    .value;
-
-
-            /* -----------------------------------------
-               LEAD DATA
-               ----------------------------------------- */
-
-            const leadData = {
-
-                /* Contact information */
-
-                name:
-                    leadName,
-
-                email:
-                    leadEmail,
-
-                phone:
-                    leadPhone,
-
-                postcode:
-                    document
-                        .getElementById("postcode")
-                        .value
-                        .trim()
-                        .toUpperCase(),
-
-
-                /* User choices */
-
-                interest:
-                    leadInterest,
-
-                systemType:
-                    systemType,
-
-                annualUsage:
-                    Math.round(annualUsage),
-
-                monthlyBill:
-                    monthlyBill,
-
-                orientation:
-                    orientation,
-
-                shade:
-                    shade,
-
-                daytimeUse:
-                    daytimeUse,
-
-
-                /* Calculator results */
-
-                generation:
-                    Math.round(generation),
-
-                usableSolar:
-                    Math.round(usableSolar),
-
-                annualSaving:
-                    Math.round(annualSaving),
-
-                monthlySaving:
-                    Number(
-                        monthlySaving.toFixed(2)
-                    ),
-
-                percentageCovered:
-                    Number(
-                        percentageCovered.toFixed(1)
-                    ),
-
-
-                /* Commercial information */
-
-                classification:
-                    classification,
-
-                verdict:
-                    verdict,
-
-                recommendation:
-                    recommendation,
-
-                region:
-                    regionName,
-
-
-                /* Tracking */
-
-                calculatorVersion:
-                    "V2",
-
-                submittedAt:
-                    new Date().toISOString()
-
-            };
-
-
-            /* -----------------------------------------
-               SEND TO MAKE
-               ----------------------------------------- */
-
-            try {
-
-                const response =
-                    await fetch(
-                        "https://hook.eu1.make.com/hpzwqa14fn4hyy6mvjh9bdx1nvvndyof",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(
-                                    leadData
-                                )
-                        }
-                    );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Webhook request failed."
-                    );
-                }
-
-
-                /* -----------------------------------------
-                   SUCCESS
-                   ----------------------------------------- */
-
-                document.getElementById(
-                    "leadForm"
-                ).style.display =
-                    "none";
-
-
-                document.getElementById(
-                    "leadSuccess"
-                ).style.display =
-                    "block";
-
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Lead submission error:",
-                    error
-                );
-
-
-                leadError.textContent =
-                    "We couldn't send your request. Please check your details and try again.";
-
-
-                leadError.style.display =
-                    "block";
-
-
-                leadButton.disabled =
-                    false;
-
-
-                leadButton.textContent =
-                    "Get My Solar Assessment";
-            }
-
-        }
+  const target =
+    document.getElementById(
+      "step" + stepNumber
     );
+
+  if (target) {
+    target.classList.add("active");
+  }
+
+  const progress =
+    (stepNumber / 7) * 100;
+
+  document.getElementById(
+    "progressFill"
+  ).style.width =
+    progress + "%";
+
+  document.getElementById(
+    "stepCount"
+  ).textContent =
+    "Step " +
+    stepNumber +
+    " of 7";
+
+  if (shouldScroll) {
+  document.getElementById(
+    "calculator"
+  ).scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+}
+
+function getAnnualUsage() {
+
+  if (
+    calculatorData.annualUsage !== null &&
+    calculatorData.annualUsage !== undefined
+  ) {
+
+    return calculatorData.annualUsage;
+
+  }
+
+  const monthlyBill =
+    Number(
+      calculatorData.monthlyBill
+    );
+
+  const annualBill =
+    monthlyBill * 12;
+
+  const standingCharge =
+    getAnnualStandingCharge();
+
+  const estimatedUsageCost =
+    Math.max(
+      annualBill - standingCharge,
+      0
+    );
+
+  const electricityRate =
+    getElectricityRate();
+
+  const estimatedUsage =
+    estimatedUsageCost /
+    electricityRate;
+
+  return Math.round(
+    estimatedUsage
+  );
+
+}
+
+function getEstimatedAnnualBill(
+  annualUsage
+) {
+
+  const electricityRate =
+    getElectricityRate();
+
+  const standingCharge =
+    getAnnualStandingCharge();
+
+  return (
+    annualUsage *
+    electricityRate
+    +
+    standingCharge
+  );
+
+}
+
+function calculateResults() {
+
+  if (!validateStep(7)) {
+    return;
+  }
+
+  const annualUsage =
+    getAnnualUsage();
+
+  const region =
+    getRegionFromPostcode(
+      calculatorData.postcode
+    );
+
+  const orientationFactor =
+    orientationFactors[
+      calculatorData.orientation
+    ] || 0.88;
+
+  const shadeFactor =
+    shadeFactors[
+      calculatorData.shade
+    ] || 0.85;
+
+  const referenceSystemKWp =
+    0.8;
+
+  let generation =
+    referenceSystemKWp
+    *
+    region.yield
+    *
+    orientationFactor
+    *
+    shadeFactor;
+
+  generation =
+    Math.round(generation);
+
+  let selfConsumption =
+    selfConsumptionFactors[
+      calculatorData.usageTime
+    ] || 0.55;
+
+  if (
+    calculatorData.systemType ===
+    "Plug-in solar + battery"
+  ) {
+
+    selfConsumption += 0.15;
+
+  }
+
+  selfConsumption =
+    Math.min(
+      selfConsumption,
+      0.90
+    );
+
+  let usableSolar =
+    generation *
+    selfConsumption;
+
+  usableSolar =
+    Math.min(
+      usableSolar,
+      annualUsage
+    );
+
+  usableSolar =
+    Math.round(
+      usableSolar
+    );
+
+  const electricityRate =
+    getElectricityRate();
+
+  let annualSaving =
+    usableSolar *
+    electricityRate;
+
+  annualSaving =
+    Math.max(
+      annualSaving,
+      0
+    );
+
+  annualSaving =
+    Math.round(
+      annualSaving
+    );
+
+  const monthlySaving =
+    Math.round(
+      annualSaving / 12
+    );
+
+  const coverage =
+    Math.min(
+      (
+        usableSolar /
+        annualUsage
+      ) * 100,
+      100
+    );
+
+  const estimatedAnnualBill =
+    getEstimatedAnnualBill(
+      annualUsage
+    );
+
+  document.getElementById(
+    "resultUsage"
+  ).textContent =
+    formatNumber(
+      annualUsage
+    ) + " kWh";
+
+  document.getElementById(
+    "resultBill"
+  ).textContent =
+    formatCurrency(
+      estimatedAnnualBill
+    );
+
+  document.getElementById(
+    "resultGeneration"
+  ).textContent =
+    formatNumber(
+      generation
+    ) + " kWh";
+
+  document.getElementById(
+    "resultUsable"
+  ).textContent =
+    formatNumber(
+      usableSolar
+    ) + " kWh";
+
+  document.getElementById(
+    "resultAnnualSaving"
+  ).textContent =
+    formatCurrency(
+      annualSaving
+    );
+
+  document.getElementById(
+    "resultMonthlySaving"
+  ).textContent =
+    formatCurrency(
+      monthlySaving
+    );
+
+  document.getElementById(
+    "resultCoverage"
+  ).textContent =
+    Math.round(
+      coverage
+    ) + "%";
+
+  document.getElementById(
+    "resultSystem"
+  ).textContent =
+    calculatorData.systemType;
+
+  createVerdict(
+    annualSaving,
+    coverage,
+    generation
+  );
+
+  createRecommendation(
+    annualSaving,
+    coverage,
+    generation,
+    annualUsage
+  );
+
+  document.getElementById(
+    "verdictText"
+  ).textContent =
+    calculatorData.verdict;
+
+  calculatorData.estimatedAnnualUsage =
+    annualUsage;
+
+  calculatorData.estimatedAnnualBill =
+    Math.round(
+      estimatedAnnualBill
+    );
+
+  calculatorData.estimatedSolarGeneration =
+    generation;
+
+  calculatorData.estimatedUsableSolar =
+    usableSolar;
+
+  calculatorData.estimatedAnnualSaving =
+    annualSaving;
+
+  calculatorData.estimatedMonthlySaving =
+    monthlySaving;
+
+  calculatorData.estimatedCoverage =
+    Math.round(
+      coverage
+    );
+
+  calculatorData.region =
+    region.name;
+
+  calculatorData.regionYield =
+    region.yield;
+
+  calculatorData.electricityRate =
+    electricityRate;
+
+  calculatorData.selfConsumption =
+    Math.round(
+      selfConsumption * 100
+    );
+
+  document.getElementById(
+    "calculator"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "results"
+  ).classList.add("show");
+
+}
+
+function createVerdict(
+  annualSaving,
+  coverage,
+  generation
+) {
+
+  let verdict =
+    "Your result suggests that plug-in solar could provide a useful contribution to your electricity needs.";
+
+  if (
+    annualSaving < 75
+  ) {
+
+    verdict =
+      "Your estimated saving from plug-in solar is relatively modest, so the financial benefit may be limited.";
+
+  } else if (
+    annualSaving >= 75 &&
+    annualSaving < 150
+  ) {
+
+    verdict =
+      "Plug-in solar could provide a useful contribution to your electricity needs, with a moderate potential saving.";
+
+  } else if (
+    annualSaving >= 150
+  ) {
+
+    verdict =
+      "Your result suggests that plug-in solar could provide a worthwhile contribution to your electricity needs.";
+
+  }
+
+  if (
+    coverage >= 20
+  ) {
+
+    verdict +=
+      " Your estimated solar generation could cover a meaningful share of your annual electricity use.";
+
+  } else if (
+    coverage < 10
+  ) {
+
+    verdict +=
+      " The estimated amount of your electricity use covered by solar is relatively small.";
+
+  }
+
+  calculatorData.verdict =
+    verdict;
+
+  return verdict;
+
+}
+
+function createRecommendation(
+  annualSaving,
+  coverage,
+  generation,
+  annualUsage
+) {
+
+  const title =
+    document.getElementById(
+      "recommendationTitle"
+    );
+
+  const text =
+    document.getElementById(
+      "recommendationText"
+    );
+
+  const why =
+    document.getElementById(
+      "recommendationWhy"
+    );
+
+  let recommendationTitle =
+    "Plug-in solar could be worth exploring";
+
+  let recommendationText =
+    "Your result suggests that a small plug-in solar system could potentially reduce some of the electricity you buy from the grid.";
+
+  let recommendationWhy =
+    "Your potential benefit is influenced by your location, available sunlight and, importantly, how much electricity you use while the solar system is generating.";
+
+  if (
+    calculatorData.usageTime ===
+    "Mostly during the day"
+  ) {
+
+    recommendationTitle =
+      "You could be a good candidate for plug-in solar";
+
+    recommendationText =
+      "Your daytime electricity use means you may be able to use a larger proportion of the electricity your solar system generates.";
+
+    recommendationWhy =
+      "Using solar electricity directly in the home is generally more valuable than generating electricity when nobody is using it.";
+
+  }
+
+  if (
+    calculatorData.usageTime ===
+    "Mostly during the evening"
+  ) {
+
+    recommendationTitle =
+      "A battery could be worth considering";
+
+    recommendationText =
+      "Because much of your electricity use happens in the evening, a battery may help you make better use of electricity generated during the day.";
+
+    recommendationWhy =
+      "Without storage, more of your daytime solar generation may be unused by your household at the time it is generated.";
+
+  }
+
+  if (
+    generation < 500
+  ) {
+
+    recommendationTitle =
+      "Your solar potential may be more limited";
+
+    recommendationText =
+      "Your estimated generation is relatively modest, so the financial benefit from a small plug-in system may be limited.";
+
+    recommendationWhy =
+      "Your location, orientation and/or shade are reducing the amount of sunlight available to the system.";
+
+  }
+
+  if (
+    annualUsage > 6000
+  ) {
+
+    recommendationText +=
+      " Because your household uses a relatively large amount of electricity, you may also want to compare plug-in solar with a larger rooftop system.";
+
+  }
+
+  if (
+    calculatorData.propertyType ===
+    "Flat"
+  ) {
+
+    recommendationTitle =
+      "Your property type is worth checking carefully";
+
+    recommendationText =
+      "Plug-in solar may be worth exploring, but flats can have additional practical considerations around where equipment can be positioned and what permissions may be needed.";
+
+    recommendationWhy =
+      "A solar provider can help establish whether your particular property and installation position are suitable.";
+
+  }
+
+  if (
+    calculatorData.systemType ===
+      "Roof solar" ||
+    calculatorData.systemType ===
+      "Roof solar + battery"
+  ) {
+
+    recommendationTitle =
+      "A rooftop system may offer a much larger opportunity";
+
+    recommendationText =
+      "The result above uses the 800W plug-in reference calculation and should not be treated as a rooftop solar forecast.";
+
+    recommendationWhy =
+      "A properly sized rooftop system can generate considerably more electricity, but its potential depends on your actual roof, available space, orientation, shading and household use.";
+
+  }
+
+  if (
+    calculatorData.systemType ===
+    "Not sure"
+  ) {
+
+    recommendationTitle =
+      "It may be worth comparing your options";
+
+    recommendationText =
+      "Your result gives you a starting point, but the best option could depend on your property and electricity use.";
+
+    recommendationWhy =
+      "Comparing plug-in solar, rooftop solar and battery storage can help identify which approach is likely to provide the best fit.";
+
+  }
+
+  title.textContent =
+    recommendationTitle;
+
+  text.textContent =
+    recommendationText;
+
+  why.textContent =
+    recommendationWhy;
+
+  calculatorData.recommendation =
+
+    recommendationTitle +
+    " — " +
+    recommendationText +
+    " " +
+    recommendationWhy;
+
+}
+
+function selectInterest(
+  interest,
+  button
+) {
+
+  calculatorData.interest =
+    interest;
+
+  const buttons =
+    document.querySelectorAll(
+      ".interest-btn"
+    );
+
+  buttons.forEach(function(btn) {
+    btn.classList.remove("selected");
+  });
+
+  button.classList.add("selected");
+
+}
+
+function showLeadForm() {
+
+  if (!calculatorData.interest) {
+
+    alert(
+      "Please select what you're interested in first."
+    );
+
+    return;
+
+  }
+
+  document.getElementById(
+    "leadPostcode"
+  ).value =
+    calculatorData.postcode || "";
+
+  document.getElementById(
+    "leadForm"
+  ).classList.add("show");
+
+  document.querySelector(
+    ".lead-box"
+  ).scrollIntoView({
+
+    behavior: "smooth",
+
+    block: "start"
+
+  });
+
+}
+
+function validateLead() {
+
+  const homeowner =
+    document.getElementById(
+      "leadHomeowner"
+    ).value;
+
+  const timeframe =
+    document.getElementById(
+      "leadTimeframe"
+    ).value;
+
+  const postcode =
+    document.getElementById(
+      "leadPostcode"
+    ).value
+    .trim()
+    .toUpperCase();
+
+  const paymentPreference =
+    document.getElementById(
+      "leadPayment"
+    ).value;
+
+  const name =
+    document.getElementById(
+      "leadName"
+    ).value.trim();
+
+  const email =
+    document.getElementById(
+      "leadEmail"
+    ).value.trim();
+
+  const phone =
+    document.getElementById(
+      "leadPhone"
+    ).value.trim();
+
+  const consent =
+    document.getElementById(
+      "leadConsent"
+    ).checked;
+
+  if (!homeowner) {
+
+    alert(
+      "Please tell us whether you own your home."
+    );
+
+    return false;
+
+  }
+
+  if (!timeframe) {
+
+    alert(
+      "Please select when you're looking to make a decision."
+    );
+
+    return false;
+
+  }
+
+  if (!validatePostcode(postcode)) {
+
+    alert(
+      "Please enter a valid Great Britain postcode."
+    );
+
+    return false;
+
+  }
+
+  if (!paymentPreference) {
+
+    alert(
+      "Please select your preferred payment option."
+    );
+
+    return false;
+
+  }
+
+  if (!name) {
+
+    alert(
+      "Please enter your name."
+    );
+
+    return false;
+
+  }
+
+  const emailPattern =
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+if (!emailPattern.test(email)) {
+
+  alert(
+    "Please enter a valid email address, for example name@example.com."
+  );
+
+  return false;
+
+}
+
+  let cleanPhone =
+  phone.replace(/[\s().-]/g, "");
+
+if (cleanPhone.startsWith("+44")) {
+
+  cleanPhone =
+    "0" + cleanPhone.substring(3);
+
+}
+
+if (!/^0\d+$/.test(cleanPhone)) {
+
+  alert(
+    "Please enter a valid UK phone number."
+  );
+
+  return false;
+
+}
+
+if (
+  cleanPhone.length < 10 ||
+  cleanPhone.length > 11
+) {
+
+  alert(
+    "Please enter a valid UK phone number."
+  );
+
+  return false;
+
+}
+
+if (/^0+$/.test(cleanPhone)) {
+
+  alert(
+    "Please enter a valid UK phone number."
+  );
+
+  return false;
+
+}
+
+  if (!consent) {
+
+    alert(
+      "Please confirm that you agree to your details being used for this request."
+    );
+
+    return false;
+
+  }
+
+  return true;
+
+}
+
+function calculateLeadScore() {
+
+  let score = 0;
+
+  const homeowner =
+    document.getElementById(
+      "leadHomeowner"
+    ).value;
+
+  const timeframe =
+    document.getElementById(
+      "leadTimeframe"
+    ).value;
+
+  const paymentPreference =
+    document.getElementById(
+      "leadPayment"
+    ).value;
+
+  if (
+    homeowner === "Yes"
+  ) {
+
+    score += 20;
+
+  }
+
+  if (
+    calculatorData.propertyType ===
+      "Detached" ||
+    calculatorData.propertyType ===
+      "Semi-detached"
+  ) {
+
+    score += 10;
+
+  } else {
+
+    score += 5;
+
+  }
+
+  if (
+    calculatorData.interest ===
+    "Rooftop solar"
+  ) {
+
+    score += 25;
+
+  }
+
+  if (
+    calculatorData.interest ===
+    "Rooftop solar + battery"
+  ) {
+
+    score += 30;
+
+  }
+
+  if (
+    calculatorData.interest ===
+    "Plug-in solar"
+  ) {
+
+    score += 10;
+
+  }
+
+  if (
+    calculatorData.interest ===
+    "Plug-in solar + battery"
+  ) {
+
+    score += 20;
+
+  }
+
+  if (
+    calculatorData.interest ===
+    "Not sure — help me choose"
+  ) {
+
+    score += 10;
+
+  }
+
+  if (
+    timeframe ===
+    "ASAP"
+  ) {
+
+    score += 30;
+
+  } else if (
+    timeframe ===
+    "3 months"
+  ) {
+
+    score += 25;
+
+  } else if (
+    timeframe ===
+    "6 months"
+  ) {
+
+    score += 15;
+
+  }
+
+  if (
+    paymentPreference ===
+    "Finance"
+  ) {
+
+    score += 5;
+
+  }
+
+  if (
+    paymentPreference ===
+    "Low upfront"
+  ) {
+
+    score += 5;
+
+  }
+
+  if (
+    calculatorData.postcode
+  ) {
+
+    score += 10;
+
+  }
+
+  return score;
+
+}
+
+function classifyLead(score) {
+
+  if (score >= 70) {
+
+    return "HOT";
+
+  }
+
+  if (score >= 50) {
+
+    return "WARM";
+
+  }
+
+  if (score >= 35) {
+
+    return "QUALIFIED";
+
+  }
+
+  return "RESEARCH";
+
+}
+
+async function submitLead() {
+
+  if (!validateLead()) {
+
+    return;
+
+  }
+
+  const submitButton =
+    document.getElementById(
+      "submitBtn"
+    );
+
+  const message =
+    document.getElementById(
+      "formMessage"
+    );
+
+  submitButton.disabled =
+    true;
+
+  submitButton.textContent =
+    "Sending...";
+
+  const homeowner =
+    document.getElementById(
+      "leadHomeowner"
+    ).value;
+
+  const timeframe =
+    document.getElementById(
+      "leadTimeframe"
+    ).value;
+
+  const leadPostcode =
+    document.getElementById(
+      "leadPostcode"
+    ).value
+    .trim()
+    .toUpperCase();
+
+  const paymentPreference =
+    document.getElementById(
+      "leadPayment"
+    ).value;
+
+  const name =
+    document.getElementById(
+      "leadName"
+    ).value.trim();
+
+  const email =
+    document.getElementById(
+      "leadEmail"
+    ).value.trim();
+
+  const phone =
+    document.getElementById(
+      "leadPhone"
+    ).value.trim();
+
+  const consent =
+    document.getElementById(
+      "leadConsent"
+    ).checked;
+
+  calculatorData.homeowner =
+    homeowner;
+
+  calculatorData.timeframe =
+    timeframe;
+
+  calculatorData.paymentPreference =
+    paymentPreference;
+
+  calculatorData.name =
+    name;
+
+  calculatorData.email =
+    email;
+
+  calculatorData.phone =
+    phone;
+
+  calculatorData.leadPostcode =
+    leadPostcode;
+
+  calculatorData.consent =
+    consent;
+
+  const leadScore =
+    calculateLeadScore();
+
+  const leadClassification =
+    classifyLead(
+      leadScore
+    );
+
+  const payload = {
+
+    name:
+      name,
+
+    email:
+      email,
+
+    phone:
+      phone,
+
+    postcode:
+      leadPostcode,
+
+    homeowner:
+      homeowner,
+
+    timeframe:
+      timeframe,
+
+    interest:
+      calculatorData.interest,
+
+    paymentPreference:
+      paymentPreference,
+
+    propertyType:
+      calculatorData.propertyType,
+
+    annualUsage:
+      calculatorData.annualUsage,
+
+    monthlyBill:
+      calculatorData.monthlyBill,
+
+    calculatorPostcode:
+      calculatorData.postcode,
+
+    orientation:
+      calculatorData.orientation,
+
+    shade:
+      calculatorData.shade,
+
+    usageTime:
+      calculatorData.usageTime,
+
+    systemType:
+      calculatorData.systemType,
+
+    estimatedAnnualUsage:
+      calculatorData.estimatedAnnualUsage,
+
+    estimatedAnnualBill:
+      calculatorData.estimatedAnnualBill,
+
+    estimatedSolarGeneration:
+      calculatorData.estimatedSolarGeneration,
+
+    estimatedUsableSolar:
+      calculatorData.estimatedUsableSolar,
+
+    estimatedAnnualSaving:
+      calculatorData.estimatedAnnualSaving,
+
+    estimatedMonthlySaving:
+      calculatorData.estimatedMonthlySaving,
+
+    estimatedCoverage:
+      calculatorData.estimatedCoverage,
+
+    region:
+      calculatorData.region,
+
+    regionYield:
+      calculatorData.regionYield,
+
+    electricityRate:
+      calculatorData.electricityRate,
+
+    selfConsumption:
+      calculatorData.selfConsumption,
+
+    leadScore:
+      leadScore,
+
+    leadClassification:
+      leadClassification,
+
+    verdict:
+      calculatorData.verdict,
+
+    recommendation:
+      calculatorData.recommendation,
+
+    consent:
+      consent,
+
+    calculatorVersion:
+      calculatorData.calculatorVersion,
+
+    timestamp:
+      new Date().toISOString(),
+
+    submittedAt:
+      new Date().toISOString()
+
+  };
+
+  try {
+
+    const response =
+      await fetch(
+        MAKE_WEBHOOK,
+        {
+
+          method:
+            "POST",
+
+          headers:
+            {
+              "Content-Type":
+                "application/json"
+            },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+
+        }
+      );
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Webhook request failed"
+      );
+
+    }
+
+    message.style.display =
+      "block";
+
+    message.textContent =
+      "Thanks — your request has been received. A suitable solar service provider may contact you about your options.";
+
+    submitButton.textContent =
+      "Request received";
+
+    submitButton.disabled =
+      true;
+
+  } catch (error) {
+
+    console.error(
+      "Lead submission error:",
+      error
+    );
+
+    message.style.display =
+      "block";
+
+    message.textContent =
+      "Sorry, something went wrong while sending your request. Please try again.";
+
+    submitButton.disabled =
+      false;
+
+    submitButton.textContent =
+      "Send my request";
+
+  }
+
+}
+
+function formatCurrency(value) {
+
+  return new Intl.NumberFormat(
+    "en-GB",
+    {
+
+      style:
+        "currency",
+
+      currency:
+        "GBP",
+
+      maximumFractionDigits:
+        0
+
+    }
+  ).format(value);
+
+}
+
+function formatNumber(value) {
+
+  return new Intl.NumberFormat(
+    "en-GB"
+  ).format(value);
+
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    showStep(1, false);
+
+  }
+);
 
 </script>
 
 </body>
 </html>
+
