@@ -1083,6 +1083,12 @@ body {
 
 }
 
+
+/* Keep the calculator section heading visible below the sticky header when opened. */
+#calculator-section {
+  scroll-margin-top: 145px;
+}
+
 </style>
 </head>
 
@@ -1108,7 +1114,7 @@ body {
 
         <a href="contact.html">Contact</a>
 
-  <a href="index.html#calculator" class="site-nav-cta">
+  <a href="#calculator-section" class="site-nav-cta">
     Calculate My Savings
   </a>
 
@@ -1135,7 +1141,7 @@ body {
       postcode, sunlight, roof direction and when you use energy.
     </p>
 
-    <a href="#calculator" class="site-primary-btn">
+    <a href="#calculator-section" class="site-primary-btn">
       Calculate My Savings
     </a>
 
@@ -1860,17 +1866,21 @@ body {
           </div>
 
           <label class="consent">
-
-            <input
-              type="checkbox"
-              id="leadConsent"
-            >
-
+            <input type="checkbox" id="leadConsent">
             <span>
-              I agree that Plug Solar Savings may use my details to respond to this request
-              and, where appropriate, share them with a suitable solar service provider.
+              I agree that Plug Solar Savings may use my details to respond to this request and,
+              where appropriate, share them with a relevant solar provider who may contact me
+              about my enquiry. I understand that submitting a request does not obligate me to buy anything.
+              See our <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>
+              and <a href="how-solar-enquiries-work.html" target="_blank" rel="noopener">How Solar Enquiries Work</a>.
             </span>
-
+          </label>
+          <label class="consent">
+            <input type="checkbox" id="leadMarketingConsent">
+            <span>
+              Optional: I would like to receive occasional marketing or follow-up information from Plug Solar Savings.
+              I understand I can withdraw this consent at any time.
+            </span>
           </label>
 
           <button
@@ -2244,7 +2254,7 @@ body {
       solar options that could suit your home and electricity use.
     </p>
 
-    <a href="#calculator" class="site-primary-btn">
+    <a href="#calculator-section" class="site-primary-btn">
       Calculate Your Savings
     </a>
 
@@ -2252,34 +2262,7 @@ body {
 
 </section>
 
-<footer class="site-footer">
-
-  <div>
-    <strong>Plug Solar Savings</strong>
-  </div>
-
-  <div>
-    Helping UK homeowners understand their solar options.
-  </div>
-
-  <div class="site-footer-links">
-
-  <a href="index.html">
-        Home
-      </a>
-    <a href="plug-in-solar-kits.html">Plug-in Solar Kits</a>
-      <a href="panels-components.html">Panels &amp; Components</a>
-      <a href="batteries.html">Batteries</a>
-      <a href="solar-rules-safety.html">UK Rules</a>
-      <a href="contact.html">Contact</a>
-
-  </div>
-
-  <div style="margin-top:12px;">
-    © 2026 Plug Solar Savings. All rights reserved.
-  </div>
-
-</footer>
+<footer class="site-footer"><div><strong>Plug Solar Savings</strong></div><div>Helping UK homeowners understand their solar options.</div><div class="site-footer-links"><a href="index.html">Home</a><a href="plug-in-solar-kits.html">Plug-in Solar Kits</a><a href="panels-components.html">Panels &amp; Components</a><a href="batteries.html">Batteries</a><a href="solar-rules-safety.html">UK Rules</a><a href="contact.html">Contact</a></div><div class="site-footer-links"><a href="about.html">About</a><a href="privacy-policy.html">Privacy Policy</a><a href="cookie-policy.html">Cookie Policy</a><a href="terms-and-conditions.html">Terms &amp; Conditions</a><a href="affiliate-disclosure.html">Affiliate Disclosure</a><a href="how-solar-enquiries-work.html">How Solar Enquiries Work</a></div><div style="margin-top:12px;">© 2026 Plug Solar Savings. All rights reserved.</div></footer>
 
 
 <script>
@@ -2831,13 +2814,11 @@ function showStep(stepNumber, shouldScroll = true) {
     " of 7";
 
   if (shouldScroll) {
-  document.getElementById(
-    "calculator"
-  ).scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
+    document.getElementById("calculator-section").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
 
 }
 
@@ -3131,6 +3112,15 @@ function calculateResults() {
   document.getElementById(
     "results"
   ).classList.add("show");
+
+  // Always open the results at the calculator section heading,
+  // so “How much could you save?” is visible first.
+  requestAnimationFrame(function() {
+    document.getElementById("calculator-section").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
 
 }
 
@@ -3442,6 +3432,11 @@ function validateLead() {
   const consent =
     document.getElementById(
       "leadConsent"
+    ).checked;
+
+  const marketingConsent =
+    document.getElementById(
+      "leadMarketingConsent"
     ).checked;
 
   if (!homeowner) {
@@ -3794,6 +3789,11 @@ async function submitLead() {
       "leadConsent"
     ).checked;
 
+  const marketingConsent =
+    document.getElementById(
+      "leadMarketingConsent"
+    ).checked;
+
   calculatorData.homeowner =
     homeowner;
 
@@ -3924,6 +3924,9 @@ async function submitLead() {
     consent:
       consent,
 
+    marketingConsent:
+      marketingConsent,
+
     calculatorVersion:
       calculatorData.calculatorVersion,
 
@@ -4035,6 +4038,16 @@ document.addEventListener(
   function() {
 
     showStep(1, false);
+
+    // Support older links that may still use #calculator.
+    if (window.location.hash === "#calculator" || window.location.hash === "#calculator-section") {
+      setTimeout(function() {
+        document.getElementById("calculator-section").scrollIntoView({
+          behavior: "auto",
+          block: "start"
+        });
+      }, 0);
+    }
 
   }
 );
