@@ -4104,9 +4104,13 @@ async function submitLead() {
       new Date().toISOString(),
 
     submittedAt:
-      new Date().toISOString()
-
-  };
+  new Date().toLocaleString(
+    "en-GB",
+    {
+      timeZone: "Europe/London",
+      hour12: false
+    }
+  )
 
   try {
 
