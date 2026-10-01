@@ -2859,40 +2859,40 @@ function getRegionFromPostcode(postcode) {
 
   }
 
-  const yorkshirePrefixes = [
-    "BD","DN","HD","HG","HX","LS","S","WF","YO"
-  ];
-
-  if (
-    yorkshirePrefixes.some(function(prefix) {
-      return clean.startsWith(prefix);
-    })
-  ) {
-
-    return {
-      name: "Yorkshire",
-      yield: regionYields["Yorkshire"]
-    };
-
-  }
-
   const northWestPrefixes = [
-    "BB","BL","CA","CH","CW","FY","LA","L","M",
-    "OL","PR","SK","WA","WN"
-  ];
+  "BB","BL","CA","CH","CW","FY","LA","L","M",
+  "OL","PR","SK","WA","WN"
+];
 
-  if (
-    northWestPrefixes.some(function(prefix) {
-      return clean.startsWith(prefix);
-    })
-  ) {
+if (
+  northWestPrefixes.some(function(prefix) {
+    return clean.startsWith(prefix);
+  })
+) {
 
-    return {
-      name: "North West",
-      yield: regionYields["North West"]
-    };
+  return {
+    name: "North West",
+    yield: regionYields["North West"]
+  };
 
-  }
+}
+
+const yorkshirePrefixes = [
+  "BD","DN","HD","HG","HX","LS","S","WF","YO"
+];
+
+if (
+  yorkshirePrefixes.some(function(prefix) {
+    return clean.startsWith(prefix);
+  })
+) {
+
+  return {
+    name: "Yorkshire",
+    yield: regionYields["Yorkshire"]
+  };
+
+}
 
   const northEastPrefixes = [
     "DH","DL","NE","SR","TS"
