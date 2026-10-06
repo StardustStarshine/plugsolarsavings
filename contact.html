@@ -1053,7 +1053,47 @@ textarea:focus-visible {
   </div>
 
 </footer>
+  
+<script>
+const CONTACT_WEBHOOK =
+  "https://hook.eu1.make.com/hpzwqa14fn4hyy6mvjh9bdx1nvvndyof";
 
+const contactForm = document.querySelector(".contact-form");
+
+contactForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const data = {
+    submissionType: "contact",
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    reason: document.getElementById("reason").value,
+    subject: document.getElementById("subject").value,
+    message: document.getElementById("message").value
+  };
+
+  try {
+    const response = await fetch(CONTACT_WEBHOOK, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error("Submission failed");
+    }
+
+    alert("Thank you. Your message has been sent.");
+    contactForm.reset();
+
+  } catch (error) {
+    alert("Sorry, your message could not be sent. Please try again.");
+    console.error(error);
+  }
+});
+</script>
 
 </body>
 
