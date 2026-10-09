@@ -3869,21 +3869,40 @@ function calculateLeadScore() {
 
 }
 
+
 function classifyLead(score) {
 
-  if (score >= 70) {
+  const timeframe =
+    calculatorData.timeframe;
 
-    return "HOT";
+  if (timeframe === "Researching") {
 
-  }
-
-  if (score >= 50) {
-
-    return "WARM";
+    return "RESEARCH";
 
   }
 
-  if (score >= 35) {
+  if (timeframe === "6 months") {
+
+    return "QUALIFIED";
+
+  }
+
+  if (
+    timeframe === "ASAP" ||
+    timeframe === "3 months"
+  ) {
+
+    if (score >= 70) {
+
+      return "HOT";
+
+    }
+
+    if (score >= 50) {
+
+      return "WARM";
+
+    }
 
     return "QUALIFIED";
 
@@ -3892,14 +3911,6 @@ function classifyLead(score) {
   return "RESEARCH";
 
 }
-
-async function submitLead() {
-
-  if (!validateLead()) {
-
-    return;
-
-  }
 
   const submitButton =
     document.getElementById(
