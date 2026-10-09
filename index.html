@@ -3874,24 +3874,20 @@ function classifyLead(score) {
 
   const timeframe = calculatorData.timeframe;
 
-  if (timeframe === "Researching") {
-    return "RESEARCH";
+  if (timeframe === "ASAP") {
+    return "HOT";
+  }
+
+  if (timeframe === "3 months") {
+    return "WARM";
   }
 
   if (timeframe === "6 months") {
     return "QUALIFIED";
   }
 
-  if (timeframe === "ASAP" || timeframe === "3 months") {
-    if (score >= 70) {
-      return "HOT";
-    }
-
-    if (score >= 50) {
-      return "WARM";
-    }
-
-    return "QUALIFIED";
+  if (timeframe === "Researching") {
+    return "RESEARCH";
   }
 
   return "RESEARCH";
